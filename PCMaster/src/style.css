@@ -5,7 +5,7 @@
 /* Allgemeine Schriftart */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #121212;
+    background-color: #0A0E1A; /* Dunkles Schwarz-Blau */
     color: #ffffff;
     padding: 0;
     margin: 0;
@@ -27,7 +27,7 @@ body {
 }
 
 .navbar, .footer {
-    background-color: #000;
+    background-color: #0A0E1A;
 }
 
 .search-form {
@@ -113,7 +113,9 @@ body {
 }
 
 .card-body {
-    padding: 1.5rem;
+    padding-left: 0.5rem; /* Verringert den linken Innenabstand */
+    padding-right: 0.5rem; /* Verringert den rechten Innenabstand */
+    text-align: center; /* Zentriert den Text */
 }
 
 .img-container {
@@ -134,8 +136,32 @@ body {
     margin-bottom: 1rem;
 }
 
+.card-body img {
+    width: 100%; /* Passt die Bildbreite an den Container an */
+    height: auto; /* Beibehaltung des Seitenverhältnisses */
+    max-width: 400px; /* Optional: Begrenzung der maximalen Breite */
+    margin-top: 1rem; /* Abstand zum oberen Text */
+    border-radius: 8px; /* Abgerundete Ecken (optional) */
+}
+
+
 .card-text {
     margin-bottom: 1rem;
+}
+
+/* Spezifische Anpassung für die Qualitätsversprechen-Liste */
+.card .list-unstyled li strong {
+    font-weight: 600; /* Schlüsselwörter bleiben fett */
+}
+
+.card .list-unstyled li {
+    font-size: 0.9rem; /* Kleinere Schriftgröße */
+    font-weight: 300; /* Dünnerer Text für Erläuterungen */
+    margin-bottom: 0.5rem; /* Etwas Abstand zwischen den einzelnen Punkten */
+}
+
+.card .list-unstyled hr {
+    margin: 0.3rem 0; /* Kleinere Abstände für die horizontalen Linien */
 }
 
 /* Konfigurationssektion */

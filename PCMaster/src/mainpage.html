@@ -3,26 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Shop</title>
+    <title>PcMaster</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="#">PC Shop</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#">PcMaster</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <form class="search-form d-flex ms-auto">
-                <input class="form-control me-2" type="search" placeholder="Produkte suchen..." aria-label="Suche">
-                <button class="btn btn-outline-light" type="submit">Suchen</button>
-            </form>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#pcs">PCs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#laptops">Laptops</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#ersatzteile">Ersatzteile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#konfigurator">PC konfigurieren</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#anfrage">Anfrage stellen</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
+
+
 
 <header class="main-header text-center text-white">
     <div class="header-container">
@@ -61,18 +75,15 @@
         <div class="col-12 mb-4">
             <div class="card bg-dark text-white">
                 <div class="card-body text-center">
-                <h3 class="card-title">Über uns</h3>
+                    <h3 class="card-title">Über uns</h3>
                     <p class="card-text">
-                        Seit unserer Gründung vor über einem Jahrzehnt haben wir es uns zur Mission gemacht,
-                        allen PC-Liebhabern und Technikfans eine große Auswahl an hochwertigen Computern und Zubehör anzubieten.
-                        Unser erfahrenes Team arbeitet mit führenden Herstellern zusammen, um stets die neuesten und besten
-                        Produkte bereitzustellen.
+                        Seit über einem <strong>Jahrzehnt</strong> bieten wir <strong>PC-Liebhabern</strong> und <strong>Technikfans</strong> eine große Auswahl an
+                        hochwertigen <strong>Computern</strong> und <strong>Zubehör</strong>. Unser Team arbeitet eng mit führenden <strong>Herstellern</strong> zusammen,
+                        um stets die neuesten und besten Produkte bereitzustellen. Ob <strong>leistungsstarke Gaming-PCs</strong>,
+                        kompakte <strong>Laptops</strong> für unterwegs oder Komponenten für den Traum-PC – bei uns finden Sie alles an
+                        einem Ort. Erleben Sie, warum so viele Kunden uns als ihren <strong>vertrauenswürdigen PC-Shop</strong> gewählt haben!
                     </p>
-                    <p class="card-text">
-                        Egal, ob Sie einen leistungsstarken Gaming-PC, einen kompakten Laptop für unterwegs oder einzelne
-                        Komponenten für Ihren Traum-PC suchen - bei uns finden Sie alles an einem Ort. Besuchen Sie uns und
-                        erleben Sie selbst, warum so viele Kunden uns als ihren vertrauenswürdigen PC-Shop gewählt haben!
-                    </p>
+                    <img src="../public/img-about-us.jpg"/>
                 </div>
             </div>
         </div>
@@ -81,19 +92,34 @@
         <div class="col-12">
             <div class="card bg-dark text-white">
                 <div class="card-body text-center">
-                <h3 class="card-title">Unsere Qualitätsversprechen</h3>
+                    <h5 class="card-title">Unsere Qualitätsversprechen</h5>
                     <ul class="list-unstyled">
-                        <li><strong>Höchste Qualität:</strong> Wir garantieren, dass alle unsere Produkte strengen Qualitätstests unterzogen werden.</li>
-                        <li><strong>Umfassender Kundenservice:</strong> Unser Support-Team steht Ihnen jederzeit für Fragen zur Verfügung.</li>
-                        <li><strong>Transparente Preise:</strong> Bei uns gibt es keine versteckten Kosten. Faire und transparente Preise.</li>
-                        <li><strong>Einfacher und sicherer Bestellprozess:</strong> Benutzerfreundlich und sicher.</li>
-                        <li><strong>Schnelle Lieferung:</strong> Wir versenden Ihre Bestellung so schnell wie möglich.</li>
+                        <li><strong>Höchste Qualität</strong></li>
+                        <hr/>
+                        <li>Wir garantieren, dass alle unsere Produkte strengen Qualitätstests unterzogen werden.</li>
+                        <hr/>
+                        <li><strong>Umfassender Kundenservice</strong></li>
+                        <hr/>
+                        <li>Unser Support-Team steht Ihnen jederzeit für Fragen zur Verfügung.</li>
+                        <hr/>
+                        <li><strong>Transparente Preise</strong></li>
+                        <hr/>
+                        <li>Bei uns gibt es keine versteckten Kosten. Faire und transparente Preise.</li>
+                        <hr/>
+                        <li><strong>Einfacher und sicherer Bestellprozess</strong></li>
+                        <hr/>
+                        <li>Benutzerfreundlich und sicher.</li>
+                        <hr/>
+                        <li><strong>Schnelle Lieferung</strong></li>
+                        <hr/>
+                        <li>Wir versenden Ihre Bestellung so schnell wie möglich.</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Produkt-Sektion -->
 <h2 class="text-center mb-4">Aktuelle Angebote</h2>
@@ -127,7 +153,8 @@
         <div class="col-12 col-md-8">
             <div class="card bg-dark text-white text-center configuration-section">
                 <div class="card-body">
-                    <p class="card-text">Konfigurieren Sie Ihren eigenen PC ganz nach Ihren Wünschen. Wählen Sie die passenden Komponenten aus!</p>
+                    <p class="card-text">Konfigurieren Sie Ihren eigenen PC ganz nach Ihren Wünschen. Wählen Sie die
+                        passenden Komponenten aus!</p>
                     <button class="btn btn-primary">PC konfigurieren</button>
                 </div>
             </div>
@@ -135,6 +162,20 @@
     </div>
 </div>
 
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+            <div class="card bg-dark text-white text-center">
+                <div class="card-body">
+                    <p class="card-text">Sie möchten Ihre alten technischen Geräte verkaufen? Wir nehmen gerne Anfragen zum Ankauf entgegen. Kontaktieren Sie uns für ein individuelles Angebot!</p>
+                    <a href="#" class="btn btn-primary">Anfrage stellen</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr/>
 <footer class="footer py-3 text-center">
     <div class="container">
         <p>Kundenservice | Über uns | Allgemeine Geschäftsbedingungen | Datenschutz | Kontakt</p>
