@@ -10,33 +10,37 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="#">PcMaster</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#">PC Master</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#pcs">PCs</a>
-                </li>
+            <!-- Navbar Links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="#laptops">Laptops</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#ersatzteile">Ersatzteile</a>
+                    <a class="nav-link" href="#pcs">PCs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#konfigurator">PC konfigurieren</a>
+                    <a class="nav-link" href="#components">Komponenten</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#anfrage">Anfrage stellen</a>
+                    <a class="nav-link" href="#configurator">Konfigurator</a>
                 </li>
             </ul>
+
+            <!-- Suchformular -->
+            <form class="search-form d-flex ms-auto">
+                <input class="form-control me-2" type="search" placeholder="Produkte suchen..." aria-label="Suche">
+                <button class="btn btn-outline-light" type="submit">Suchen</button>
+            </form>
         </div>
     </div>
 </nav>
-
-
 
 <header class="main-header text-center text-white">
     <div class="header-container">
@@ -49,27 +53,62 @@
 <!-- Kategorien (Icons) -->
 <div class="container categories py-5">
     <div class="row text-center">
-        <div class="col-6 col-md-3 category-item">
-            <img src="../public/icon-pc.png" alt="PCs">
-            <p>PCs</p>
+        <div class="col-6 col-md-3">
+            <a href="#pc" class="category-item">
+                <img src="../public/icon-pc.png" alt="PCs">
+                <p>PCs</p>
+            </a>
         </div>
-        <div class="col-6 col-md-3 category-item">
-            <img src="../public/icon-laptop.png" alt="Laptops">
-            <p>Laptops</p>
+        <div class="col-6 col-md-3">
+            <a href="#laptops" class="category-item">
+                <img src="../public/icon-laptop.png" alt="Laptops">
+                <p>Laptops</p>
+            </a>
         </div>
-        <div class="col-6 col-md-3 category-item">
-            <img src="../public/icon-cpu.png" alt="Ersatzteile">
-            <p>Ersatzteile</p>
+        <div class="col-6 col-md-3">
+            <a href="#ersatzteile" class="category-item">
+                <img src="../public/icon-cpu.png" alt="Ersatzteile">
+                <p>Ersatzteile</p>
+            </a>
         </div>
-        <div class="col-6 col-md-3 category-item">
-            <img src="../public/icon-tools.png" alt="PC konfigurieren">
-            <p>PC konfigurieren</p>
+        <div class="col-6 col-md-3">
+            <a href="#konfigurator" class="category-item">
+                <img src="../public/icon-tools.png" alt="PC konfigurieren">
+                <p>PC konfigurieren</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Produkt-Sektion -->
+<h2 class="text-center mb-4">Aktuelle Angebote</h2>
+<div class="container product-section">
+    <div class="row mb-5">
+        <div class="col-md-6 mb-3">
+            <div class="product-card text-center">
+                <div class="img-container">
+                    <img src="../public/DesktopPcMobile.png" alt="Desktop PC">
+                </div>
+                <h5 class="card-title">Desktop-PC</h5>
+                <p class="card-text">1.499 €</p>
+                <a href="#" class="btn btn-primary">In den Warenkorb</a>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="product-card text-center">
+                <div class="img-container">
+                    <img src="../public/LaptopMobile.png" alt="Ultrabook">
+                </div>
+                <h5 class="card-title">Ultrabook</h5>
+                <p class="card-text">999 €</p>
+                <a href="#" class="btn btn-primary">In den Warenkorb</a>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Informationsabschnitt als Karten -->
-<div class="container text-white py-4 mb-5 d-lg-none">
+<div class="container text-white py-4 mb-5">
     <div class="row">
         <!-- Über uns Card -->
         <div class="col-12 mb-4">
@@ -120,33 +159,6 @@
     </div>
 </div>
 
-
-<!-- Produkt-Sektion -->
-<h2 class="text-center mb-4">Aktuelle Angebote</h2>
-<div class="container product-section">
-    <div class="row mb-5">
-        <div class="col-md-6 mb-3">
-            <div class="product-card text-center">
-                <div class="img-container">
-                    <img src="../public/DesktopPcMobile.png" alt="Desktop PC">
-                </div>
-                <h5 class="card-title">Desktop-PC</h5>
-                <p class="card-text">1.499 €</p>
-                <a href="#" class="btn btn-primary">In den Warenkorb</a>
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="product-card text-center">
-                <div class="img-container">
-                    <img src="../public/LaptopMobile.png" alt="Ultrabook">
-                </div>
-                <h5 class="card-title">Ultrabook</h5>
-                <p class="card-text">999 €</p>
-                <a href="#" class="btn btn-primary">In den Warenkorb</a>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="container mb-5">
     <div class="row justify-content-center">
