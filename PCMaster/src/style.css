@@ -1,27 +1,21 @@
-/* Grundlegende Farben und Hintergrund */
-/* Google Fonts Import für Inter */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-/* Allgemeine Schriftart */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #0A0E1A; /* Dunkles Schwarz-Blau */
+    background-color: #0A0E1A;
     color: #ffffff;
     padding: 0;
     margin: 0;
 }
 
-/* Header-Schriftart (Semi Bold) */
 .main-header h1, .main-header h2 {
     font-weight: 600;
 }
 
-/* Subheader-Schriftart (Medium) */
 .sub-header {
     font-weight: 500;
 }
 
-/* Standardtext (Regular) */
 .card-text, .offers-section p, .configuration-section p, .footer p, .info-mobile p {
     font-weight: 400;
 }
@@ -35,20 +29,17 @@ body {
     justify-content: flex-end;
 }
 
-/* Button-Stil */
 .btn-primary {
     background-color: #F44336;
     border-color: #F44336;
     margin-top: auto;
 }
 
-/* Hover-Effekt */
 .btn-primary:hover {
-    background-color: #a51307; /* Hier die gewünschte Hover-Farbe */
+    background-color: #a51307;
     border-color: #a51307;
 }
 
-/* Hauptheader */
 .main-header {
     background: url('../public/MobileMainPicture.png') no-repeat center center / cover;
     padding: 100px 0;
@@ -68,7 +59,6 @@ body {
     z-index: 1;
 }
 
-/* Kategorien-Sektion */
 .categories {
     padding: 2rem 1rem;
 }
@@ -79,13 +69,13 @@ body {
     align-items: center;
     margin-bottom: 1.5rem;
     text-decoration: none;
-    color: #ffffff; /* Textfarbe für die Links */
+    color: #ffffff;
     transition: tr
 }
 
 .category-item:hover {
-    transform: scale(1.05); /* Vergrößerungseffekt bei Hover */
-    color: #636AE8; /* Optional: Farbe ändern beim Hover */
+    transform: scale(1.05);
+    color: #636AE8;
 }
 
 .category-item img {
@@ -94,7 +84,6 @@ body {
     margin-top: 5%;
 }
 
-/* Produktkarten und Info-Karten */
 .product-section {
     padding: 0 1.5rem;
     margin-bottom: 2rem;
@@ -150,26 +139,23 @@ body {
     justify-content: space-between;
 }
 
-/* Verbesserte Kartenabstände für mobile Ansicht */
 .card {
     margin: 0 1.5rem 1.5rem;
 }
 
-/* Info-Karten Container */
 .container.text-white {
     padding: 1.5rem;
 }
 
-/* Einzelne Info-Karten */
 .card.bg-dark {
     margin-bottom: 1.5rem;
     padding: 1.5rem;
 }
 
 .card-body {
-    padding-left: 0.5rem; /* Verringert den linken Innenabstand */
-    padding-right: 0.5rem; /* Verringert den rechten Innenabstand */
-    text-align: center; /* Zentriert den Text */
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    text-align: center;
 }
 
 .img-container {
@@ -191,35 +177,32 @@ body {
 }
 
 .card-body img {
-    width: 100%; /* Passt die Bildbreite an den Container an */
-    height: auto; /* Beibehaltung des Seitenverhältnisses */
-    max-width: 400px; /* Optional: Begrenzung der maximalen Breite */
-    margin-top: 1rem; /* Abstand zum oberen Text */
-    border-radius: 8px; /* Abgerundete Ecken (optional) */
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+    margin-top: 1rem;
+    border-radius: 8px;
 }
-
 
 .card-text {
     margin-bottom: 1rem;
     font-size: larger;
 }
 
-/* Spezifische Anpassung für die Qualitätsversprechen-Liste */
 .card .list-unstyled li strong {
-    font-weight: 600; /* Schlüsselwörter bleiben fett */
+    font-weight: 600;
 }
 
 .card .list-unstyled li {
-    font-size: 0.9rem; /* Kleinere Schriftgröße */
-    font-weight: 300; /* Dünnerer Text für Erläuterungen */
-    margin-bottom: 0.5rem; /* Etwas Abstand zwischen den einzelnen Punkten */
+    font-size: 0.9rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
 }
 
 .card .list-unstyled hr {
-    margin: 0.3rem 0; /* Kleinere Abstände für die horizontalen Linien */
+    margin: 0.3rem 0;
 }
 
-/* Konfigurationssektion */
 .configuration-section {
     margin: 0 1.5rem 2rem;
 }
@@ -229,7 +212,6 @@ body {
     height: auto;
 }
 
-/* Footer */
 .footer {
     padding: 1.5rem;
 }
@@ -239,7 +221,6 @@ body {
     line-height: 1.6;
 }
 
-/* Media Queries */
 @media (max-width: 991px) {
     .container {
         padding-left: 1.5rem;
@@ -252,7 +233,7 @@ body {
     }
 
     .navbar-nav.ms-6 {
-        margin-top: 10px; /* Abstand nach oben für den Login-Button */
+        margin-top: 10px;
     }
 }
 
@@ -273,7 +254,7 @@ body {
         justify-content: center;
         position: relative;
         color: #fff;
-        padding: 0; /* Entferne zusätzliches Padding */
+        padding: 0;
         margin: 0;
     }
 
@@ -281,13 +262,13 @@ body {
         content: "";
         position: absolute;
         inset: 0;
-        background-color: rgba(0, 0, 0, 0.5); /* Transparenter Overlay */
+        background-color: rgba(0, 0, 0, 0.5);
         z-index: 1;
     }
 
     .header-container {
         position: relative;
-        z-index: 2; /* Damit der Text über dem Overlay ist */
+        z-index: 2;
         text-align: center;
     }
 
@@ -296,7 +277,7 @@ body {
     }
 
     .category-item img {
-        width: 3rem; /* Größere Icons für Desktop */
+        width: 3rem;
         height: 3rem;
         margin-bottom: 0.5rem;
     }
@@ -309,18 +290,18 @@ body {
         margin-bottom: 1rem;
     }
     .product-card {
-        flex-direction: column; /* Auf mobilen Geräten werden Bild und Spezifikationen untereinander angezeigt */
-        align-items: center; /* Zentriert die Inhalte */
+        flex-direction: column;
+        align-items: center;
     }
 
     .product-card .img-container {
-        width: 100%; /* Bild nimmt die volle Breite ein */
-        margin-bottom: 1rem; /* Abstand unter dem Bild */
+        width: 100%;
+        margin-bottom: 1rem;
     }
 
     .product-details {
-        width: 100%; /* Details nehmen ebenfalls die volle Breite ein */
-        text-align: center; /* Zentriert den Text in den Details */
+        width: 100%;
+        text-align: center;
     }
 
     .spec-list {
