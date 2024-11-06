@@ -250,11 +250,19 @@ body {
         margin-left: 1.5rem;
         margin-right: 1.5rem;
     }
+
+    .navbar-nav.ms-6 {
+        margin-top: 10px; /* Abstand nach oben für den Login-Button */
+    }
 }
 
 @media (min-width: 992px) {
     .offers-section {
         display: none;
+    }
+
+    .navbar-nav.ms-6 {
+        margin-left: 10px;
     }
 
     .main-header {
