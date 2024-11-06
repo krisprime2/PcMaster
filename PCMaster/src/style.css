@@ -235,6 +235,25 @@ body {
     .navbar-nav.ms-6 {
         margin-top: 10px;
     }
+
+    .card.about-us {
+        width: 100%;
+        margin: 0;
+    }
+
+    .product-card {
+        text-align: center;
+    }
+
+    .product-card .img-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .product-card .img-container img {
+        margin: 0 auto;
+    }
 }
 
 @media (min-width: 992px) {
