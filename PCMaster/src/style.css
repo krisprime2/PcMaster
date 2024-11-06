@@ -1,0 +1,173 @@
+/* Grundlegende Farben und Hintergrund */
+/* Google Fonts Import für Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* Allgemeine Schriftart */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    padding: 0;
+    margin: 0;
+}
+
+/* Header-Schriftart (Semi Bold) */
+.main-header h1, .main-header h2 {
+    font-weight: 600;
+}
+
+/* Subheader-Schriftart (Medium) */
+.sub-header {
+    font-weight: 500;
+}
+
+/* Standardtext (Regular) */
+.card-text, .offers-section p, .configuration-section p, .footer p, .info-mobile p {
+    font-weight: 400;
+}
+
+.navbar, .footer {
+    background-color: #000;
+}
+
+.search-form {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Button-Stil */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    margin-top: auto;
+}
+
+/* Hauptheader */
+.main-header {
+    background: url('../public/MobileMainPicture.png') no-repeat center center / cover;
+    padding: 100px 0;
+    position: relative;
+    color: #fff;
+}
+
+.main-header::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.header-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Kategorien-Sektion */
+.categories {
+    padding: 2rem 1rem;
+}
+
+.category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.category-item img {
+    width: 2rem;
+    height: 2rem;
+    margin-top: 5%;
+}
+
+/* Produktkarten und Info-Karten */
+.product-section {
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.product-card {
+    background-color: #2A2E35;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Verbesserte Kartenabstände für mobile Ansicht */
+.card {
+    margin: 0 1.5rem 1.5rem;
+}
+
+/* Info-Karten Container */
+.container.text-white {
+    padding: 1.5rem;
+}
+
+/* Einzelne Info-Karten */
+.card.bg-dark {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.img-container img {
+    object-fit: contain;
+    width: 143px;
+    height: 191px;
+    margin-top: 15px;
+}
+
+.card-title {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    margin-bottom: 1rem;
+}
+
+/* Konfigurationssektion */
+.configuration-section {
+    margin: 0 1.5rem 2rem;
+}
+
+/* Footer */
+.footer {
+    padding: 1.5rem;
+}
+
+.footer p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Media Queries */
+@media (max-width: 991px) {
+    .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .card.bg-dark {
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .offers-section {
+        display: none;
+    }
+}
