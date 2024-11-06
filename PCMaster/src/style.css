@@ -37,9 +37,15 @@ body {
 
 /* Button-Stil */
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #F44336;
+    border-color: #F44336;
     margin-top: auto;
+}
+
+/* Hover-Effekt */
+.btn-primary:hover {
+    background-color: #a51307; /* Hier die gewünschte Hover-Farbe */
+    border-color: #a51307;
 }
 
 /* Hauptheader */
@@ -192,6 +198,11 @@ body {
     margin: 0 1.5rem 2rem;
 }
 
+.configuration-image {
+    max-width: 100%;
+    height: auto;
+}
+
 /* Footer */
 .footer {
     padding: 1.5rem;
@@ -254,5 +265,13 @@ body {
         width: 3rem; /* Größere Icons für Desktop */
         height: 3rem;
         margin-bottom: 0.5rem;
+    }
+
+    .configuration-section {
+        text-align: center;
+    }
+    .configuration-section .card-text,
+    .configuration-section .btn {
+        margin-bottom: 1rem;
     }
 }
