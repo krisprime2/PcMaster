@@ -72,6 +72,14 @@ body {
     flex-direction: column;
     align-items: center;
     margin-bottom: 1.5rem;
+    text-decoration: none;
+    color: #ffffff; /* Textfarbe für die Links */
+    transition: tr
+}
+
+.category-item:hover {
+    transform: scale(1.05); /* Vergrößerungseffekt bei Hover */
+    color: #636AE8; /* Optional: Farbe ändern beim Hover */
 }
 
 .category-item img {
@@ -195,5 +203,41 @@ body {
 @media (min-width: 992px) {
     .offers-section {
         display: none;
+    }
+
+    .main-header {
+        background: url('../public/desktopMainBg.png') no-repeat center center / cover;
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        color: #fff;
+        padding: 0; /* Entferne zusätzliches Padding */
+        margin: 0;
+    }
+
+    .main-header::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5); /* Transparenter Overlay */
+        z-index: 1;
+    }
+
+    .header-container {
+        position: relative;
+        z-index: 2; /* Damit der Text über dem Overlay ist */
+        text-align: center;
+    }
+
+    .main-header h1, .main-header p, .main-header a {
+        margin: 0.5rem 0;
+    }
+
+    .category-item img {
+        width: 3rem; /* Größere Icons für Desktop */
+        height: 3rem;
+        margin-bottom: 0.5rem;
     }
 }
