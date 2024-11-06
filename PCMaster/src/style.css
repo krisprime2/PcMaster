@@ -106,8 +106,33 @@ body {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
+    flex-direction: row;
+}
+
+.product-card .img-container {
+    width: 40%;
+}
+
+.product-details {
+    flex-grow: 1;
+}
+
+.spec-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.spec-list li {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.spec-list li strong {
+    color: #fff;
 }
 
 .customer-section {
@@ -176,6 +201,7 @@ body {
 
 .card-text {
     margin-bottom: 1rem;
+    font-size: larger;
 }
 
 /* Spezifische Anpassung für die Qualitätsversprechen-Liste */
@@ -273,5 +299,24 @@ body {
     .configuration-section .card-text,
     .configuration-section .btn {
         margin-bottom: 1rem;
+    }
+    .product-card {
+        flex-direction: column; /* Auf mobilen Geräten werden Bild und Spezifikationen untereinander angezeigt */
+        align-items: center; /* Zentriert die Inhalte */
+    }
+
+    .product-card .img-container {
+        width: 100%; /* Bild nimmt die volle Breite ein */
+        margin-bottom: 1rem; /* Abstand unter dem Bild */
+    }
+
+    .product-details {
+        width: 100%; /* Details nehmen ebenfalls die volle Breite ein */
+        text-align: center; /* Zentriert den Text in den Details */
+    }
+
+    .spec-list {
+        text-align: left;
+        margin-top: 1rem;
     }
 }

@@ -81,55 +81,86 @@
     </div>
 </div>
 
+
 <!-- Produkt-Sektion -->
 <h2 class="text-center mb-4">Aktuelle Angebote</h2>
 <div class="container product-section">
     <div class="row mb-5">
+        <!-- Desktop-PC Card -->
         <div class="col-md-6 mb-3">
-            <div class="product-card text-center">
+            <div class="product-card d-flex flex-column flex-md-row">
                 <div class="img-container">
-                    <img src="../public/DesktopPcMobile.png" alt="Desktop PC">
+                    <img src="../public/DesktopPcMobile.png" alt="Desktop PC" class="img-fluid">
                 </div>
-                <h5 class="card-title">Desktop-PC</h5>
-                <p class="card-text">1.499 €</p>
-                <a href="#" class="btn btn-primary">In den Warenkorb</a>
+                <div class="product-details d-flex flex-column justify-content-between">
+                    <h5 class="card-title">Desktop-PC</h5>
+                    <ul class="spec-list">
+                        <li><strong>Prozessor:</strong> Intel Core i7</li>
+                        <li><strong>RAM:</strong> 16 GB DDR4</li>
+                        <li><strong>Grafikkarte:</strong> NVIDIA GTX 1660</li>
+                        <li><strong>Speicher:</strong> 512 GB SSD</li>
+                        <li><strong>Betriebssystem:</strong> Windows 10</li>
+                    </ul>
+                    <p class="card-text">1.499 €</p>
+                    <a href="#" class="btn btn-primary">In den Warenkorb</a>
+
+
+                </div>
             </div>
         </div>
+        <!-- Ultrabook Card -->
         <div class="col-md-6 mb-3">
-            <div class="product-card text-center">
+            <div class="product-card d-flex flex-column flex-md-row">
                 <div class="img-container">
-                    <img src="../public/LaptopMobile.png" alt="Ultrabook">
+                    <img src="../public/LaptopMobile.png" alt="Ultrabook" class="img-fluid">
                 </div>
-                <h5 class="card-title">Ultrabook</h5>
-                <p class="card-text">999 €</p>
-                <a href="#" class="btn btn-primary">In den Warenkorb</a>
+                <div class="product-details d-flex flex-column justify-content-between">
+                    <h5 class="card-title">Ultrabook</h5>
+                    <ul class="spec-list">
+                        <li><strong>Prozessor:</strong> Intel Core i5</li>
+                        <li><strong>RAM:</strong> 8 GB DDR4</li>
+                        <li><strong>Grafikkarte:</strong> Intel Iris Xe</li>
+                        <li><strong>Speicher:</strong> 256 GB SSD</li>
+                        <li><strong>Betriebssystem:</strong> Windows 11</li>
+                    </ul>
+                    <p class="card-text">999 €</p>
+                    <a href="#" class="btn btn-primary">In den Warenkorb</a>
+
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+
+
+
 <!-- Informationsabschnitt als Karten -->
 <div class="container text-white py-4 mb-5">
-    <div class="row">
-        <!-- Über uns Card -->
-        <div class="col-12 mb-4">
-            <div class="card bg-dark text-white">
-                <div class="card-body text-center">
-                    <h3 class="card-title">Über uns</h3>
-                    <p class="card-text">
-                        Seit über einem <b>Jahrzehnt</b> bieten wir <b>PC-Liebhabern</b> und
-                        <b>Technikfans</b> hochwertige <b>PCs</b> und <b>Zubehör</b>.
-                        Durch enge Zusammenarbeit mit führenden <b>Herstellern</b> garantieren wir die
-                        <b>neuesten Produkte</b>: von <b>Gaming-PCs</b> über
-                        <b>Laptops</b> bis hin zu <b>Komponenten für Ihren Traum-PC</b>. Erleben Sie
-                        <b>Qualität</b>, auf die <b>Kunden vertrauen</b>!
-                    </p>
-                    <img src="../public/img-about-us.jpg" alt="about-us"/>
-                </div>
+    <div class="card bg-dark text-white">
+        <div class="row g-0 flex-column flex-md-row">
+            <!-- Bild links (oder oben bei Mobile) -->
+            <div class="col-md-5 d-flex align-items-center">
+                <img src="../public/img-about-us.jpg" alt="about-us" class="img-fluid w-75 mx-auto">
+            </div>
+            <!-- Text rechts (oder unten bei Mobile) -->
+            <div class="col-md-7 d-flex flex-column justify-content-center text-center p-4">
+                <h3 class="card-title">Über uns</h3>
+                <p class="card-text">
+                    Seit über einem <b>Jahrzehnt</b> bieten wir <b>PC-Liebhabern</b> und
+                    <b>Technikfans</b> hochwertige <b>PCs</b> und <b>Zubehör</b>.
+                    Durch enge Zusammenarbeit mit führenden <b>Herstellern</b> garantieren wir die
+                    <b>neuesten Produkte</b>: von <b>Gaming-PCs</b> über
+                    <b>Laptops</b> bis hin zu <b>Komponenten für Ihren Traum-PC</b>. Erleben Sie
+                    <b>Qualität</b>, auf die <b>Kunden vertrauen</b>!
+                </p>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Qualitätsversprechen Card -->
+    <!-- Qualitätsversprechen Card -->
+<div class="container mb-5">
         <div class="col-12">
             <div class="card bg-dark text-white">
                 <div class="card-body text-center">
@@ -158,9 +189,7 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
-
 
 <div class="container mb-5">
     <div class="row justify-content-center">
