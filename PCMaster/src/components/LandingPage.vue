@@ -1,0 +1,207 @@
+<script setup>
+
+</script>
+
+<template>
+
+  <header class="main-header text-center text-white">
+    <div class="header-container">
+      <h1>Unschlagbare PC-Angebote</h1>
+      <p>Sparen Sie groß bei hochwertigen PCs und Laptops!</p>
+      <a href="#" class="btn btn-primary">Jetzt einkaufen</a>
+    </div>
+  </header>
+
+  <div class="container categories py-5">
+    <div class="row text-center">
+      <div class="col-6 col-md-3">
+        <a href="#pc" class="category-item">
+          <img src="../../public/icon-pc.png" alt="PCs">
+          <p>PCs</p>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="#laptops" class="category-item">
+          <img src="../../../public/icon-laptop.png" alt="Laptops">
+          <p>Laptops</p>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="#ersatzteile" class="category-item">
+          <img src="../../public/icon-cpu.png" alt="Ersatzteile">
+          <p>Ersatzteile</p>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="#konfigurator" class="category-item">
+          <img src="../../public/icon-tools.png" alt="PC konfigurieren">
+          <p>PC konfigurieren</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="text-center mb-4">Aktuelle Angebote</h2>
+  <div class="container product-section">
+    <div class="row mb-5">
+      <div class="col-md-6 mb-3">
+        <div class="product-card d-flex flex-column flex-md-row">
+          <div class="img-container">
+            <img src="../../public/DesktopPcMobile.png" alt="Desktop PC" class="img-fluid">
+          </div>
+          <div class="product-details d-flex flex-column justify-content-between">
+            <h5 class="card-title">Desktop-PC</h5>
+            <ul class="spec-list">
+              <li><strong>Prozessor:</strong> Intel Core i7</li>
+              <li><strong>RAM:</strong> 16 GB DDR4</li>
+              <li><strong>Grafikkarte:</strong> NVIDIA GTX 1660</li>
+              <li><strong>Speicher:</strong> 512 GB SSD</li>
+              <li><strong>Betriebssystem:</strong> Windows 10</li>
+            </ul>
+            <p class="card-text">999 €</p>
+            <a href="#" class="btn btn-primary">In den Warenkorb</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="product-card d-flex flex-column flex-md-row">
+          <div class="img-container">
+            <img src="../../public/LaptopMobile.png" alt="Ultrabook" class="img-fluid">
+          </div>
+          <div class="product-details d-flex flex-column justify-content-between">
+            <h5 class="card-title">Ultrabook</h5>
+            <ul class="spec-list">
+              <li><strong>Prozessor:</strong> Intel Core i5</li>
+              <li><strong>RAM:</strong> 8 GB DDR4</li>
+              <li><strong>Grafikkarte:</strong> Intel Iris Xe</li>
+              <li><strong>Speicher:</strong> 256 GB SSD</li>
+              <li><strong>Betriebssystem:</strong> Windows 11</li>
+            </ul>
+            <p class="card-text">799 €</p>
+            <a href="#" class="btn btn-primary">In den Warenkorb</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container text-white py-4 mb-5">
+    <div class="card bg-dark text-white">
+      <div class="row g-0 flex-column flex-md-row">
+        <div class="col-md-5 d-flex align-items-center">
+          <img src="../../public/img-about-us.jpg" alt="about-us" class="img-fluid w-75 mx-auto">
+        </div>
+        <div class="col-md-7 d-flex flex-column justify-content-center text-center p-4">
+          <h3 class="card-title">Über uns</h3>
+          <p class="card-text">
+            Seit über einem <b>Jahrzehnt</b> bieten wir <b>PC-Liebhabern</b> und
+            <b>Technikfans</b> hochwertige <b>PCs</b> und <b>Zubehör</b>.
+            Durch enge Zusammenarbeit mit führenden <b>Herstellern</b> garantieren wir die
+            <b>neuesten Produkte</b>: von <b>Gaming-PCs</b> über
+            <b>Laptops</b> bis hin zu <b>Komponenten für Ihren Traum-PC</b>. Erleben Sie
+            <b>Qualität</b>, auf die <b>Kunden vertrauen</b>!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mb-5">
+    <div class="col-12">
+      <div class="card bg-dark text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">Unsere Qualitätsversprechen</h5>
+          <ul class="list-unstyled">
+            <li><strong>Höchste Qualität</strong></li>
+            <hr/>
+            <li>Wir garantieren, dass alle unsere Produkte strengen Qualitätstests unterzogen werden.</li>
+            <br/>
+            <li><strong>Umfassender Kundenservice</strong></li>
+            <hr/>
+            <li>Unser Support-Team steht Ihnen jederzeit für Fragen zur Verfügung.</li>
+            <br/>
+            <li><strong>Transparente Preise</strong></li>
+            <hr/>
+            <li>Bei uns gibt es keine versteckten Kosten. Faire und transparente Preise.</li>
+            <br/>
+            <li><strong>Einfacher und sicherer Bestellprozess</strong></li>
+            <hr/>
+            <li>Benutzerfreundlich und sicher.</li>
+            <br/>
+            <li><strong>Schnelle Lieferung</strong></li>
+            <hr/>
+            <li>Wir versenden Ihre Bestellung so schnell wie möglich.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mb-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-12">
+        <div class="card bg-dark text-white configuration-section">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start p-4">
+              <h5>Konfiguriere jetzt deinen Wunsch PC!</h5>
+              <p class="card-text">Konfigurieren Sie Ihren eigenen PC ganz nach Ihren Wünschen. Wählen Sie die
+                passenden Komponenten aus!</p>
+              <a href="#konfigurator" class="btn btn-primary">Jetzt konfigurieren</a>
+            </div>
+            <div class="col-md-6">
+              <img src="../../public/pckonfig.png" class="img-fluid" alt="PC konfigurieren">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container mb-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8">
+        <div class="card bg-dark text-white text-center">
+          <div class="card-body">
+            <p class="card-text">Sie möchten Ihre alten technischen Geräte verkaufen? Wir nehmen gerne Anfragen zum Ankauf entgegen.
+              Kontaktieren Sie uns für ein individuelles Angebot!</p>
+            <a href="#" class="btn btn-primary">Anfrage stellen</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="text-center mb-4">Das sagen unsere Kunden</h2>
+  <div class="container customer-section">
+    <div class="row mb-5">
+      <div class="col-md-4 mb-3">
+        <div class="customer-card text-center">
+          <p class="card-text">“Habe meinen alten Laptop hier verkauft und ein faires Angebot bekommen.
+            Der gesamte Prozess war unkompliziert und schnell. Sehr empfehlenswert!"</p>
+          <h5 class="card-title">Markus S.</h5>
+
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="customer-card text-center">
+          <p class="card-text">"Endlich ein Shop mit einer tollen Auswahl an Ersatzteilen! Ich habe genau die richtige
+            Grafikkarte gefunden und mein PC läuft wieder perfekt."</p>
+          <h5 class="card-title">Sarah W.</h5>
+
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="customer-card text-center">
+          <p class="card-text">"Der beste Online-Shop für PC-Enthusiasten! Die individuelle Konfigurationsmöglichkeit
+            ist top, und die Lieferung war super schnell. Werde sicher wieder hier bestellen!"</p>
+          <h5 class="card-title">Laura H. </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+
+</style>
