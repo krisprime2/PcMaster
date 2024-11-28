@@ -11,10 +11,10 @@ module.exports = {
     await Product.create(params);
     res.ok();
   },
-  find: async function (req, res) {
+ /* find: async function (req, res) {
     let products = await Product.find();
     return res.json(products);
-  },
+  },*/
   findOne: async function (req, res) {
     let product = await Product.findOne({ id: req.params.id });
     res.json(product);
@@ -23,5 +23,16 @@ module.exports = {
     await Product.destroy({ id: req.params.id });
     res.ok();
   },
+  find: async function (req, res) {
+    let product = [
+      {
+        "name": "product 1",
+        "price": 200,
+        "category": "category1",
+        "description": "Description1"
+      }
+    ]
+    return res.json(product);
+  }
 };
 
