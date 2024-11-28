@@ -30,6 +30,12 @@ module.exports = {
         "price": 200,
         "category": "category1",
         "description": "Description1"
+      },
+      {
+        "name": "product 2",
+        "price": 250,
+        "category": "category2",
+        "description": "Description2"
       }
     ]
     return res.json(product);
