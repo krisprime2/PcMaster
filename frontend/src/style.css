@@ -304,10 +304,12 @@ body {
     .configuration-section {
         text-align: center;
     }
+
     .configuration-section .card-text,
     .configuration-section .btn {
         margin-bottom: 1rem;
     }
+
     .product-card {
         flex-direction: column;
         align-items: center;
@@ -326,5 +328,90 @@ body {
     .spec-list {
         text-align: left;
         margin-top: 1rem;
+    }
+
+    .register-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #0A0E1A;
+        padding: 1rem; /* Für Abstände auf kleinen Bildschirmen */
+    }
+
+    .container {
+        width: 100%;
+        max-width: 400px; /* Maximale Breite für Desktop */
+    }
+
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #2A2E35;
+        color: #fff;
+    }
+
+    .form-control::placeholder {
+        color: #999;
+    }
+
+    .register-btn {
+        margin-top: 1rem;
+        padding: 10px 20px;
+        width: 100%;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        background-color: #d32f2f;
+        border: none;
+        color: white;
+    }
+
+    .register-btn:hover {
+        background-color: #b71c1c;
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 576px) {
+        .card-title {
+            font-size: 1.25rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+
+        .register-btn {
+            font-size: 0.9rem;
+        }
     }
 }
