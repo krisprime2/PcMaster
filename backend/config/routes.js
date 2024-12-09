@@ -24,11 +24,17 @@ module.exports.routes = {
   'POST /product': { controller: 'ProductController', action:'create' },
   'GET /products': 'ProductController.find',
   'GET /product/:id': 'product.findOne',
-  'DELETE /product/:id': 'product.destroy','POST /user/create': 'UserController.create',
+  'DELETE /product/:id': 'product.destroy',
+
   'GET /user': 'UserController.find',
   'GET /user/:id': 'UserController.findOne',
   'PUT /user/:id': 'UserController.update',
   'DELETE /user/:id': 'UserController.destroy',
+  'PATCH /user/:id/:status': 'UserController.updateStatus',
+  'POST /user/create': 'UserController.createUser',
+  'POST /admin/create': 'UserController.createAdmin',
+
+
 
 
   /***************************************************************************

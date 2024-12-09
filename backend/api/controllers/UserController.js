@@ -1,17 +1,19 @@
 /**
  * UserController
  *
- * @description :: Server-side actions for handling User-related requests.
+ * @description :: Server-side actions for handling user-related requests.
  */
+
+const { ADMIN, USER } = require("../constants/Roles");
 
 module.exports = {
   /**
    * Create a new user
    * POST /user/create
    */
-  create: async function (req, res) {
+  createUser: async function (req, res) {
     try {
-      let params = req.allParams();
+      const params = req.allParams();
 
       if (!params.name || !params.email || !params.password) {
         return res.badRequest({ message: 'Name, E-Mail und Passwort sind erforderlich.' });
@@ -20,12 +22,40 @@ module.exports = {
       const user = await User.create({
         name: params.name,
         email: params.email,
-        password: params.password, // Kein Hashing
+        password: params.password, // Passwort-Hashing sollte hinzugefügt werden
+        role: USER,
+        status: 1,
       }).fetch();
 
       return res.status(201).json({ message: 'Benutzer erfolgreich erstellt.', user });
     } catch (error) {
       return res.serverError({ message: 'Fehler beim Erstellen des Benutzers.', error });
+    }
+  },
+
+  /**
+   * Create a new admin
+   * POST /admin/create
+   */
+  createAdmin: async function (req, res) {
+    try {
+      const params = req.allParams();
+
+      if (!params.name || !params.email || !params.password) {
+        return res.badRequest({ message: 'Name, E-Mail und Passwort sind erforderlich.' });
+      }
+
+      const admin = await User.create({
+        name: params.name,
+        email: params.email,
+        password: params.password, // Passwort-Hashing sollte hinzugefügt werden
+        role: ADMIN,
+        status: 1,
+      }).fetch();
+
+      return res.status(201).json({ message: 'Admin erfolgreich erstellt.', admin });
+    } catch (error) {
+      return res.serverError({ message: 'Fehler beim Erstellen des Admins.', error });
     }
   },
 
@@ -78,12 +108,12 @@ module.exports = {
         return res.badRequest({ message: 'Benutzer-ID ist erforderlich.' });
       }
 
-      let params = req.allParams();
+      const params = req.allParams();
 
       const updatedUser = await User.updateOne({ id: userId }).set({
         name: params.name,
         email: params.email,
-        password: params.password, // Kein Hashing
+        password: params.password, // Passwort-Hashing sollte hinzugefügt werden
       });
 
       if (!updatedUser) {
@@ -93,6 +123,36 @@ module.exports = {
       return res.json({ message: 'Benutzer erfolgreich aktualisiert.', updatedUser });
     } catch (error) {
       return res.serverError({ message: 'Fehler beim Aktualisieren des Benutzers.', error });
+    }
+  },
+
+  /**
+   * Update user status
+   * PATCH /user/:id/status
+   */
+  updateStatus: async function (req, res) {
+    try {
+      const userId = req.params.id;
+      const status = parseInt(req.params.status, 10);
+
+      if (!userId) {
+        return res.badRequest({ message: 'Benutzer-ID ist erforderlich.' });
+      }
+
+      if (![1, 2].includes(status)) {
+        return res.badRequest({ message: 'Ungültiger Status. Erlaubte Werte sind 1 (active) oder 2 (LOCKED).' });
+      }
+
+      const updatedUser = await User.updateOne({ id: userId }).set({ status });
+
+      if (!updatedUser) {
+        return res.notFound({ message: 'Benutzer nicht gefunden.' });
+      }
+
+      const statusText = status === 1 ? 'active' : 'LOCKED';
+      return res.json({ message: `Status erfolgreich auf ${statusText} aktualisiert.`, updatedUser });
+    } catch (error) {
+      return res.serverError({ message: 'Fehler beim Aktualisieren des Status.', error });
     }
   },
 
