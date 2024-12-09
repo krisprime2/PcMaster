@@ -107,8 +107,8 @@ export default {
 
       try {
         // Sende Registrierungsdaten an dein Sails.js Backend
-        const response = await axios.post("http://localhost:1337/api/register", {
-          username: this.form.username,
+        const response = await axios.post("http://localhost:1337/user/create", {
+          name: this.form.username,
           email: this.form.email,
           password: this.form.password,
         });
