@@ -134,6 +134,7 @@ module.exports = {
     try {
       const userId = req.params.id;
       const status = parseInt(req.params.status, 10);
+      sails.log.info('Dies ist eine Info-Nachricht');
 
       if (!userId) {
         return res.badRequest({ message: 'Benutzer-ID ist erforderlich.' });

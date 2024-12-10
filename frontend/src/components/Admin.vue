@@ -1,106 +1,262 @@
 <template>
-  <div class="admin-page">
-    <h1>Admin-Seite: Benutzerverwaltung</h1>
-    <div v-if="error" class="alert alert-danger">{{ error }}</div>
-    <div v-if="loading" class="spinner">Laden...</div>
+  <div>
+    <!-- Desktop Ansicht -->
+    <v-container v-if="!isMobile" class="admin-page">
+      <h1>Kontoverwaltung</h1>
 
-    <!-- Desktop: Tabelle -->
-    <table v-if="users.length && !isMobile" class="table">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Benutzername</th>
-        <th>E-Mail</th>
-        <th>Status</th>
-        <th>Aktionen</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="user in users" :key="user.id">
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>
-          <select @change="updateStatus(user.id, $event.target.value)">
-            <option value="1" :selected="user.status === 1">Aktiv</option>
-            <option value="2" :selected="user.status === 2">Gesperrt</option>
-          </select>
-        </td>
-        <td>
-          <button class="btn btn-danger" @click="deleteUser(user.id)">Löschen</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+      <v-row class="mb-4">
+        <v-col cols="12" sm="6">
+          <v-text-field
+              v-model="searchQuery"
+              label="Nach Benutzer suchen"
+              variant="outlined"
+              density="compact"
+              clearable
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-select
+              v-model="statusFilter"
+              :items="statusOptionsSimple"
+              label="Status filtern"
+              variant="outlined"
+              density="compact"
+              clearable
+          ></v-select>
+        </v-col>
+      </v-row>
 
-    <!-- Mobile: Kartenansicht -->
-    <div v-else-if="users.length && isMobile" class="user-list">
-      <div v-for="user in users" :key="user.id" class="user-card">
+      <v-data-table
+          :items="filteredUsers"
+          :headers="headers"
+          class="elevation-1"
+      >
+        <template v-slot:item.statusDisplay="{ item }">
+          <v-select
+              v-model="item.statusDisplay"
+              :items="statusOptionsSimple"
+              variant="outlined"
+              density="compact"
+              @update:model-value="updateStatus(item.id, $event)"
+          ></v-select>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-btn
+              icon
+              variant="text"
+              small
+              @click="openEditUser(item)"
+          >
+            <v-icon left small>mdi-cog</v-icon>
+            <span class="button-text">Bearbeiten</span>
+          </v-btn>
+          <v-btn
+              color="error"
+              icon
+              variant="text"
+              small
+              @click="deleteUser(item.id)"
+          >
+            <v-icon left small>mdi-delete</v-icon>
+            <span class="button-text">Löschen</span>
+          </v-btn>
+        </template>
+      </v-data-table>
+
+      <v-snackbar v-model="snackbar" :color="snackbarColor">
+        {{ snackbarMessage }}
+      </v-snackbar>
+
+      <UserEditDialog
+          ref="userEditDialog"
+          v-if="selectedUser"
+          :user="selectedUser"
+          @user-updated="handleUserUpdated"
+          @close="closeEditDialog"
+      />
+    </v-container>
+
+    <!-- Mobile Ansicht -->
+    <div v-else class="user-list">
+      <h1>Admin-Seite: Benutzerverwaltung</h1>
+
+      <!-- Suchleiste -->
+      <div class="search-filter-container">
+        <v-text-field
+            v-model="searchQuery"
+            label="Nach Benutzer suchen"
+            variant="outlined"
+            density="compact"
+            clearable
+        ></v-text-field>
+        <v-select
+            v-model="statusFilter"
+            :items="statusOptionsSimple"
+            label="Status filtern"
+            variant="outlined"
+            density="compact"
+            clearable
+        ></v-select>
+      </div>
+
+      <div v-if="error" class="alert alert-danger">{{ error }}</div>
+      <div v-if="loading" class="spinner">Laden...</div>
+
+      <div v-for="user in filteredUsers" :key="user.id" class="user-card">
         <div class="user-info">
           <p><strong>ID:</strong> {{ user.id }}</p>
           <p><strong>Benutzername:</strong> {{ user.name }}</p>
           <p><strong>E-Mail:</strong> {{ user.email }}</p>
           <p><strong>Status:</strong>
             <select @change="updateStatus(user.id, $event.target.value)">
-              <option value="1" :selected="user.status === 1">Aktiv</option>
-              <option value="2" :selected="user.status === 2">Gesperrt</option>
+              <option value="Aktiv" :selected="user.status === 1">Aktiv</option>
+              <option value="Gesperrt" :selected="user.status === 2">Gesperrt</option>
             </select>
           </p>
         </div>
         <div class="user-actions">
+          <button class="btn btn-primary" @click="openEditUser(user)">Bearbeiten</button>
           <button class="btn btn-danger" @click="deleteUser(user.id)">Löschen</button>
         </div>
       </div>
-    </div>
 
-    <div v-else class="alert alert-info">Keine Benutzer gefunden.</div>
+      <UserEditDialog
+          ref="userEditDialog"
+          v-if="selectedUser"
+          :user="selectedUser"
+          @user-updated="handleUserUpdated"
+          @close="closeEditDialog"
+      />
+    </div>
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
+import UserEditDialog from "./UserEdit.vue";
 
 export default {
+  components: {
+    UserEditDialog,
+  },
   data() {
     return {
       users: [],
-      loading: false,
-      error: null,
+      searchQuery: "",
+      statusFilter: "Alle", // Standardmäßig "Alle"
+      snackbar: false,
+      snackbarMessage: "",
+      snackbarColor: "success",
       isMobile: false,
+      selectedUser: null,
+      statusOptions: [
+        { text: "Aktiv", value: 1 },
+        { text: "Gesperrt", value: 2 },
+      ],
+      headers: [
+        { text: "ID", value: "id" },
+        { text: "Benutzername", value: "name" },
+        { text: "E-Mail", value: "email" },
+        { text: "Status", value: "statusDisplay" },
+        { text: "Aktionen", value: "actions", sortable: false },
+      ],
     };
   },
+  computed: {
+    statusOptionsSimple() {
+      return ["Alle", ...this.statusOptions.map((option) => option.text)];
+    },
+    filteredUsers() {
+      return this.users
+          .map((user) => ({
+            ...user,
+            statusDisplay: user.status === 1 ? "Aktiv" : "Gesperrt",
+          }))
+          .filter((user) => {
+            const matchesSearch = user.name
+                .toLowerCase()
+                .includes((this.searchQuery || "").toLowerCase());
+            const matchesStatus =
+                !this.statusFilter ||
+                this.statusFilter === "Alle" ||
+                user.statusDisplay === this.statusFilter;
+            return matchesSearch && matchesStatus;
+          });
+    },
+  },
   methods: {
+    checkDevice() {
+      this.isMobile = window.innerWidth <= 768;
+    },
     async fetchUsers() {
-      this.loading = true;
       try {
         const response = await axios.get("http://localhost:1337/user");
         this.users = response.data;
       } catch (err) {
-        this.error = "Fehler beim Laden der Benutzer.";
-      } finally {
-        this.loading = false;
+        this.snackbarMessage = `Fehler beim Laden der Benutzer: ${err.message}`;
+        this.snackbarColor = "error";
+        this.snackbar = true;
       }
     },
-    async updateStatus(userId, status) {
+    async updateStatus(userId, statusText) {
+      const statusValue =
+          statusText === "Aktiv" ? 1 : statusText === "Gesperrt" ? 2 : null;
+
+      if (statusValue === null) return;
+
       try {
-        await axios.patch(`http://localhost:1337/user/${userId}/${status}`);
-        alert("Status erfolgreich aktualisiert.");
+        const res = await axios.patch(`http://localhost:1337/user/status/${userId}/${statusValue}`, {
+          status: statusValue,
+        });
+        console.log(statusValue)
+        console.log(res.data)
+        const userIndex = this.users.findIndex((user) => user.id === userId);
+        if (userIndex !== -1) {
+          this.users[userIndex].status = statusValue;
+          this.users[userIndex].statusDisplay = statusText;
+        }
+
+        this.snackbarMessage = "Status erfolgreich aktualisiert.";
+        this.snackbarColor = "success";
+        this.snackbar = true;
       } catch (err) {
-        this.error = "Fehler beim Aktualisieren des Status.";
+        this.snackbarMessage = "Fehler beim Aktualisieren des Status.";
+        this.snackbarColor = "error";
+        this.snackbar = true;
       }
+    },
+    openEditUser(user) {
+      this.selectedUser = user;
+      this.$nextTick(() => {
+        this.$refs.userEditDialog.openDialog();
+      });
+    },
+    closeEditDialog() {
+      this.selectedUser = null;
+    },
+    handleUserUpdated(updatedUser) {
+      const index = this.users.findIndex((user) => user.id === updatedUser.id);
+      if (index !== -1) {
+        this.users.splice(index, 1, updatedUser);
+      }
+      this.snackbarMessage = "Benutzer erfolgreich aktualisiert.";
+      this.snackbarColor = "success";
+      this.snackbar = true;
     },
     async deleteUser(id) {
       if (!confirm("Möchtest du diesen Benutzer wirklich löschen?")) return;
       try {
         await axios.delete(`http://localhost:1337/user/${id}`);
         this.users = this.users.filter((user) => user.id !== id);
-        alert("Benutzer erfolgreich gelöscht.");
+        this.snackbarMessage = "Benutzer erfolgreich gelöscht.";
+        this.snackbarColor = "success";
+        this.snackbar = true;
       } catch (err) {
-        this.error = "Fehler beim Löschen des Benutzers.";
+        this.snackbarMessage = "Fehler beim Löschen des Benutzers.";
+        this.snackbarColor = "error";
+        this.snackbar = true;
       }
-    },
-    checkDevice() {
-      this.isMobile = window.innerWidth <= 768;
     },
   },
   mounted() {
@@ -115,77 +271,24 @@ export default {
 </script>
 
 
+
 <style scoped>
-/* Allgemeines Styling */
-.admin-page {
-  padding: 1rem;
-  background-color: #0A0E1A;
-  color: white;
-  font-family: 'Inter', sans-serif;
-}
-
-h1 {
-  text-align: center;
-  font-size: 1.8rem;
-}
-
-.alert {
-  padding: 1rem;
-  border-radius: 5px;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-.spinner {
-  text-align: center;
-  font-size: 1.2rem;
-}
-
-/* Tabelle */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  background-color: #1c1f26;
-  color: white;
-}
-
-.table th, .table td {
-  padding: 0.5rem;
-  text-align: left;
-  border: 1px solid #444;
-}
-
-.table th {
-  background-color: #2A2E35;
-}
-
-.table select {
-  padding: 0.3rem;
-  background-color: #2A2E35;
-  color: white;
-  border: 1px solid #444;
-  border-radius: 5px;
-}
-
-/* Kartenansicht für Mobile */
+/* Mobile Cards Styling */
 .user-list {
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .user-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: #2A2E35;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .user-info {
@@ -200,28 +303,30 @@ h1 {
 
 .user-actions {
   display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 }
 
-select {
-  padding: 0.4rem;
-  background-color: #2A2E35;
+.btn-primary {
+  background-color: #007bff;
   color: white;
-  border: 1px solid #444;
-  border-radius: 5px;
-}
-
-.btn {
+  border: none;
   padding: 0.5rem 1rem;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .btn-danger {
   background-color: #d32f2f;
-  border: none;
   color: white;
+  border: none;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
 }
 
 .btn-danger:hover {

@@ -30,7 +30,7 @@ module.exports.routes = {
   'GET /user/:id': 'UserController.findOne',
   'PUT /user/:id': 'UserController.update',
   'DELETE /user/:id': 'UserController.destroy',
-  'PATCH /user/:id/:status': 'UserController.updateStatus',
+  'PATCH /user/status/:id/:status': 'UserController.updateStatus',
   'POST /user/create': 'UserController.createUser',
   'POST /admin/create': 'UserController.createAdmin',
 
