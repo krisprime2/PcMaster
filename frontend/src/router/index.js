@@ -3,6 +3,8 @@ import Login from '../components/Login.vue'
 import LandingPage from "@/components/LandingPage.vue";
 import Register from "@/components/Register.vue";
 import Admin from "@/components/Admin.vue";
+import Inquiries from "@/components/Inqiuries.vue";
+import {authStore} from "@/store/auth.js";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,9 +25,12 @@ const router = createRouter({
             path: '/admin/user',
             name: 'admin-user',
             component: Admin,
+            meta: { requiresAuth: true },
+        },{
+            path: '/inquiry',
+            name: 'sell-inquiry',
+            component: Inquiries,
         },
-
-
     ],
 })
 

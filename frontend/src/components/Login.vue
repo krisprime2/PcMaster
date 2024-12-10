@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import {authStore} from "@/store/auth.js";
+
 export default {
   data() {
     return {
@@ -43,11 +45,14 @@ export default {
     };
   },
   methods: {
-    handleLogin() {
-      // Login-Logik hier implementieren
-      console.log('E-Mail:', this.email);
-      console.log('Passwort:', this.password);
-      alert('Login erfolgreich!');
+    async handleLogin() {
+      try {
+        this.errorMessage = null;
+        await authStore.login(this.email, this.password);
+        this.$router.push('/');
+      } catch (error) {
+        this.errorMessage = error;
+      }
     },
   },
 };

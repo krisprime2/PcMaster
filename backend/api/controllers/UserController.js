@@ -76,23 +76,50 @@ module.exports = {
    * Find a specific user
    * GET /user/:id
    */
+
   findOne: async function (req, res) {
     try {
       const userId = req.params.id;
 
       if (!userId) {
-        return res.badRequest({ message: 'Benutzer-ID ist erforderlich.' });
+        return res.status(400).json({ message: 'Benutzer-ID ist erforderlich.' });
       }
 
       const user = await User.findOne({ id: userId });
 
       if (!user) {
-        return res.notFound({ message: 'Benutzer nicht gefunden.' });
+        return res.status(404).json({ message: 'Benutzer nicht gefunden.' });
       }
 
       return res.json(user);
     } catch (error) {
-      return res.serverError({ message: 'Fehler beim Abrufen des Benutzers.', error });
+      console.error('Fehler beim Abrufen des Benutzers:', error);
+      return res.status(500).json({ message: 'Fehler beim Abrufen des Benutzers.', error });
+    }
+  },
+
+  /**
+   * Find a user by email
+   * GET /user/email/:email
+   */
+  findOneByEmail: async function (req, res) {
+    try {
+      const email = req.params.email; // Hole die E-Mail-Adresse aus den URL-Parametern
+
+      if (!email) {
+        return res.status(400).json({ message: 'E-Mail-Adresse ist erforderlich.' });
+      }
+
+      const user = await User.findOne({ email }); // Suche den Benutzer anhand der E-Mail
+
+      if (!user) {
+        return res.status(404).json({ message: 'Benutzer mit dieser E-Mail nicht gefunden.' });
+      }
+
+      return res.json(user); // Gebe den gefundenen Benutzer zurück
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Benutzers anhand der E-Mail:', error);
+      return res.status(500).json({ message: 'Fehler beim Abrufen des Benutzers.', error });
     }
   },
 

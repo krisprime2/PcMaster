@@ -28,6 +28,7 @@ module.exports.routes = {
 
   'GET /user': 'UserController.find',
   'GET /user/:id': 'UserController.findOne',
+  'GET /user/email/:email': 'UserController.findOneByEmail',
   'PUT /user/:id': 'UserController.update',
   'DELETE /user/:id': 'UserController.destroy',
   'PATCH /user/status/:id/:status': 'UserController.updateStatus',
@@ -35,6 +36,7 @@ module.exports.routes = {
   'POST /admin/create': 'UserController.createAdmin',
 
 
+  'POST /auth/login': 'AuthController.login',
 
 
   /***************************************************************************
