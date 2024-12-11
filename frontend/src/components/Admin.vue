@@ -79,9 +79,6 @@
                   <v-text-field v-model="selectedUser.email" label="Email" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.password" label="Password" type="password" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
                   <v-select
                       v-model="selectedUser.status"
                       :items="statusOptions"

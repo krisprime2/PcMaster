@@ -19,14 +19,7 @@ module.exports = {
       if (
         !params.name ||
         !params.email ||
-        !params.password ||
-        !params.firstName ||
-        !params.lastName ||
-        !params.street ||
-        !params.streetNumber ||
-        !params.city ||
-        !params.postalNumber ||
-        !params.country
+        !params.password
       ) {
         return res.badRequest({message: 'Alle Pflichtfelder müssen ausgefüllt werden.'});
       }
@@ -38,13 +31,6 @@ module.exports = {
         password: params.password,
         role: USER,
         status: 1,
-        firstName: params.firstName,
-        lastName: params.lastName,
-        street: params.street,
-        streetNumber: params.streetNumber,
-        city: params.city,
-        postalNumber: params.postalNumber,
-        country: params.country,
       }).fetch();
 
       return res.status(201).json({message: 'Benutzer erfolgreich erstellt.', user});
