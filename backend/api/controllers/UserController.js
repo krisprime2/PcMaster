@@ -188,6 +188,8 @@ module.exports = {
         city: params.city,
         postalNumber: params.postalNumber,
         country: params.country,
+        status: params.status,
+        role: params.role
       });
 
       if (!updatedUser) {

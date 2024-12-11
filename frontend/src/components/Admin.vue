@@ -1,33 +1,65 @@
 <template>
   <v-app>
     <v-container>
-      <v-text-field
-          v-model="search"
-          label="Search"
-          prepend-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-          single-line
-      ></v-text-field>
+      <v-row>
+        <v-col cols="12">
+          <v-text-field
+              v-model="search"
+              label="Suchen"
+              prepend-inner-icon="mdi-magnify"
+              variant="outlined"
+              hide-details
+              single-line
+          ></v-text-field>
+        </v-col>
+      </v-row>
+
+      <!-- Filter: Status und Rolle -->
+      <v-row>
+        <v-col cols="12" sm="6" md="4">
+          <v-select
+              v-model="statusFilter"
+              :items="[{ text: 'Alle', value: null }, ...statusOptions]"
+              label="Filter by Status"
+              variant="outlined"
+              clearable
+              dense
+              item-value="value"
+              item-title="text"
+          ></v-select>
+        </v-col>
+        <v-col cols="12" sm="6" md="4">
+          <v-select
+              v-model="roleFilter"
+              :items="[{ text: 'Alle', value: null }, ...roleOptions]"
+              label="Filter by Role"
+              variant="outlined"
+              clearable
+              dense
+              item-value="value"
+              item-title="text"
+          ></v-select>
+        </v-col>
+      </v-row>
+
       <v-data-table
-          :items="users"
+          :items="filteredUsers"
           :headers="headers"
           :mobile="smAndDown"
-          :search="search"
           item-value="id"
       >
         <template v-slot:[`item.status`]="{ item }">
-          {{ item.status === ACTIVE ? 'Active' : 'Locked' }}
+          {{ item.status === ACTIVE ? 'Aktiv' : 'Gesperrt' }}
         </template>
         <template v-slot:[`item.role`]="{ item }">
-          {{ item.role === USER ? 'User' : 'Admin' }}
+          {{ item.role === USER ? 'Benutzer' : 'Admin' }}
         </template>
         <template v-slot:[`item.actions`]="{ item }">
-          <v-btn icon @click="editUser(item)">
-            <v-icon>mdi-pencil</v-icon>
+          <v-btn @click="editUser(item)" class="mr-2 edit-btn">
+            Bearbeiten
           </v-btn>
-          <v-btn icon color="error" @click="deleteUser(item.id)">
-            <v-icon>mdi-delete</v-icon>
+          <v-btn @click="deleteUser(item.id)" color="error">
+            Löschen
           </v-btn>
         </template>
       </v-data-table>
@@ -120,13 +152,13 @@ const ADMIN = 1
 const USER = 2
 
 const statusOptions = [
-  { text: 'Active', value: ACTIVE },
-  { text: 'Locked', value: LOCKED }
+  { text: 'Aktiv', value: ACTIVE },
+  { text: 'Gesperrt', value: LOCKED }
 ]
 
 const roleOptions = [
   { text: 'Admin', value: ADMIN },
-  { text: 'User', value: USER }
+  { text: 'Benutzer', value: USER }
 ]
 
 const headers = [
@@ -180,19 +212,51 @@ const deleteUser = async (id) => {
   }
 }
 
+const statusFilter = ref(null)
+const roleFilter = ref(null)
+
 const filteredUsers = computed(() => {
-  if (!search.value) {
-    return users.value
+  let result = users.value
+
+  // Status-Filter anwenden, wenn ein Wert ausgewählt wurde
+  if (statusFilter.value !== null) {
+    result = result.filter(user => user.status === statusFilter.value)
   }
-  return users.value.filter((user) =>
-      Object.values(user)
-          .join(' ')
-          .toLowerCase()
-          .includes(search.value.toLowerCase())
-  )
+
+  // Rollen-Filter anwenden, wenn ein Wert ausgewählt wurde
+  if (roleFilter.value !== null) {
+    result = result.filter(user => user.role === roleFilter.value)
+  }
+
+  // Suchfeld-Filter anwenden
+  if (search.value) {
+    const searchText = search.value.toLowerCase()
+    result = result.filter(user =>
+        Object.values(user)
+            .join(' ')
+            .toLowerCase()
+            .includes(searchText)
+    )
+  }
+
+  return result
 })
 
 onMounted(() => {
   fetchUsers()
 })
 </script>
+<style>body.v-application--is-lt-dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+ .edit-btn {
+   background-color: #e0e0e0; /* Grauer Hintergrund */
+   color: #000000; /* Schwarzer Text (optional) */
+ }
+
+.edit-btn:hover {
+  background-color: #c0c0c0; /* Etwas dunkler bei Hover */
+}
+</style>
+

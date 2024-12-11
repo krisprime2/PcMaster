@@ -11,6 +11,18 @@ import * as directives from "vuetify/directives";
 const vuetify = createVuetify({
     components,
     directives,
+    theme: {
+        defaultTheme: 'dark',
+        themes: {
+            dark: {
+                dark: true, // Wichtig für den Darkmode
+                colors: {
+                    primary: '#1E88E5',
+                    secondary: '#FFCDD2',
+                },
+            },
+        },
+    },
 });
 
 const app = createApp(App)
