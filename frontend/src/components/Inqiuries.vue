@@ -1,71 +1,94 @@
 <template>
-  <div class="inquiry-page">
-    <div class="container text-white">
-      <div class="card bg-dark">
-        <div class="card-body">
-          <h1 class="card-title">Verkaufsanfrage</h1>
-          <p class="card-text">Stelle eine Anfrage, um dein Gerät zu verkaufen!</p>
-          <form v-if="!isSubmitted" @submit.prevent="submitForm">
-            <div class="form-group">
-              <label for="name">Dein Name</label>
-              <input
-                  type="text"
-                  id="name"
-                  class="form-control"
-                  v-model="form.name"
-                  placeholder="Deinen Namen eingeben"
-                  required
-              />
-            </div>
-            <div class="form-group">
-              <label for="deviceType">Gerätetyp</label>
-              <input
-                  type="text"
-                  id="deviceType"
-                  class="form-control"
-                  v-model="form.deviceType"
-                  placeholder="Gerätetyp eingeben (z.B. Laptop, Smartphone)"
-                  required
-              />
-            </div>
-            <div class="form-group">
-              <label for="modelNumber">Modellnummer</label>
-              <input
-                  type="number"
-                  id="modelNumber"
-                  class="form-control"
-                  v-model="form.modelNumber"
-                  placeholder="Modellnummer eingeben"
-                  required
-              />
-            </div>
-            <div class="form-group">
-              <label for="description">Beschreibung</label>
-              <textarea
-                  id="description"
-                  class="form-control"
-                  v-model="form.description"
-                  placeholder="Beschreibe den Zustand des Geräts"
-                  rows="4"
-                  required
-              ></textarea>
-            </div>
-            <button type="submit" class="btn-primary inquiry-btn">
-              {{ isLoading ? "Anfrage senden..." : "Anfrage senden" }}
-            </button>
-          </form>
+  <v-container fluid class="fill-height inquiry-page">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="8" md="6" lg="4">
+        <v-card class="elevation-12 custom-card">
+          <v-card-text>
+            <h1 class="text-h4 mb-4 white--text text-center">Verkaufsanfrage</h1>
+            <p class="text-subtitle-1 mb-6 grey--text text-center">Stelle eine Anfrage, um dein Gerät zu verkaufen!</p>
 
-          <div v-if="isSubmitted" class="alert alert-success mt-3">
-            {{ successMessage }}
-          </div>
+            <v-form v-if="!isSubmitted" @submit.prevent="submitForm" ref="inquiryForm">
+              <div class="form-field-wrapper">
+                <v-text-field
+                    v-model="form.name"
+                    label="Dein Name"
+                    required
+                    dark
+                    color="red darken-1"
+                    class="centered-text-field"
+                ></v-text-field>
+              </div>
 
-          <div v-if="serverError" class="alert alert-danger mt-3">
-            {{ serverError }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+              <div class="form-field-wrapper">
+                <v-text-field
+                    v-model="form.deviceType"
+                    label="Gerätetyp"
+                    placeholder="z.B. Laptop, Smartphone"
+                    required
+                    dark
+                    color="red darken-1"
+                    class="centered-text-field"
+                ></v-text-field>
+              </div>
+
+              <div class="form-field-wrapper">
+                <v-text-field
+                    v-model="form.modelNumber"
+                    label="Modellnummer"
+                    type="number"
+                    required
+                    dark
+                    color="red darken-1"
+                    class="centered-text-field"
+                ></v-text-field>
+              </div>
+
+              <div class="form-field-wrapper">
+                <v-textarea
+                    v-model="form.description"
+                    label="Beschreibung"
+                    placeholder="Beschreibe den Zustand des Geräts"
+                    required
+                    dark
+                    color="red darken-1"
+                    rows="4"
+                    class="centered-text-field"
+                ></v-textarea>
+              </div>
+
+              <v-btn
+                  color="red darken-1"
+                  dark
+                  block
+                  large
+                  class="mt-4"
+                  type="submit"
+                  :loading="isLoading"
+              >
+                {{ isLoading ? "Anfrage senden..." : "Anfrage senden" }}
+              </v-btn>
+            </v-form>
+
+            <v-alert
+                v-if="isSubmitted"
+                type="success"
+                class="mt-4"
+            >
+              {{ successMessage }}
+            </v-alert>
+
+            <v-alert
+                v-if="serverError"
+                type="error"
+                class="mt-4"
+            >
+              {{ serverError }}
+            </v-alert>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -79,8 +102,9 @@ export default {
         description: "",
         deviceType: "",
         modelNumber: null,
+        user: null,
       },
-      successMessage: null,
+      successMessage: "Deine Anfrage wurde erfolgreich übermittelt!",
       serverError: null,
       isLoading: false,
       isSubmitted: false,
@@ -88,27 +112,22 @@ export default {
   },
   methods: {
     async submitForm() {
-      this.successMessage = null;
-      this.serverError = null;
+      if (this.$refs.inquiryForm.validate()) {
+        this.successMessage = null;
+        this.serverError = null;
+        this.isLoading = true;
 
-      this.isLoading = true; // Ladezustand aktivieren
+        try {
+          const userId = localStorage.getItem("userId");
+          this.form.user = userId;
 
-      try {
-        // Sende Anfrage-Daten an dein Sails.js Backend
-        const response = await axios.post("http://localhost:1337/inquiry/create", this.form);
-
-        // Erfolgshandling
-        this.successMessage = "Deine Anfrage wurde erfolgreich übermittelt!";
-        this.isSubmitted = true;
-      } catch (error) {
-        // Fehler vom Server anzeigen
-        if (error.response && error.response.data && error.response.data.message) {
-          this.serverError = error.response.data.message;
-        } else {
-          this.serverError = "Es ist ein unerwarteter Fehler aufgetreten.";
+          const response = await axios.post("http://localhost:1337/inquiry/create", this.form);
+          this.isSubmitted = true;
+        } catch (error) {
+          this.serverError = error.response?.data?.message || "Es ist ein unerwarteter Fehler aufgetreten.";
+        } finally {
+          this.isLoading = false;
         }
-      } finally {
-        this.isLoading = false; // Ladezustand deaktivieren
       }
     },
   },
@@ -117,93 +136,39 @@ export default {
 
 <style scoped>
 .inquiry-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   background-color: #0A0E1A;
-  padding: 1rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.container {
-  width: 100%;
-  max-width: 400px;
-}
-
-.card {
+.custom-card {
+  background-color: #1c1f26 !important;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  background-color: #1c1f26;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
-
-.card-title {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: #fff;
+.form-field-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
-.card-text {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  color: #ccc;
+.centered-text-field {
+  max-width: 100%;
 }
 
-.form-group {
-  margin-bottom: 1rem;
+.v-text-field >>> .v-input__slot {
+  background-color: #2A2E35 !important;
 }
 
-.form-control {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #444;
-  border-radius: 5px;
-  background-color: #2A2E35;
-  color: #fff;
-  transition: border-color 0.3s ease;
+.v-text-field >>> .v-label {
+  color: #fff !important;
 }
 
-.form-control::placeholder {
-  color: rgba(255, 255, 255, 0.42); /* Weiß */
-  opacity: 1; /* Standardmäßig könnte die Deckkraft reduziert sein */
-}
-
-.form-control:focus {
-  border-color: #d32f2f;
-  outline: none;
-}
-
-.inquiry-btn {
-  margin-top: 1rem;
-  padding: 10px 20px;
-  width: 100%;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  background-color: #d32f2f;
-  border: none;
-  color: white;
-}
-
-.inquiry-btn:hover {
-  background-color: #b71c1c;
-}
-
-.alert {
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-size: 0.9rem;
-}
-
-.alert-success {
-  background-color: #28a745;
-  color: white;
-}
-
-.alert-danger {
-  background-color: #dc3545;
-  color: white;
+.v-text-field >>> input,
+.v-textarea >>> textarea {
+  color: #fff !important;
 }
 </style>

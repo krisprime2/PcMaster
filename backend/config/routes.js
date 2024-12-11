@@ -34,6 +34,7 @@ module.exports.routes = {
   'PATCH /user/status/:id/:status': 'UserController.updateStatus',
   'POST /user/create': 'UserController.createUser',
   'POST /admin/create': 'UserController.createAdmin',
+  'POST /inquiry/create': 'InquiryController.create',
 
 
   'POST /auth/login': 'AuthController.login',

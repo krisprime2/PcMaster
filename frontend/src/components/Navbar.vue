@@ -1,5 +1,6 @@
 <script setup>
-
+import { onMounted } from 'vue'
+import * as bootstrap from 'bootstrap'
 </script>
 
 <template>
@@ -31,6 +32,12 @@
           <li class="nav-item">
             <a class="nav-link" href="#configurator">Konfigurator</a>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/inquiry">Gerät verkaufen</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/admin/user">User Dashboard</router-link>
+          </li>
         </ul>
         <form class="search-form d-flex ms-auto">
           <input
@@ -46,11 +53,35 @@
             <router-link class="btn btn-outline-light" to="/login">Login</router-link>
           </li>
         </ul>
+
       </div>
     </div>
   </nav>
 </template>
 
 <style scoped>
+.navbar {
+  background-color: #1c1f26;
+}
 
+.navbar-brand {
+  color: #ffffff !important;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.nav-link:hover {
+  color: #ffffff !important;
+}
+
+.btn-outline-light {
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.5);
+}
+
+.btn-outline-light:hover {
+  background-color: rgba(255,255,255,0.1);
+}
 </style>

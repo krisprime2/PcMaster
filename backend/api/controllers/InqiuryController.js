@@ -20,7 +20,7 @@ module.exports = {
       const inquiry = await Inquiry.create({
         name,
         description,
-        status: status || 'pending', // Standardstatus
+        status:  'pending', // Standardstatus
         deviceType,
         modelNumber,
         user, // Fremdschlüssel zum User

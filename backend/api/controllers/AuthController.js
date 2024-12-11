@@ -32,7 +32,7 @@ module.exports = {
         { expiresIn: '1d' }
       );
 
-      return res.json({ message: 'Login erfolgreich.', token });
+      return res.json({ message: 'Login erfolgreich.', token, userId: user.id });
     } catch (error) {
       console.error('Fehler beim Login:', error);
       return res.serverError({ message: 'Fehler beim Login.', error });

@@ -14,11 +14,13 @@ export const authStore = reactive({
             this.isAuthenticated = true;
             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
 
+            console.log(response.data.userId)
             // Token im lokalen Speicher speichern
             localStorage.setItem('authToken', this.token);
-
+            localStorage.setItem('userId', (response.data.userId));
             // Benutzer-Daten abrufen
-            await this.fetchUser();
+            //await this.fetchUser();
+
         } catch (error) {
             console.error('Login fehlgeschlagen:', error);
             throw error.response?.data?.message || 'Unbekannter Fehler';

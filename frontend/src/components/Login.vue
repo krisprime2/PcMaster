@@ -1,57 +1,98 @@
 <template>
-  <div class="login-page">
-    <div class="login-card">
-      <h2 class="login-title">Login</h2>
-      <form @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="email">E-Mail-Adresse</label>
-          <input
-              id="email"
-              type="email"
-              class="form-control"
-              v-model="email"
-              placeholder="E-Mail eingeben"
-              required
-          />
-        </div>
-        <div class="form-group">
-          <label for="password">Passwort</label>
-          <input
-              id="password"
-              type="password"
-              class="form-control"
-              v-model="password"
-              placeholder="Passwort eingeben"
-              required
-          />
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Anmelden</button>
-      </form>
-      <p class="login-footer">
-        Noch kein Konto? <router-link to="/register">Jetzt registrieren</router-link>
-      </p>
-    </div>
-  </div>
+  <v-container fluid class="fill-height login-page">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="8" md="6" lg="4">
+        <v-card class="elevation-12 custom-card">
+          <v-card-text class="text-center">
+            <h1 class="text-h4 mb-4 white--text">Login</h1>
+            <p class="text-subtitle-1 mb-6 grey--text">Melde dich in deinem PC-Shop an!</p>
+
+            <v-form @submit.prevent="handleLogin" ref="loginForm">
+              <div class="form-field-wrapper">
+                <v-text-field
+                    v-model="email"
+                    label="E-Mail-Adresse"
+                    required
+                    type="email"
+                    dark
+                    color="red darken-1"
+                    class="centered-text-field"
+                ></v-text-field>
+              </div>
+              <div class="form-field-wrapper">
+                <v-text-field
+                    v-model="password"
+                    label="Passwort"
+                    required
+                    type="password"
+                    dark
+                    color="red darken-1"
+                    class="centered-text-field"
+                ></v-text-field>
+              </div>
+
+              <v-btn
+                  color="red darken-1"
+                  dark
+                  block
+                  large
+                  class="mt-4"
+                  type="submit"
+                  :loading="isLoading"
+              >
+                {{ isLoading ? "Anmelden..." : "Anmelden" }}
+              </v-btn>
+            </v-form>
+
+            <v-alert
+                v-if="errorMessage"
+                type="error"
+                class="mt-4"
+            >
+              {{ errorMessage }}
+            </v-alert>
+
+            <div class="text-center mt-4">
+              <p class="grey--text text-caption">
+                Noch kein Konto?
+                <router-link to="/register" class="red--text text--darken-1">
+                  Jetzt registrieren
+                </router-link>
+              </p>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import {authStore} from "@/store/auth.js";
+import { authStore } from "@/store/auth.js";
 
 export default {
   data() {
     return {
       email: '',
       password: '',
+      errorMessage: null,
+      isLoading: false
     };
   },
   methods: {
     async handleLogin() {
-      try {
+      if (this.$refs.loginForm.validate()) {
+        this.isLoading = true;
         this.errorMessage = null;
-        await authStore.login(this.email, this.password);
-        this.$router.push('/');
-      } catch (error) {
-        this.errorMessage = error;
+
+        try {
+          await authStore.login(this.email, this.password);
+          this.$router.push('/');
+        } catch (error) {
+          this.errorMessage = error.response?.data?.message || "Anmeldung fehlgeschlagen";
+        } finally {
+          this.isLoading = false;
+        }
       }
     },
   },
@@ -61,72 +102,41 @@ export default {
 <style scoped>
 .login-page {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  justify-content: center;
   background-color: #0a0e1a;
+  min-height: 100vh;
 }
 
-.login-card {
-  background-color: #2a2e35;
-  padding: 2rem;
+.custom-card {
+  background-color: #1c1f26 !important;
   border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 400px;
-  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.form-field-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.centered-text-field {
+  max-width: 100%;
+}
+
+.v-text-field >>> .v-input__slot {
+  background-color: #2A2E35 !important;
+}
+
+.v-text-field >>> .v-label {
+  color: #fff !important;
+}
+
+.v-text-field >>> input {
+  color: #fff !important;
+}
+
+.text-center {
   text-align: center;
-}
-
-.login-title {
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-  text-align: left;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.form-control {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #3a3f47;
-  color: #fff;
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: #636ae8;
-}
-
-.btn-block {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.login-footer {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #ccc;
-}
-
-.login-footer a {
-  color: #636ae8;
-  text-decoration: none;
-}
-
-.login-footer a:hover {
-  text-decoration: underline;
 }
 </style>
