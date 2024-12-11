@@ -1,75 +1,173 @@
 <template>
-  <div class="register-page">
-    <div class="container text-white">
-      <div class="card bg-dark">
-        <div class="card-body">
-          <h1 class="card-title">Registrieren</h1>
-          <p class="card-text">Erstelle ein Konto, um auf deinen PC-Shop zuzugreifen!</p>
-          <form v-if="!isRegistered" @submit.prevent="submitForm">
-            <div class="form-group">
-              <label for="username">Benutzername</label>
-              <input
-                  type="text"
-                  id="username"
-                  class="form-control"
+  <v-container fluid class="fill-height register-page">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="8" md="6" lg="4">
+        <v-card class="elevation-12 custom-card">
+          <v-card-text>
+            <h1 class="text-h4 mb-4 white--text">Registrieren</h1>
+            <p class="text-subtitle-1 mb-6 grey--text">Erstelle ein Konto, um auf deinen PC-Shop zuzugreifen!</p>
+
+            <!-- Step 1: User Registration -->
+            <v-form v-if="step === 1" @submit.prevent="nextStep" ref="form1">
+              <v-text-field
                   v-model="form.username"
-                  placeholder="Benutzername eingeben"
+                  label="Benutzername"
+                  prepend-icon="mdi-account"
                   required
-              />
-            </div>
-            <div class="form-group">
-              <label for="email">E-Mail-Adresse</label>
-              <input
-                  type="email"
-                  id="email"
-                  class="form-control"
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
                   v-model="form.email"
-                  placeholder="E-Mail eingeben"
+                  label="E-Mail-Adresse"
+                  prepend-icon="mdi-email"
                   required
-              />
-            </div>
-            <div class="form-group">
-              <label for="password">Passwort</label>
-              <input
-                  type="password"
-                  id="password"
-                  class="form-control"
+                  type="email"
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
                   v-model="form.password"
-                  placeholder="Passwort eingeben"
+                  label="Passwort"
+                  prepend-icon="mdi-lock"
                   required
-              />
-            </div>
-            <div class="form-group">
-              <label for="confirmPassword">Passwort bestätigen</label>
-              <input
                   type="password"
-                  id="confirmPassword"
-                  class="form-control"
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
                   v-model="form.confirmPassword"
-                  placeholder="Passwort erneut eingeben"
+                  label="Passwort bestätigen"
+                  prepend-icon="mdi-lock-check"
                   required
-              />
-              <small v-if="error" class="text-danger">{{ error }}</small>
-            </div>
-            <button type="submit" class="btn-primary register-btn">
-              {{ isLoading ? "Registrieren..." : "Registrieren" }}
-            </button>
-          </form>
+                  type="password"
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-btn
+                  color="red darken-1"
+                  dark
+                  block
+                  large
+                  class="mt-4"
+                  @click="nextStep"
+              >
+                Weiter
+              </v-btn>
+            </v-form>
 
-          <div v-if="isRegistered" class="alert alert-success mt-3">
-            {{ successMessage }}
-            <button @click="goToLogin" class="btn btn-success mt-3">
-              Weiter zum Login
-            </button>
-          </div>
+            <!-- Step 2: Address Input -->
+            <v-form v-if="step === 2" @submit.prevent="submitForm" ref="form2">
+              <v-text-field
+                  v-model="form.firstName"
+                  label="Vorname"
+                  prepend-icon="mdi-account"
+                  required
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
+                  v-model="form.lastName"
+                  label="Nachname"
+                  prepend-icon="mdi-account"
+                  required
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
+                  v-model="form.street"
+                  label="Straße"
+                  prepend-icon="mdi-road"
+                  required
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
+                  v-model="form.streetNumber"
+                  label="Hausnummer"
+                  prepend-icon="mdi-home"
+                  required
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
+                  v-model="form.city"
+                  label="Stadt"
+                  prepend-icon="mdi-city"
+                  required
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
+                  v-model="form.postalNumber"
+                  label="Postleitzahl"
+                  prepend-icon="mdi-map-marker"
+                  required
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <v-text-field
+                  v-model="form.country"
+                  label="Land"
+                  prepend-icon="mdi-flag"
+                  required
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+              <div class="d-flex">
+                <v-btn
+                    color="grey darken-1"
+                    dark
+                    large
+                    class="mr-2"
+                    @click="prevStep"
+                >
+                  Zurück
+                </v-btn>
+                <v-btn
+                    color="red darken-1"
+                    dark
+                    large
+                    class="flex-grow-1"
+                    @click="submitForm"
+                    :loading="isLoading"
+                >
+                  {{ isLoading ? "Registrieren..." : "Registrieren" }}
+                </v-btn>
+              </div>
+            </v-form>
 
-          <div v-if="serverError" class="alert alert-danger mt-3">
-            {{ serverError }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            <!-- Success Message -->
+            <v-alert
+                v-if="isRegistered"
+                type="success"
+                class="mt-4"
+            >
+              Registrierung erfolgreich! Du kannst dich jetzt einloggen.
+              <v-btn
+                  color="success"
+                  dark
+                  block
+                  class="mt-2"
+                  @click="goToLogin"
+              >
+                Weiter zum Login
+              </v-btn>
+            </v-alert>
+
+            <!-- Error Message -->
+            <v-alert
+                v-if="error"
+                type="error"
+                class="mt-4"
+            >
+              {{ error }}
+            </v-alert>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -83,52 +181,62 @@ export default {
         email: "",
         password: "",
         confirmPassword: "",
+        firstName: "",
+        lastName: "",
+        street: "",
+        streetNumber: "",
+        city: "",
+        postalNumber: "",
+        country: "",
       },
-      error: null, // Client-seitige Fehler wie Passwortabgleich
-      successMessage: null, // Erfolgsnachricht vom Server
-      serverError: null, // Fehlernachricht vom Server
-      isLoading: false, // Status für Ladezustand
-      isRegistered: false, // Status ob Registrierung abgeschlossen ist
+      step: 1,
+      error: null,
+      isLoading: false,
+      isRegistered: false,
     };
   },
   methods: {
-    async submitForm() {
-      this.error = null;
-      this.successMessage = null;
-      this.serverError = null;
-
-      // Passwort-Validierung
-      if (this.form.password !== this.form.confirmPassword) {
-        this.error = "Die Passwörter stimmen nicht überein.";
-        return;
-      }
-
-      this.isLoading = true; // Ladezustand aktivieren
-
-      try {
-        // Sende Registrierungsdaten an dein Sails.js Backend
-        const response = await axios.post("http://localhost:1337/user/create", {
-          name: this.form.username,
-          email: this.form.email,
-          password: this.form.password,
-        });
-
-        // Erfolgshandling
-        this.successMessage = "Registrierung erfolgreich! Du kannst dich jetzt einloggen.";
-        this.isRegistered = true; // Setze Status auf erfolgreich
-      } catch (error) {
-        // Fehler vom Server anzeigen
-        if (error.response && error.response.data && error.response.data.message) {
-          this.serverError = error.response.data.message;
-        } else {
-          this.serverError = "Es ist ein unerwarteter Fehler aufgetreten.";
+    nextStep() {
+      if (this.$refs.form1.validate()) {
+        if (this.form.password !== this.form.confirmPassword) {
+          this.error = "Die Passwörter stimmen nicht überein.";
+          return;
         }
-      } finally {
-        this.isLoading = false; // Ladezustand deaktivieren
+        this.error = null;
+        this.step = 2;
+      }
+    },
+    prevStep() {
+      this.step = 1;
+    },
+    async submitForm() {
+      if (this.$refs.form2.validate()) {
+        this.isLoading = true;
+        this.error = null;
+
+        try {
+          await axios.post("http://localhost:1337/user/create", {
+            name: this.form.username,
+            email: this.form.email,
+            password: this.form.password,
+            firstName: this.form.firstName,
+            lastName: this.form.lastName,
+            street: this.form.street,
+            streetNumber: this.form.streetNumber,
+            city: this.form.city,
+            postalNumber: this.form.postalNumber,
+            country: this.form.country,
+          });
+          this.isRegistered = true;
+        } catch (error) {
+          this.error = error.response?.data?.message || "Es ist ein Fehler aufgetreten.";
+        } finally {
+          this.isLoading = false;
+        }
       }
     },
     goToLogin() {
-      this.$router.push("/login"); // Zum Login weiterleiten (Voraussetzung: Vue Router ist konfiguriert)
+      this.$router.push("/login");
     },
   },
 };
@@ -136,137 +244,25 @@ export default {
 
 <style scoped>
 .register-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   background-color: #0A0E1A;
-  padding: 1rem;
 }
 
-.container {
-  width: 100%;
-  max-width: 400px; /* Begrenzte Breite für Desktop */
-}
-
-.card {
+.custom-card {
+  background-color: #1c1f26 !important;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  background-color: #1c1f26;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
-.card-title {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: #fff;
+.v-text-field >>> .v-input__slot {
+  background-color: #2A2E35 !important;
 }
 
-.card-text {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  color: #ccc;
+.v-text-field >>> .v-label {
+  color: #fff !important;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #fff;
-}
-
-.form-control {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #444;
-  border-radius: 5px;
-  background-color: #2A2E35;
-  color: #fff;
-  transition: border-color 0.3s ease;
-}
-
-.form-control:focus {
-  border-color: #d32f2f;
-  outline: none;
-}
-
-.form-control::placeholder {
-  color: #999;
-}
-
-.text-danger {
-  display: block;
-  margin-top: 0.5rem;
-  color: #ff6b6b;
-  font-size: 0.9rem;
-}
-
-.alert {
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-size: 0.9rem;
-}
-
-.alert-success {
-  background-color: #28a745;
-  color: white;
-}
-
-.alert-danger {
-  background-color: #dc3545;
-  color: white;
-}
-
-.register-btn {
-  margin-top: 1rem;
-  padding: 10px 20px;
-  width: 100%;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  background-color: #d32f2f;
-  border: none;
-  color: white;
-}
-
-.register-btn:hover {
-  background-color: #b71c1c;
-}
-
-.btn-success {
-  background-color: #28a745;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.3s ease;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-}
-
-/* Mobile optimizations */
-@media (max-width: 576px) {
-  .card-title {
-    font-size: 1.25rem;
-  }
-
-  .card-text {
-    font-size: 0.9rem;
-  }
-
-  .register-btn,
-  .btn-success {
-    font-size: 0.9rem;
-  }
+.v-text-field >>> input {
+  color: #fff !important;
 }
 </style>
