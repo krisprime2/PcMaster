@@ -17,6 +17,14 @@ module.exports = {
     postalNumber: {type: 'number', required: false},
     country: {type: 'string', required: false},
 
+    orders: {
+      collection: 'order',
+      via: 'user'
+    },
+    configurations: {
+      collection: 'configuration',
+      via: 'user'
+    },
     inquiries: {
       collection: 'inquiry',
       via: 'user',

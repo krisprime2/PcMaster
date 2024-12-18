@@ -26,6 +26,8 @@ module.exports.routes = {
   'GET /product/:id': 'product.findOne',
   'DELETE /product/:id': 'product.destroy',
 
+
+  // User Routes
   'GET /user': 'UserController.find',
   'GET /user/:id': 'UserController.findOne',
   'GET /user/email/:email': 'UserController.findOneByEmail',
@@ -35,6 +37,34 @@ module.exports.routes = {
   'POST /user/create': 'UserController.createUser',
   'POST /admin/create': 'UserController.createAdmin',
   'POST /inquiry/create': 'InquiryController.create',
+
+  // Order Routes
+  'POST /api/orders': 'OrderController.create',
+  'GET /api/orders': 'OrderController.find',
+  'GET /api/orders/:id': 'OrderController.findOne',
+  'PATCH /api/orders/:id': 'OrderController.update',
+  'DELETE /api/orders/:id': 'OrderController.delete',
+
+  // Article Routes
+  'POST /api/articles': 'ArticleController.create',
+  'GET /api/articles': 'ArticleController.find',
+  'GET /api/articles/:id': 'ArticleController.findOne',
+  'PATCH /api/articles/:id': 'ArticleController.update',
+  'DELETE /api/articles/:id': 'ArticleController.delete',
+
+  // Component Routes
+  'POST /api/components': 'ComponentController.create',
+  'GET /api/components': 'ComponentController.find',
+  'GET /api/components/:id': 'ComponentController.findOne',
+  'PATCH /api/components/:id': 'ComponentController.update',
+  'DELETE /api/components/:id': 'ComponentController.delete',
+
+  // Configuration Routes
+  'POST /api/configurations': 'ConfigurationController.create',
+  'GET /api/configurations': 'ConfigurationController.find',
+  'GET /api/configurations/:id': 'ConfigurationController.findOne',
+  'PATCH /api/configurations/:id': 'ConfigurationController.update',
+  'DELETE /api/configurations/:id': 'ConfigurationController.delete',
 
 
   'POST /auth/login': 'AuthController.login',
