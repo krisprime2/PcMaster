@@ -43,4 +43,19 @@ module.exports = {
       return res.status(400).json({ error });
     }
   },
+
+  getArticlesByIds: async (req, res) => {
+    const { ids } = req.body;
+    console.log(ids)
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.badRequest({ error: 'IDs müssen als Array bereitgestellt werden.' });
+    }
+
+    try {
+      const articles = await Article.find({ id: ids });
+      return res.json(articles); // Artikeldetails zurückgeben
+    } catch (error) {
+      return res.status(500).json({ error: 'Fehler beim Abrufen der Artikel.' });
+    }
+  },
 };

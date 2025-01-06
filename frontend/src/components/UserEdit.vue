@@ -103,8 +103,3 @@ export default {
 }
 </style>
 
-This version of the component only allows editing of the user's name and email. The status and password fields have been removed.
-
-Remember to also update the `Admin.vue` component accordingly to reflect these changes.
-
-I hope this helps! Let me know if you have any other questions.

@@ -51,6 +51,8 @@ module.exports.routes = {
   'GET /api/articles/:id': 'ArticleController.findOne',
   'PATCH /api/articles/:id': 'ArticleController.update',
   'DELETE /api/articles/:id': 'ArticleController.delete',
+  'POST /api/articles/by-ids': 'ArticleController.getArticlesByIds',
+
 
   // Component Routes
   'POST /api/components': 'ComponentController.create',

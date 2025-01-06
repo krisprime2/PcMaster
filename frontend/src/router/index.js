@@ -6,6 +6,8 @@ import Admin from "@/components/Admin.vue";
 import Inquiries from "@/components/Inqiuries.vue";
 import {authStore} from "@/store/auth.js";
 import ArticleDashboardView from "@/views/ArticleDashboardView.vue";
+import ShoppingCart from "@/components/ShoppingCart.vue";
+import ArticleView from "@/views/ArticleView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +37,14 @@ const router = createRouter({
             path: '/admin/articles',
             name: 'admin-article',
             component: ArticleDashboardView,
+        },{
+            path: '/cart',
+            name: 'cart',
+            component: ShoppingCart,
+        },,{
+            path: '/articles',
+            name: 'articles',
+            component: ArticleView,
         },
     ],
 })
