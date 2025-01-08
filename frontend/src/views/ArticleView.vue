@@ -1,53 +1,142 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer" :temporary="!isLargeScreen">
-      <v-list-item>
+    <v-navigation-drawer v-model="drawer" app class="sidebar" width="200">
+      <v-list-item class="px-6 py-4">
         <v-list-item-content>
-          <v-list-item-title class="text-h6">Categories</v-list-item-title>
+          <v-list-item-title class="text-h5 white--text">Kategorien</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
-      <v-divider></v-divider>
-
-      <v-list nav>
-        <v-list-item v-for="category in categories" :key="category.id" link @click="selectCategory(category)">
+      <v-list nav dense class="px-4">
+        <v-list-item
+            v-for="category in categories"
+            :key="category.id"
+            @click="activeCategory = category.id"
+            :class="{ 'category-active': activeCategory === category.id }"
+            class="mb-2 rounded-lg category-item"
+        >
+          <v-list-item-icon>
+            <v-icon color="blue-grey lighten-4">{{ getCategoryIcon(category.id) }}</v-icon>
+          </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>{{ category.name }}</v-list-item-title>
+            <v-list-item-title class="white--text">{{ category.name }}</v-list-item-title>
           </v-list-item-content>
+          <v-chip small class="ml-4" color="blue-grey darken-3">
+            {{ category.count }}
+          </v-chip>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-main>
-      <v-container fluid>
-        <v-responsive class="mb-4">
+    <v-row class="mb-6">
+      <v-col cols="12" :style="{ marginLeft: '100px' }"> <!-- Adjust margin to match sidebar width -->
+        <v-card class="banner-card">
           <v-img
-              :src="bannerImageUrl"
-              aspect-ratio="16/9"
-              class="banner-image"
-          ></v-img>
-        </v-responsive>
+              src="/api/placeholder/banner/1200/300"
+              height="200"
+              gradient="to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%"
+              position="center"
+          >
+            <v-row class="fill-height align-center justify-center">
+              <v-col cols="8" class="text-center">
+                <div class="banner-content">
+                  <h1 class="text-h3 font-weight-bold white--text mb-2">
+                    PC Shop
+                  </h1>
+                  <p class="text-h6 white--text">
+                    Hochwertige Computer, Laptops und Komponenten
+                  </p>
+                </div>
+              </v-col>
+            </v-row>
+          </v-img>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-main class="main-content">
+      <v-container fluid class="pa-6">
+        <v-row>
+          <v-col cols="12">
+            <v-card class="search-card mb-6">
+              <v-card-text>
+                <v-text-field
+                    v-model="searchQuery"
+                    label="Produkte suchen..."
+                    prepend-inner-icon="mdi-magnify"
+                    clearable
+                    outlined
+                    dense
+                    dark
+                    hide-details
+                    class="search-field"
+                ></v-text-field>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
 
         <v-row>
-          <v-col
-              v-for="product in filteredProducts"
-              :key="product.id"
-              cols="12"
-              sm="6"
-              md="4"
-              lg="3"
-          >
-            <v-card class="product-card h-100">
-              <v-img :src="product.imageUrl" height="200" class="product-image"></v-img>
-              <v-card-title class="product-title">{{ product.title }}</v-card-title>
-              <v-card-text class="product-description">{{ product.description }}</v-card-text>
-              <v-card-text class="product-price">{{ product.price }} €</v-card-text>
-              <v-card-actions class="justify-center">
-                <v-btn class="btn-primary" @click="addToCart(product)">
-                  Add to Cart
-                </v-btn>
-              </v-card-actions>
-            </v-card>
+          <v-col cols="12">
+            <v-row>
+              <v-col
+                  v-for="product in displayedProducts"
+                  :key="product.id"
+                  cols="12"
+                  sm="6"
+                  md="4"
+                  lg="3"
+              >
+                <v-hover v-slot="{ hover }">
+                  <v-card
+                      class="product-card"
+                      :class="{ 'on-hover': hover }"
+                      :elevation="hover ? 12 : 2"
+                  >
+                    <v-img
+                        :src="getProductImage(product.id)"
+                        height="220"
+                        class="white--text align-end"
+                        gradient="to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%"
+                    >
+                      <v-card-title class="product-title">{{ product.name }}</v-card-title>
+                    </v-img>
+
+                    <v-divider></v-divider>
+
+                    <v-card-text class="pt-4">
+                      <div class="product-description">{{ product.description }}</div>
+                      <v-row class="mt-4" align="center">
+                        <v-col cols="auto">
+                          <v-chip color="primary" label small>{{ getCategoryName(product.type) }}</v-chip>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col cols="auto">
+                          <div class="text-h5 font-weight-bold primary--text">
+                            €{{ product.price }}
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+
+                    <v-divider></v-divider>
+
+                    <v-card-actions class="pa-4">
+                      <v-btn
+                          block
+                          color="primary"
+                          elevation="2"
+                          @click="addToCart(product)"
+                          class="text-capitalize"
+                      >
+                        <v-icon left>mdi-cart-plus</v-icon>
+                        In den Warenkorb
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-hover>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
@@ -56,204 +145,190 @@
 </template>
 
 <script>
+const LAPTOP = 1;
+const DESKTOP_PC = 2;
+const REPLACEMENT_PART = 3;
+import axios from 'axios';
+
 export default {
   data() {
     return {
       drawer: true,
-      bannerImageUrl: 'https://via.placeholder.com/1920x200',
+      searchQuery: '',
+      activeCategory: 'all',
       categories: [
-        { id: 4, name: 'Alle' },
-        { id: 1, name: 'Laptops' },
-        { id: 2, name: 'Desktop Pcs' },
-        { id: 3, name: 'Einzelteile' },
+        {id: 'all', name: 'Alle Produkte', count: 0},
+        {id: 'laptops', name: 'Laptops', count: 0},
+        {id: 'desktops', name: 'Desktop PCs', count: 0},
+        {id: 'parts', name: 'Einzelteile', count: 0}
       ],
-
-      selectedCategory: null,
-      isLargeScreen: window.innerWidth >= 1024,
-      products: [
-        {
-          id: 1,
-          categoryId: 1,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Laptop 1',
-          description: 'This is the description for Laptop 1.',
-          price: 1200
-        },
-        {
-          id: 2,
-          categoryId: 2,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'PC 1',
-          description: 'This is the description for PC 1.',
-          price: 800
-        },
-        {
-          id: 3,
-          categoryId: 1,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Laptop 2',
-          description: 'High-performance laptop with a sleek design.',
-          price: 1500
-        },
-        {
-          id: 4,
-          categoryId: 2,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Gaming PC',
-          description: 'Powerful gaming PC with RGB lighting.',
-          price: 2000
-        },
-        {
-          id: 5,
-          categoryId: 3,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Graphics Card',
-          description: 'NVIDIA RTX 3060 graphics card for smooth gaming.',
-          price: 500
-        },
-        {
-          id: 6,
-          categoryId: 3,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Processor',
-          description: 'Intel Core i7 12th Gen Processor for ultimate performance.',
-          price: 300
-        },
-        {
-          id: 7,
-          categoryId: 1,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Laptop 3',
-          description: 'Lightweight laptop with long battery life.',
-          price: 1000
-        },
-        {
-          id: 8,
-          categoryId: 2,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Workstation PC',
-          description: 'Professional workstation for demanding applications.',
-          price: 2500
-        },
-        {
-          id: 9,
-          categoryId: 3,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'RAM',
-          description: '16GB DDR4 RAM for faster multitasking.',
-          price: 120
-        },
-        {
-          id: 10,
-          categoryId: 3,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Power Supply',
-          description: '650W power supply unit for reliable performance.',
-          price: 80
-        },
-        {
-          id: 11,
-          categoryId: 1,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Laptop 4',
-          description: 'Convertible 2-in-1 laptop for flexibility and productivity.',
-          price: 1300
-        },
-        {
-          id: 12,
-          categoryId: 3,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'SSD',
-          description: '1TB SSD for lightning-fast storage.',
-          price: 150
-        },
-        {
-          id: 13,
-          categoryId: 3,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Motherboard',
-          description: 'Gaming motherboard compatible with latest processors.',
-          price: 250
-        },
-        {
-          id: 14,
-          categoryId: 2,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Mini PC',
-          description: 'Compact Mini PC for home and office use.',
-          price: 600
-        },
-        {
-          id: 15,
-          categoryId: 1,
-          imageUrl: 'https://via.placeholder.com/150',
-          title: 'Laptop 5',
-          description: 'Affordable laptop for students and casual use.',
-          price: 700
-        }
-      ]
-    };
+      products: []
+    }
   },
 
   computed: {
-    filteredProducts() {
-      if (!this.selectedCategory || this.selectedCategory.id == 4) {
-        return this.products;
+    displayedProducts() {
+      let result = [...this.products];
+
+      if (this.activeCategory !== 'all') {
+        result = result.filter(product =>
+            this.getProductCategory(product.type) === this.activeCategory
+        );
       }
-      return this.products.filter(product => product.categoryId === this.selectedCategory.id);
+
+      if (this.searchQuery) {
+        const query = this.searchQuery.toLowerCase();
+        result = result.filter(product =>
+            product.name.toLowerCase().includes(query) ||
+            product.description.toLowerCase().includes(query)
+        );
+      }
+
+      return result;
     }
   },
+
   methods: {
-    selectCategory(category) {
-      this.selectedCategory = category;
+    getCategoryIcon(categoryId) {
+      return {
+        all: 'mdi-view-grid',
+        laptops: 'mdi-laptop',
+        desktops: 'mdi-desktop-tower',
+        parts: 'mdi-memory'
+      }[categoryId] || 'mdi-view-grid';
     },
-    addToCart(product) {
+
+    getProductCategory(type) {
+      return {
+        [LAPTOP]: 'laptops',
+        [DESKTOP_PC]: 'desktops',
+        [REPLACEMENT_PART]: 'parts'
+      }[type] || 'all';
+    },
+
+    getCategoryName(type) {
+      return {
+        [LAPTOP]: 'Laptop',
+        [DESKTOP_PC]: 'Desktop PC',
+        [REPLACEMENT_PART]: 'Komponente'
+      }[type] || 'Produkt';
+    },
+
+    getProductImage(id) {
+      return `/api/placeholder/${id}/400/300`;
+    },
+
+    async fetchProducts() {
+      try {
+        const response = await axios.get('/api/articles');
+        this.products = response.data;
+        this.updateCategoryCounts();
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    },
+
+    updateCategoryCounts() {
+      const counts = {
+        laptops: this.products.filter(p => p.type === LAPTOP).length,
+        desktops: this.products.filter(p => p.type === DESKTOP_PC).length,
+        parts: this.products.filter(p => p.type === REPLACEMENT_PART).length
+      };
+
+      this.categories = this.categories.map(category => ({
+        ...category,
+        count: category.id === 'all' ? this.products.length : counts[category.id] || 0
+      }));
+    },
+
+    async addToCart(product) {
+      try {
+        await axios.post('/api/cart/add', {productId: product.id});
+        this.$emit('notify', {
+          type: 'success',
+          text: 'Produkt wurde zum Warenkorb hinzugefügt'
+        });
+      } catch (error) {
+        this.$emit('notify', {
+          type: 'error',
+          text: 'Fehler beim Hinzufügen zum Warenkorb'
+        });
+      }
     }
+  },
+
+  mounted() {
+    this.fetchProducts();
   }
-};
+}
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #0A0E1A;
-  color: #ffffff;
+.sidebar {
+  background: linear-gradient(180deg, #1E2127 0%, #2A2E35 100%) !important;
 }
 
-.banner-image {
-  border-radius: 8px;
+.category-item {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.category-item:hover,
+.category-active {
+  background-color: rgba(99, 106, 232, 0.1) !important;
+}
+
+.main-content {
+  background-color: #0A0E1A;
+}
+
+.search-card {
+  background-color: #2A2E35 !important;
+  border-radius: 12px;
+}
+
+.search-field {
+  background-color: transparent;
 }
 
 .product-card {
-  background-color: #2A2E35;
-  border-radius: 10px;
-  padding: 1.5rem;
-  text-align: center;
+  background-color: #2A2E35 !important;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.product-card.on-hover {
+  transform: translateY(-8px);
 }
 
 .product-title {
+  font-size: 1.25rem !important;
   font-weight: 600;
-  color: #fff;
 }
 
 .product-description {
-  font-weight: 400;
-  color: #ccc;
+  color: #B0BEC5;
+  font-size: 0.9rem;
+  min-height: 60px;
 }
 
-.product-price {
-  font-weight: bold;
-  color: #ffffff;
+.v-chip {
+  font-weight: 500;
 }
 
-.btn-primary {
-  background-color: #F44336;
-  color: white;
+
+ .banner-card {
+   background-color: #2A2E35 !important;
+   border-radius: 12px;
+   overflow: hidden;
+ }
+
+.banner-card .v-image {
+  transform: scale(1);
+  transition: transform 0.3s ease;
 }
 
-.btn-primary:hover {
-  background-color: #a51307;
+.banner-card:hover .v-image {
+  transform: scale(1.05);
 }
 </style>
