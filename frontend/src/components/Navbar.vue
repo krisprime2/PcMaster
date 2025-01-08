@@ -7,6 +7,7 @@ import * as bootstrap from 'bootstrap'
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <router-link class="navbar-brand" to="/">PCMaster</router-link>
+
       <button
           class="navbar-toggler"
           type="button"
@@ -21,39 +22,47 @@ import * as bootstrap from 'bootstrap'
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="#laptops">Laptops</a>
+            <router-link class="nav-link" to="/">Startseite</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#pcs">PCs</a>
+            <router-link class="nav-link" to="/articles">Artikel</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#components">Komponenten</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#configurator">Konfigurator</a>
+            <router-link class="nav-link" to="/cart">Warenkorb</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/inquiry">Gerät verkaufen</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/admin/user">User Dashboard</router-link>
-          </li>
-        </ul>
-        <form class="search-form d-flex ms-auto">
-          <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Produkte suchen..."
-              aria-label="Suche"
-          />
-          <button class="btn btn-outline-light" type="submit">Suchen</button>
-        </form>
-        <ul class="navbar-nav ms-6">
-          <li class="nav-item">
-            <router-link class="btn btn-outline-light" to="/login">Login</router-link>
+          <li class="nav-item dropdown">
+            <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="adminDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+            >
+              Admin
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+              <li>
+                <router-link class="dropdown-item" to="/admin/user">User-Verwaltung</router-link>
+              </li>
+              <li>
+                <router-link class="dropdown-item" to="/admin/articles">Artikel-Verwaltung</router-link>
+              </li>
+            </ul>
           </li>
         </ul>
 
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item me-2">
+            <router-link class="btn btn-outline-light" to="/login">Login</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="btn btn-outline-light" to="/register">Registrieren</router-link>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
@@ -76,6 +85,7 @@ import * as bootstrap from 'bootstrap'
   color: #ffffff !important;
 }
 
+/* Buttons */
 .btn-outline-light {
   color: #ffffff;
   border-color: rgba(255,255,255,0.5);
@@ -83,5 +93,20 @@ import * as bootstrap from 'bootstrap'
 
 .btn-outline-light:hover {
   background-color: rgba(255,255,255,0.1);
+}
+
+/* Dropdown-Styling */
+.dropdown-menu {
+  background-color: #1c1f26;
+  border: none;
+}
+
+.dropdown-item {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.dropdown-item:hover {
+  color: #ffffff !important;
+  background-color: rgba(255,255,255,0.1) !important;
 }
 </style>
