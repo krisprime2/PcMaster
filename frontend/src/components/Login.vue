@@ -5,28 +5,31 @@
         <v-card class="elevation-12 custom-card">
           <v-card-text class="text-center">
             <h1 class="text-h4 mb-4 white--text">Login</h1>
-            <p class="text-subtitle-1 mb-6 grey--text">Melde dich in deinem PC-Shop an!</p>
+            <p class="text-subtitle-1 mb-6 grey--text">Sign in to your PC-Shop account!</p>
 
             <v-form @submit.prevent="handleLogin" ref="loginForm">
               <div class="form-field-wrapper">
                 <v-text-field
                     v-model="email"
-                    label="E-Mail-Adresse"
+                    label="Email Address"
                     required
                     type="email"
                     dark
                     color="red darken-1"
+                    :error-messages="error ? [error] : []"
                     class="centered-text-field"
                 ></v-text-field>
               </div>
+
               <div class="form-field-wrapper">
                 <v-text-field
                     v-model="password"
-                    label="Passwort"
+                    label="Password"
                     required
                     type="password"
                     dark
                     color="red darken-1"
+                    @keyup.enter="handleLogin"
                     class="centered-text-field"
                 ></v-text-field>
               </div>
@@ -38,25 +41,17 @@
                   large
                   class="mt-4"
                   type="submit"
-                  :loading="isLoading"
+                  :loading="loading"
               >
-                {{ isLoading ? "Anmelden..." : "Anmelden" }}
+                {{ loading ? "Signing in..." : "Sign in" }}
               </v-btn>
             </v-form>
 
-            <v-alert
-                v-if="errorMessage"
-                type="error"
-                class="mt-4"
-            >
-              {{ errorMessage }}
-            </v-alert>
-
             <div class="text-center mt-4">
               <p class="grey--text text-caption">
-                Noch kein Konto?
+                Don't have an account?
                 <router-link to="/register" class="red--text text--darken-1">
-                  Jetzt registrieren
+                  Register now
                 </router-link>
               </p>
             </div>
@@ -67,43 +62,39 @@
   </v-container>
 </template>
 
-<script>
-import { authStore } from "@/store/auth.js";
+<script setup>
+import { ref } from 'vue'
+import { useAuthStore } from '@/store/auth'
 
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      errorMessage: null,
-      isLoading: false
-    };
-  },
-  methods: {
-    async handleLogin() {
-      if (this.$refs.loginForm.validate()) {
-        this.isLoading = true;
-        this.errorMessage = null;
+const email = ref('')
+const password = ref('')
+const loading = ref(false)
+const error = ref('')
+const authStore = useAuthStore()
 
-        try {
-          await authStore.login(this.email, this.password);
-          this.$router.push('/');
-        } catch (error) {
-          this.errorMessage = error.response?.data?.message || "Anmeldung fehlgeschlagen";
-        } finally {
-          this.isLoading = false;
-        }
-      }
-    },
-  },
-};
+async function handleLogin() {
+  if (!email.value || !password.value) {
+    error.value = 'Please fill in all fields'
+    return
+  }
+
+  try {
+    loading.value = true
+    error.value = ''
+    await authStore.login({
+      email: email.value,
+      password: password.value
+    })
+  } catch (err) {
+    error.value = err.response?.data?.message || 'Login failed'
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <style scoped>
 .login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #0a0e1a;
   min-height: 100vh;
 }
@@ -111,7 +102,6 @@ export default {
 .custom-card {
   background-color: #1c1f26 !important;
   border-radius: 10px;
-  overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
@@ -134,9 +124,5 @@ export default {
 
 .v-text-field >>> input {
   color: #fff !important;
-}
-
-.text-center {
-  text-align: center;
 }
 </style>

@@ -1,78 +1,72 @@
+//src/components/Register.vue
 <template>
   <v-container fluid class="fill-height register-page">
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="6" lg="4">
         <v-card class="elevation-12 custom-card">
           <v-card-text class="text-center">
-            <h1 class="text-h4 mb-4 white--text">Registrieren</h1>
-            <p class="text-subtitle-1 mb-6 grey--text">
-              Erstelle ein Konto, um auf deinen PC-Shop zuzugreifen!
-            </p>
+            <h1 class="text-h4 mb-4 white--text">Register</h1>
+            <p class="text-subtitle-1 mb-6 grey--text">Create your PC-Shop account</p>
 
-            <!-- User Registration -->
-            <v-form @submit.prevent="submitForm" ref="form">
+            <v-form @submit.prevent="handleRegister" ref="form">
               <v-text-field
                   v-model="form.username"
-                  label="Benutzername"
+                  label="Username"
                   required
                   dark
                   color="red darken-1"
+                  :error-messages="error ? [error] : []"
               ></v-text-field>
+
               <v-text-field
                   v-model="form.email"
-                  label="E-Mail-Adresse"
+                  label="Email Address"
                   required
-                  outlined
                   type="email"
                   dark
                   color="red darken-1"
               ></v-text-field>
+
               <v-text-field
                   v-model="form.password"
-                  label="Passwort"
+                  label="Password"
                   required
                   type="password"
                   dark
                   color="red darken-1"
               ></v-text-field>
+
               <v-text-field
                   v-model="form.confirmPassword"
-                  label="Passwort bestätigen"
+                  label="Confirm Password"
                   required
                   type="password"
                   dark
                   color="red darken-1"
+                  @keyup.enter="handleRegister"
               ></v-text-field>
+
               <v-btn
                   color="red darken-1"
                   dark
                   block
                   large
                   class="mt-4"
-                  @click="submitForm"
-                  :loading="isLoading"
+                  type="submit"
+                  :loading="loading"
               >
-                {{ isLoading ? "Registrieren..." : "Registrieren" }}
+                {{ loading ? "Creating Account..." : "Create Account" }}
               </v-btn>
             </v-form>
 
-            <!-- Success Message -->
-            <v-alert v-if="isRegistered" type="success" class="mt-4">
-              Registrierung erfolgreich! Du kannst dich jetzt einloggen.
-              <v-btn
-                  color="success"
-                  block
-
-                  @click="goToLogin"
-              >
-                Weiter zum Login
-              </v-btn>
-            </v-alert>
-
-            <!-- Error Message -->
-            <v-alert v-if="error" type="error" class="mt-4">
-              {{ error }}
-            </v-alert>
+            <div class="text-center mt-4">
+              <p class="grey--text text-caption">
+                Already have an account?
+                <router-link to="/login" class="red--text text--darken-1">
+                  Sign in
+                </router-link>
+              </p>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -80,59 +74,50 @@
   </v-container>
 </template>
 
-<script>
-import axios from "axios";
+<script setup>
+import { ref, reactive } from 'vue'
+import { useAuthStore } from '@/store/auth'
 
-export default {
-  data() {
-    return {
-      form: {
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
-      error: null,
-      isLoading: false,
-      isRegistered: false,
-    };
-  },
-  methods: {
-    async submitForm() {
-      if (this.$refs.form.validate()) {
-        if (this.form.password !== this.form.confirmPassword) {
-          this.error = "Die Passwörter stimmen nicht überein.";
-          return;
-        }
-        this.isLoading = true;
-        this.error = null;
+const form = reactive({
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+})
 
-        try {
-          await axios.post("http://localhost:1337/user/create", {
-            name: this.form.username,
-            email: this.form.email,
-            password: this.form.password,
-          });
-          this.isRegistered = true;
-        } catch (error) {
-          this.error = error.response?.data?.message || "Es ist ein Fehler aufgetreten.";
-        } finally {
-          this.isLoading = false;
-        }
-      }
-    },
-    goToLogin() {
-      this.$router.push("/login");
-    },
-  },
-};
+const loading = ref(false)
+const error = ref('')
+const authStore = useAuthStore()
+
+async function handleRegister() {
+  if (!form.username || !form.email || !form.password || !form.confirmPassword) {
+    error.value = 'Please fill in all fields'
+    return
+  }
+
+  if (form.password !== form.confirmPassword) {
+    error.value = 'Passwords do not match'
+    return
+  }
+
+  try {
+    loading.value = true
+    error.value = ''
+    await authStore.register({
+      username: form.username,
+      email: form.email,
+      password: form.password
+    })
+  } catch (err) {
+    error.value = err.response?.data?.message || 'Registration failed'
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <style scoped>
 .register-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #0a0e1a;
   min-height: 100vh;
 }
@@ -140,12 +125,11 @@ export default {
 .custom-card {
   background-color: #1c1f26 !important;
   border-radius: 10px;
-  overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
 .v-text-field >>> .v-input__slot {
-  background-color: #2a2e35 !important;
+  background-color: #2A2E35 !important;
 }
 
 .v-text-field >>> .v-label {
@@ -154,9 +138,5 @@ export default {
 
 .v-text-field >>> input {
   color: #fff !important;
-}
-
-.text-center {
-  text-align: center;
 }
 </style>

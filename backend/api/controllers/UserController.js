@@ -130,8 +130,8 @@ module.exports = {
    */
   findOneByEmail: async function (req, res) {
     try {
-      const email = req.params.email; // Hole die E-Mail-Adresse aus den URL-Parametern
-
+      const email = req.params.email;
+      console.log(req.params.email);
       if (!email) {
         return res.status(400).json({message: 'E-Mail-Adresse ist erforderlich.'});
       }
@@ -166,7 +166,7 @@ module.exports = {
       const updatedUser = await User.updateOne({ id: userId }).set({
         name: params.name,
         email: params.email,
-        password: params.password, // Passwort-Hashing sollte hinzugefügt werden
+        password: params.password,
         firstName: params.firstName,
         lastName: params.lastName,
         street: params.street,

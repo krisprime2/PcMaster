@@ -1,64 +1,96 @@
-import axios from 'axios';
-import { reactive } from 'vue';
+// src/stores/auth.js
+import { defineStore } from 'pinia'
+import axios from 'axios'
+import router from '@/router'
 
-export const authStore = reactive({
-    user: null, // Benutzer-Daten
-    token: null, // Authentifizierungstoken
-    isAuthenticated: false,
+export const useAuthStore = defineStore('auth', {
+    state: () => ({
+        user: JSON.parse(localStorage.getItem('user')) || null,
+        isAuthenticated: !!localStorage.getItem('user'),
+        loading: false,
+        error: null
+    }),
 
-    // Login-Methode
-    async login(email, password) {
-        try {
-            const response = await axios.post('http://localhost:1337/auth/login', { email, password });
-            this.token = response.data.token; // Token speichern
-            this.isAuthenticated = true;
-            axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-
-            console.log(response.data.userId)
-            // Token im lokalen Speicher speichern
-            localStorage.setItem('authToken', this.token);
-            localStorage.setItem('userId', (response.data.userId));
-            // Benutzer-Daten abrufen
-            //await this.fetchUser();
-
-        } catch (error) {
-            console.error('Login fehlgeschlagen:', error);
-            throw error.response?.data?.message || 'Unbekannter Fehler';
-        }
+    getters: {
+        isAdmin: (state) => state.user?.role === 1,
+        isUser: (state) => state.user?.role === 2
     },
 
-    // Abrufen der Benutzerdaten
-    async fetchUser() {
-        try {
-            const response = await axios.get('http://localhost:1337/user/me');
-            this.user = response.data; // Benutzerdaten speichern
-        } catch (error) {
-            console.error('Fehler beim Abrufen der Benutzerdaten:', error);
-            this.logout();
-        }
-    },
+    actions: {
+        async register(userData) {
+            try {
+                this.loading = true
+                this.error = null
+                const response = await axios.post('/register', {
+                    name: userData.username,
+                    email: userData.email,
+                    password: userData.password,
+                })
 
-    // Logout-Methode
-    logout() {
-        this.user = null;
-        this.token = null;
-        this.isAuthenticated = false;
+                this.user = response.data
+                this.isAuthenticated = true
+                localStorage.setItem('user', JSON.stringify(response.data))
+                router.push('/')
+            } catch (error) {
+                this.error = error.response?.data?.message || 'Registration failed'
+                throw error
+            } finally {
+                this.loading = false
+            }
+        },
 
-        // Token aus den Headern entfernen
-        delete axios.defaults.headers.common['Authorization'];
+        async login(credentials) {
+            try {
+                const response = await axios.post('/login', credentials)
+                this.user = response.data.user
+                this.isAuthenticated = true
+                localStorage.setItem('user', JSON.stringify(response.data.user))
+                await this.checkAuth() // Add this line
 
-        // Token aus dem lokalen Speicher entfernen
-        localStorage.removeItem('authToken');
-    },
+                if (this.isAdmin) {
+                    router.push('/admin/user')
+                } else {
+                    router.push('/')
+                }
+            } catch (error) {
+                throw error
+            }
+        },
 
-    // Prüfen, ob der Benutzer eingeloggt ist
-    checkAuth() {
-        const token = localStorage.getItem('authToken');
-        if (token) {
-            this.token = token;
-            this.isAuthenticated = true;
-            axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-            this.fetchUser();
+        async logout() {
+            try {
+                await axios.post('/logout')
+                this.user = null
+                this.isAuthenticated = false
+                localStorage.removeItem('user')
+                router.push('/login')
+            } catch (error) {
+                console.error('Logout failed:', error)
+            }
+        },
+
+        async checkAuth() {
+            try {
+                const response = await axios.get('/api/user/current')
+                this.user = response.data
+                this.isAuthenticated = true
+                localStorage.setItem('user', JSON.stringify(response.data))
+            } catch (error) {
+                this.user = null
+                this.isAuthenticated = false
+                localStorage.removeItem('user')
+                if (router.currentRoute.value.meta.requiresAuth) {
+                    router.push('/login')
+                }
+            }
+        },
+
+        initializeAuth() {
+            const user = localStorage.getItem('user')
+            if (user) {
+                this.user = JSON.parse(user)
+                this.isAuthenticated = true
+            }
         }
     }
-});
+})
