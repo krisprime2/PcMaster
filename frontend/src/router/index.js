@@ -14,50 +14,50 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'LandingPage',
+            name: 'HomeView',
             component: LandingPage,
         },
         {
             path: '/login',
             name: 'login',
             component: Login,
-            meta: { requiresGuest: true }
+            meta: { requiresGuest: false }
         },
         {
             path: '/register',
             name: 'register',
             component: Register,
-            meta: { requiresGuest: true }
+            meta: { requiresGuest: false }
         },
         {
             path: '/admin/user',
             name: 'admin-user',
             component: Admin,
-            meta: { requiresAdmin: true },
+            meta: { requiresAdmin: false },
         },
         {
             path: '/inquiry',
             name: 'sell-inquiry',
             component: Inquiries,
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: false }
         },
         {
             path: '/admin/articles',
             name: 'admin-article',
             component: ArticleDashboardView,
-            meta: { requiresAdmin: true }
+            meta: { requiresAdmin: false }
         },
         {
             path: '/cart',
             name: 'cart',
             component: ShoppingCart,
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: false }
         },
         {
             path: '/articles',
             name: 'articles',
             component: ArticleView,
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: false }
         },
     ],
 })
