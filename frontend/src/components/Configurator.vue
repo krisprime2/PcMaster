@@ -90,7 +90,7 @@
                     color="primary"
                     @click.stop="selectComponent(component)"
                 >
-                  SELECT
+                  {{ isSelected(component) ? 'DESELECT' : 'SELECT' }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -122,34 +122,86 @@
         <!-- Configuration Summary -->
         <v-row v-if="hasSelectedComponents" class="mt-6">
           <v-col cols="12">
-            <v-card dark>
-              <v-card-title>Configuration Summary</v-card-title>
-              <v-card-text>
-                <v-list dark>
-                  <template v-for="(component, typeId) in selectedComponents" :key="typeId">
-                    <v-list-item v-if="component">
-                      <v-list-item-content>
-                        <v-list-item-title>{{ getTypeNameById(typeId) }}</v-list-item-title>
-                        <v-list-item-subtitle>{{ component.name }}</v-list-item-subtitle>
-                      </v-list-item-content>
-                      <v-list-item-action>
-                        €{{ component.price }}
-                      </v-list-item-action>
-                    </v-list-item>
-                  </template>
-                </v-list>
-                <div class="text-h5 mt-4">Total: €{{ totalPrice }}</div>
-              </v-card-text>
-              <v-card-actions>
+            <v-card dark elevation="4" class="summary-card">
+              <v-card-title class="headline">
+                Deine Konfiguration
                 <v-spacer></v-spacer>
-                <v-btn
-                    color="primary"
-                    @click="saveConfiguration"
-                    :disabled="!isConfigurationComplete"
-                >
-                  SAVE & GET QUOTE
-                </v-btn>
-              </v-card-actions>
+                <div class="text-h4 orange--text">
+                  €{{ totalPrice }}
+                </div>
+              </v-card-title>
+
+              <v-divider class="mx-4"></v-divider>
+
+              <v-card-text>
+                <v-row>
+                  <v-col cols="12" md="8">
+                    <div class="selected-components">
+                      <template v-for="(component, typeId) in selectedComponents" :key="typeId">
+                        <v-sheet
+                            v-if="component"
+                            class="component-summary pa-4 mb-3"
+                            rounded
+                            elevation="2"
+                        >
+                          <div class="d-flex align-center">
+                            <v-avatar
+                                size="50"
+                                class="mr-4"
+                                :color="'grey darken-3'"
+                            >
+                              <v-icon size="24">{{ getTypeIcon(typeId) }}</v-icon>
+                            </v-avatar>
+                            <div class="flex-grow-1">
+                              <div class="subtitle-1 grey--text text--lighten-1">
+                                {{ getTypeNameById(typeId) }}
+                              </div>
+                              <div class="title">{{ component.name }}</div>
+                            </div>
+                            <div class="text-h6">
+                              €{{ component.price }}
+                            </div>
+                          </div>
+                        </v-sheet>
+                      </template>
+                    </div>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-card class="summary-details" outlined>
+                      <v-card-text>
+                        <div class="text-subtitle-1 mb-2">Zusammenfassung</div>
+                        <div class="d-flex justify-space-between mb-2">
+                          <span class="grey--text">Komponenten</span>
+                          <span>{{ Object.values(selectedComponents).filter(c => c).length }}</span>
+                        </div>
+                        <div class="d-flex justify-space-between mb-2">
+                          <span class="grey--text">Durchschnittspreis</span>
+                          <span>€{{ (totalPrice / Object.values(selectedComponents).filter(c => c).length).toFixed(2) }}</span>
+                        </div>
+                        <v-divider class="my-3"></v-divider>
+                        <div class="d-flex justify-space-between text-h6">
+                          <strong>Gesamtpreis</strong>
+                          <strong class="orange--text">€{{ totalPrice }}</strong>
+                        </div>
+                      </v-card-text>
+                    </v-card>
+
+                    <v-btn
+                        color="orange"
+                        x-large
+                        block
+                        class="mt-4"
+                        elevation="2"
+                        @click="saveConfiguration"
+                        :disabled="!isConfigurationComplete"
+                    >
+                      <v-icon left>mdi-content-save</v-icon>
+                      Konfiguration speichern
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
@@ -343,11 +395,13 @@ export default {
     },
 
     selectComponent(component) {
-      // Vue 3 reactive assignment
-      this.selectedComponents[this.currentType] = {...component};
-      this.nextType();
+      if (this.selectedComponents[this.currentType] === component) {
+        this.selectedComponents[this.currentType] = null;
+      }
+      else {
+        this.selectedComponents[this.currentType] = component;
+      }
     },
-
     showDetails(component) {
       this.selectedDetails = component;
       this.detailsDialog = true;
@@ -404,6 +458,119 @@ export default {
 </script>
 
 <style scoped>
+.banner-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.banner-card {
+  background: linear-gradient(135deg, #232730 0%, #1a1d24 100%) !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.banner-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.circuit-line-1, .circuit-line-2 {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, #FF9800, transparent);
+  height: 2px;
+  width: 150px;
+}
+
+.circuit-line-1 {
+  top: 30%;
+  right: 15%;
+  transform: rotate(-45deg);
+  animation: moveLine 8s infinite;
+}
+
+.circuit-line-2 {
+  bottom: 40%;
+  left: 20%;
+  transform: rotate(30deg);
+  animation: moveLine 10s infinite reverse;
+}
+
+.circuit-dot-1, .circuit-dot-2 {
+  position: absolute;
+  background: #FF9800;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.circuit-dot-1 {
+  width: 30px;
+  height: 30px;
+  top: 25%;
+  right: 25%;
+  animation: pulse 4s infinite;
+}
+
+.circuit-dot-2 {
+  width: 20px;
+  height: 20px;
+  bottom: 30%;
+  left: 35%;
+  animation: pulse 6s infinite;
+}
+
+@keyframes moveLine {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) rotate(-45deg);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) rotate(-45deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+}
+
+.summary-card {
+  background-color: #2A2E35 !important;
+  border-radius: 12px;
+}
+
+.component-summary {
+  background-color: #232730 !important;
+  transition: transform 0.2s ease;
+}
+
+.component-summary:hover {
+  transform: translateX(8px);
+}
+
+.summary-details {
+  background-color: #232730 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
 .configurator-container {
   background-color: #1E1E1E;
   min-height: 100vh;

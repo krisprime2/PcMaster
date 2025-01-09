@@ -1,4 +1,3 @@
-//src/components/Register.vue
 <template>
   <v-container fluid class="fill-height register-page">
     <v-row align="center" justify="center">
@@ -8,42 +7,67 @@
             <h1 class="text-h4 mb-4 white--text">Register</h1>
             <p class="text-subtitle-1 mb-6 grey--text">Create your PC-Shop account</p>
 
-            <v-form @submit.prevent="handleRegister" ref="form">
+            <v-form ref="form" @submit.prevent="handleRegister">
+              <!-- Required Fields -->
               <v-text-field
-                  v-model="form.username"
-                  label="Username"
+                  v-model="formData.name"
+                  label="Name"
                   required
                   dark
                   color="red darken-1"
-                  :error-messages="error ? [error] : []"
+                  :error-messages="errorMessage ? [errorMessage] : []"
+                  :rules="[v => !!v || 'Name is required']"
               ></v-text-field>
 
               <v-text-field
-                  v-model="form.email"
+                  v-model="formData.email"
                   label="Email Address"
                   required
                   type="email"
                   dark
                   color="red darken-1"
+                  :rules="[
+                    v => !!v || 'Email is required',
+                    v => /.+@.+\..+/.test(v) || 'Email must be valid'
+                  ]"
               ></v-text-field>
 
               <v-text-field
-                  v-model="form.password"
+                  v-model="formData.password"
                   label="Password"
                   required
                   type="password"
                   dark
                   color="red darken-1"
+                  :rules="[v => !!v || 'Password is required']"
               ></v-text-field>
 
               <v-text-field
-                  v-model="form.confirmPassword"
+                  v-model="confirmPassword"
                   label="Confirm Password"
                   required
                   type="password"
                   dark
                   color="red darken-1"
-                  @keyup.enter="handleRegister"
+                  :rules="[
+                    v => !!v || 'Confirm password is required',
+                    v => v === formData.password || 'Passwords must match'
+                  ]"
+              ></v-text-field>
+
+              <!-- Optional Basic Info -->
+              <v-text-field
+                  v-model="formData.firstName"
+                  label="First Name (Optional)"
+                  dark
+                  color="red darken-1"
+              ></v-text-field>
+
+              <v-text-field
+                  v-model="formData.lastName"
+                  label="Last Name (Optional)"
+                  dark
+                  color="red darken-1"
               ></v-text-field>
 
               <v-btn
@@ -53,9 +77,9 @@
                   large
                   class="mt-4"
                   type="submit"
-                  :loading="loading"
+                  :loading="isLoading"
               >
-                {{ loading ? "Creating Account..." : "Create Account" }}
+                {{ isLoading ? "Creating Account..." : "Create Account" }}
               </v-btn>
             </v-form>
 
@@ -75,43 +99,52 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { useAuthStore } from '@/store/auth'
+import {ref, reactive} from 'vue';
+import {useAuthStore} from '@/store/auth';
+import {useRouter} from 'vue-router';
 
-const form = reactive({
-  username: '',
+const router = useRouter();
+const authStore = useAuthStore();
+const form = ref(null);
+const isLoading = ref(false);
+const errorMessage = ref('');
+const confirmPassword = ref('');
+
+const formData = reactive({
+  name: '',
   email: '',
   password: '',
-  confirmPassword: ''
-})
-
-const loading = ref(false)
-const error = ref('')
-const authStore = useAuthStore()
+  firstName: '',
+  lastName: ''
+});
 
 async function handleRegister() {
-  if (!form.username || !form.email || !form.password || !form.confirmPassword) {
-    error.value = 'Please fill in all fields'
-    return
+  const {valid} = await form.value.validate();
+
+  if (!valid) {
+    return;
   }
 
-  if (form.password !== form.confirmPassword) {
-    error.value = 'Passwords do not match'
-    return
+  if (formData.password !== confirmPassword.value) {
+    errorMessage.value = 'Passwords do not match';
+    return;
   }
 
   try {
-    loading.value = true
-    error.value = ''
-    await authStore.register({
-      username: form.username,
-      email: form.email,
-      password: form.password
-    })
+    isLoading.value = true;
+    errorMessage.value = '';
+
+    const result = await authStore.register(formData);
+    console.log(result)
+    if (result.success) {
+      router.push('/articles');
+    } else {
+      errorMessage.value = result.message;
+    }
   } catch (err) {
-    error.value = err.response?.data?.message || 'Registration failed'
+    errorMessage.value = err.response?.data?.message || 'hier ist der fehler';
   } finally {
-    loading.value = false
+    isLoading.value = false;
   }
 }
 </script>
@@ -128,15 +161,15 @@ async function handleRegister() {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
-.v-text-field >>> .v-input__slot {
+.v-text-field :deep(.v-input__slot) {
   background-color: #2A2E35 !important;
 }
 
-.v-text-field >>> .v-label {
+.v-text-field :deep(.v-label) {
   color: #fff !important;
 }
 
-.v-text-field >>> input {
+.v-text-field :deep(input) {
   color: #fff !important;
 }
 </style>

@@ -34,7 +34,7 @@ const router = createRouter({
             path: '/admin/user',
             name: 'admin-user',
             component: Admin,
-            meta: { requiresAdmin: false },
+            meta: { requiresAdmin: true },
         },
         {
             path: '/inquiry',
@@ -46,13 +46,13 @@ const router = createRouter({
             path: '/admin/articles',
             name: 'admin-article',
             component: ArticleDashboardView,
-            meta: { requiresAdmin: false }
+            meta: { requiresAdmin: true }
         },
         {
             path: '/cart',
             name: 'cart',
             component: ShoppingCart,
-            meta: { requiresAuth: false }
+            meta: { requiresAuth: true }
         },
         {
             path: '/articles',
@@ -63,31 +63,37 @@ const router = createRouter({
             path: '/config',
             name: 'configurator',
             component: Configurator,
-            meta: { requiresAuth: false }
+            meta: { requiresAuth: true }
         },
     ],
 })
 
-router.beforeEach((to, from, next) => {
-    const authStore = useAuthStore()
+router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore();
 
-    console.log('Auth state:', {
-        isAuthenticated: authStore.isAuthenticated,
-        user: authStore.user
-    }) // Add this for debugging
+    // Wait for auth to initialize if it hasn't already
+    if (!authStore.isInitialized) {
+        await authStore.initializeAuth();
+    }
 
+    // Handle routes requiring admin access
+    if (to.meta.requiresAdmin && (!authStore.isAuthenticated || authStore.user?.role !== 'ADMIN')) {
+        next('/'); // Redirect to home if not admin
+        return;
+    }
+
+    // Handle routes requiring authentication
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-        next('/login')
+        next('/login');
+        return;
     }
-    else if (to.meta.requiresAdmin && !authStore.isAdmin) {
-        next('/')
-    }
-    else if (to.meta.requiresGuest && authStore.isAuthenticated) {
-        next('/')
-    }
-    else {
-        next()
-    }
-});
 
+    // Handle routes requiring guest access (optional)
+    if (to.meta.requiresGuest && authStore.isAuthenticated) {
+        next('/');
+        return;
+    }
+
+    next();
+});
 export default router

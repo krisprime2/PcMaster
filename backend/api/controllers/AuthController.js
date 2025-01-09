@@ -1,106 +1,103 @@
-// api/controllers/AuthController.js
-const { ADMIN, USER } = require('../constants/Roles');
+const {ACTIVE} = require("../constants/Status");
+const {USER} = require("../constants/Roles");
 
 module.exports = {
   login: async function(req, res) {
     try {
-      const { email, password } = req.body;
+      const {email, password} = req.allParams();
 
+      sails.log(email,password)
       if (!email || !password) {
-        return res.badRequest({ message: 'Email and password are required' });
+        return res.badRequest({message: 'Email und Passwort sind erforderlich.'});
       }
 
-      const user = await User.findOne({ email: email.toLowerCase() });
-
+      const user = await User.findOne({ email: email });
       if (!user) {
-        return res.notFound({ message: 'User not found' });
+        return res.status(401).json({message: 'Benutzer nicht gefunden.'});
       }
 
-      await sails.helpers.passwords.checkPassword(password, user.password)
-        .intercept('incorrect', () => {
-          return res.badRequest({ message: 'Invalid credentials' });
-        });
+      try {
 
-      // Set session
+        await sails.helpers.passwords.checkPassword.with({
+          password: password,
+          hashedPassword: user.password
+        });
+      } catch (err) {
+        return res.status(401).json({message: 'Falsches Passwort.'});
+      }
+
       req.session.userId = user.id;
       req.session.user = user;
 
-      return res.ok({
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role
-        }
+      const userResponse = {...user};
+
+      return res.json({
+        message: 'Login erfolgreich',
+        user: userResponse
       });
-    } catch (error) {
-      return res.serverError(error);
+    } catch (err) {
+      return res.serverError({message: 'Login fehlgeschlagen', error: err});
     }
   },
 
   register: async function(req, res) {
     try {
-      const { name, email, password } = req.body;
+      const params = req.allParams();
 
-      if (!name || !email || !password) {
-        return res.badRequest({ message: 'All fields are required' });
+      if (!params.name || !params.email || !params.password) {
+        return res.badRequest({message: 'Name, Email und Password sind erforderlich.'});
       }
 
-      const existingUser = await User.findOne({ email: email.toLowerCase() });
+      sails.log(params.name,params.email,params.password)
+      const existingUser = await User.findOne({ email: params.email });
       if (existingUser) {
-        return res.status(409).json({ message: 'Email already in use' });
+        return res.status(400).json({message: 'Diese Email wird bereits verwendet.'});
       }
 
-      const hashedPassword = await sails.helpers.hashPassword(password);
+      const hashedPassword = await sails.helpers.passwords.hashPassword.with({
+        password: params.password
+      });
 
       const user = await User.create({
-        name,
-        email: email.toLowerCase(),
+        name: params.name,
+        email: params.email,
         password: hashedPassword,
+        status: ACTIVE,
         role: USER,
-        status: 1
       }).fetch();
 
       req.session.userId = user.id;
       req.session.user = user;
 
-      return res.ok({
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role
-        }
+      const userResponse = {...user};
+
+      return res.status(201).json({
+        message: 'Registrierung erfolgreich',
+        user: userResponse
       });
-    } catch (error) {
-      return res.serverError(error);
+    } catch (err) {
+      return res.serverError({message: 'Registrierung fehlgeschlagen', error: err});
     }
   },
 
   logout: async function(req, res) {
     req.session.destroy();
-    return res.ok();
+    return res.json({message: 'Logout erfolgreich'});
   },
 
   checkAuth: async function(req, res) {
-    try {
-      if (!req.session || !req.session.userId) {
-        return res.status(401).json({ error: 'Not authenticated' });
-      }
-
+    if (req.session && req.session.userId) {
       const user = await User.findOne({ id: req.session.userId });
-      if (!user) {
-        return res.status(401).json({ error: 'User not found' });
+      if (user) {
+        return res.json({
+          isAuthenticated: true,
+          user: user
+        });
       }
-
-      return res.json({
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role
-      });
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
     }
+    return res.status(401).json({
+      isAuthenticated: false,
+      user: null
+    });
   }
 };

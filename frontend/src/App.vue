@@ -1,9 +1,17 @@
 <script setup>
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import {useAuthStore} from "@/store/auth.js";
+import {onMounted} from "vue";
+
+const authStore = useAuthStore();
+
+onMounted(async () => {
+  await authStore.initializeAuth();
+});
 </script>
 
-<template>
+<template v-if="authStore.isInitialized">
   <Navbar/>
   <main>
     <router-view />

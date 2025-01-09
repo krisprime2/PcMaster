@@ -68,10 +68,10 @@ module.exports.routes = {
   'PATCH /api/configurations/:id': 'ConfigurationController.update',
   'DELETE /api/configurations/:id': 'ConfigurationController.delete',
 
-  'POST /login': 'AuthController.login',
-  'POST /register': 'AuthController.register',
-  'POST /logout': 'AuthController.logout',
-  'GET /api/user/current': 'AuthController.checkAuth'
+  'POST /api/auth/login': 'AuthController.login',
+  'POST /api/auth/register': 'AuthController.register',
+  'POST /api/auth/logout': 'AuthController.logout',
+  'GET /api/auth/check': 'AuthController.checkAuth',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

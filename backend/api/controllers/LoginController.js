@@ -49,12 +49,16 @@ module.exports = {
         return res.badRequest({ message: 'Name, E-Mail und Passwort sind erforderlich.' });
       }
 
+      sails.log(name,email,password)
+
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.status(409).json({ message: 'Ein Konto mit dieser E-Mail-Adresse existiert bereits.' }).message;
       }
 
-      const hashedPassword = await sails.helpers.hashPassword(password);
+      sails.log(existingUser.userId)
+
+      const hashedPassword = await sails.helpers.passwords.hashPassword(password);
       const user = await User.create({
         name,
         email,
@@ -63,7 +67,6 @@ module.exports = {
         status: 1,
       })
         .intercept('E_UNIQUE', 'emailAlreadyInUse')
-        .intercept({ name: 'UsageError' }, 'invalid')
         .fetch();
 
       req.session.userId = user.id;

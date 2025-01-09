@@ -21,7 +21,7 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
-    const hashedPassword = await bcrypt.hash(inputs.password, 10); // Standardmäßig Salt-Rounds = 10
+    const hashedPassword = await bcrypt.hash(inputs.password,10); // Standardmäßig Salt-Rounds = 10
     return exits.success(hashedPassword);
   },
 };

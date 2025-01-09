@@ -1,6 +1,22 @@
 <script setup>
 import { onMounted } from 'vue'
 import * as bootstrap from 'bootstrap'
+import { useAuthStore } from '../store/auth'
+
+const authStore = useAuthStore()
+
+onMounted(() => {
+  // Initialize all dropdowns
+  const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
+  const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
+})
+
+const handleLogout = async () => {
+  const result = await authStore.logout()
+  if (result.success) {
+    window.location.href = '/'
+  }
+}
 </script>
 
 <template>
@@ -19,6 +35,7 @@ import * as bootstrap from 'bootstrap'
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -33,7 +50,7 @@ import * as bootstrap from 'bootstrap'
           <li class="nav-item">
             <router-link class="nav-link" to="/inquiry">Gerät verkaufen</router-link>
           </li>
-          <li class="nav-item dropdown">
+          <li v-if="authStore.isAuthenticated" class="nav-item dropdown">
             <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -56,12 +73,22 @@ import * as bootstrap from 'bootstrap'
         </ul>
 
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item me-2">
-            <router-link class="btn btn-outline-light" to="/login">Login</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="btn btn-outline-light" to="/register">Registrieren</router-link>
-          </li>
+          <template v-if="!authStore.isAuthenticated">
+            <li class="nav-item me-2">
+              <router-link class="btn btn-outline-light" to="/login">Login</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="btn btn-outline-light" to="/register">Registrieren</router-link>
+            </li>
+          </template>
+          <template v-else>
+            <li class="nav-item">
+              <span class="nav-link me-3">Welcome, {{ authStore.user?.name }}</span>
+            </li>
+            <li class="nav-item">
+              <button @click="handleLogout" class="btn btn-outline-light">Logout</button>
+            </li>
+          </template>
         </ul>
       </div>
     </div>
@@ -78,7 +105,7 @@ import * as bootstrap from 'bootstrap'
 }
 
 .nav-link {
-  color: rgba(255,255,255,0.7) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .nav-link:hover {
@@ -88,11 +115,11 @@ import * as bootstrap from 'bootstrap'
 /* Buttons */
 .btn-outline-light {
   color: #ffffff;
-  border-color: rgba(255,255,255,0.5);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .btn-outline-light:hover {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Dropdown-Styling */
@@ -102,11 +129,11 @@ import * as bootstrap from 'bootstrap'
 }
 
 .dropdown-item {
-  color: rgba(255,255,255,0.7) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .dropdown-item:hover {
   color: #ffffff !important;
-  background-color: rgba(255,255,255,0.1) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 </style>

@@ -12,6 +12,7 @@ import {createPinia} from "pinia";
 import {useAuthStore} from "@/store/auth.js";
 
 axios.defaults.baseURL = 'http://localhost:1337'; // API-Base-URL
+axios.defaults.withCredentials = true;
 
 const vuetify = createVuetify({
     components,
@@ -37,6 +38,5 @@ app.use(router)
 app.use(pinia)
 
 const authStore = useAuthStore()
-await authStore.checkAuth()
 
 app.mount('#app')

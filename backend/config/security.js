@@ -32,8 +32,7 @@ module.exports.security = {
     allRoutes: true,
     allowOrigins: ['http://localhost:5173'],
     allowCredentials: true,
-    allowRequestMethods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-    allowRequestHeaders: 'content-type'
+    allowRequestHeaders: 'content-type,authorization'
   }
 
 

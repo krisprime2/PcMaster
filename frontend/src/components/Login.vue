@@ -16,7 +16,7 @@
                     type="email"
                     dark
                     color="red darken-1"
-                    :error-messages="error ? [error] : []"
+                    :error-messages="errorMessage ? [errorMessage] : []"
                     class="centered-text-field"
                 ></v-text-field>
               </div>
@@ -41,9 +41,9 @@
                   large
                   class="mt-4"
                   type="submit"
-                  :loading="loading"
+                  :loading="isLoading"
               >
-                {{ loading ? "Signing in..." : "Sign in" }}
+                {{ isLoading ? "Signing in..." : "Sign in" }}
               </v-btn>
             </v-form>
 
@@ -63,32 +63,39 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useAuthStore } from '@/store/auth'
+import {ref} from 'vue';
+import {useAuthStore} from '@/store/auth';
+import {useRouter} from 'vue-router';
 
-const email = ref('')
-const password = ref('')
-const loading = ref(false)
-const error = ref('')
-const authStore = useAuthStore()
+const router = useRouter();
+const authStore = useAuthStore();
+
+const email = ref('');
+const password = ref('');
+const isLoading = ref(false);
+const errorMessage = ref('');
 
 async function handleLogin() {
   if (!email.value || !password.value) {
-    error.value = 'Please fill in all fields'
-    return
+    errorMessage.value = 'Bitte füllen Sie alle Felder aus';
+    return;
   }
 
   try {
-    loading.value = true
-    error.value = ''
-    await authStore.login({
-      email: email.value,
-      password: password.value
-    })
-  } catch (err) {
-    error.value = err.response?.data?.message || 'Login failed'
+    isLoading.value = true;
+    errorMessage.value = '';
+
+    const result = await authStore.login(email.value, password.value);
+
+    if (result.success) {
+      router.push('/articles'); // oder wohin auch immer nach dem Login navigiert werden soll
+    } else {
+      errorMessage.value = result.message;
+    }
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || 'Login fehlgeschlagen';
   } finally {
-    loading.value = false
+    isLoading.value = false;
   }
 }
 </script>
