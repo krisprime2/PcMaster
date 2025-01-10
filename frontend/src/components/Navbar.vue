@@ -45,7 +45,7 @@ const handleLogout = async () => {
             <router-link class="nav-link" to="/articles">Artikel</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/cart">Warenkorb</router-link>
+            <router-link class="nav-link" to="/config">PC Konfigurator</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/inquiry">Gerät verkaufen</router-link>
@@ -89,6 +89,17 @@ const handleLogout = async () => {
               <button @click="handleLogout" class="btn btn-outline-light">Logout</button>
             </li>
           </template>
+          <li class="nav-item me-3">
+            <router-link to="/cart" class="nav-link d-flex align-items-center">
+              <v-icon
+                  color="white"
+                  class="me-2 ms-3"
+                  style="font-size: 24px;"
+              >
+                mdi-cart
+              </v-icon>
+            </router-link>
+          </li>
         </ul>
       </div>
     </div>

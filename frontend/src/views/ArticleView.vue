@@ -141,6 +141,17 @@
         </v-row>
       </v-container>
     </v-main>
+    <v-snackbar
+        v-model="snackbar.visible"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+        elevation="2"
+    >
+      {{ snackbar.message }}
+      <template #action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar.visible = false">OK</v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -149,6 +160,8 @@ const LAPTOP = 1;
 const DESKTOP_PC = 2;
 const REPLACEMENT_PART = 3;
 import axios from 'axios';
+
+
 
 export default {
   data() {
@@ -162,7 +175,13 @@ export default {
         {id: 'desktops', name: 'Desktop PCs', count: 0},
         {id: 'parts', name: 'Einzelteile', count: 0}
       ],
-      products: []
+      products: [],
+      snackbar: {
+        visible: false,
+        message: '',
+        color: 'success',
+        timeout: 3000,
+      },
     }
   },
 
@@ -189,6 +208,12 @@ export default {
   },
 
   methods: {
+    showSnackbar(message, color) {
+      this.snackbar.message = message;
+      this.snackbar.color = color;
+      this.snackbar.visible = true;
+    },
+
     getCategoryIcon(categoryId) {
       return {
         all: 'mdi-view-grid',
@@ -243,16 +268,10 @@ export default {
 
     async addToCart(product) {
       try {
-        await axios.post('/api/cart/add', {productId: product.id});
-        this.$emit('notify', {
-          type: 'success',
-          text: 'Produkt wurde zum Warenkorb hinzugefügt'
-        });
+        await axios.post('/api/cart/add', {product: product, quantity: 1});
+        this.showSnackbar('Produkt wurde zum Warenkorb hinzugefügt', 'success');
       } catch (error) {
-        this.$emit('notify', {
-          type: 'error',
-          text: 'Fehler beim Hinzufügen zum Warenkorb'
-        });
+        this.showSnackbar('Fehler beim Hinzufügen zum Warenkorb', 'error');
       }
     }
   },

@@ -119,8 +119,8 @@ export default {
       selectedLanguage: 'English',
       languages: ['English', 'Deutsch', 'Français'],
       legalLinks: [
-        { text: 'Privacy', route: '/privacy' },
-        { text: 'Terms', route: '/terms' },
+        { text: 'Datenschutzerklärung', route: '/privacy' },
+        { text: 'Urheberrecht', route: '/copyright' },
         { text: 'Sitemap', route: '/sitemap' },
       ],
     }

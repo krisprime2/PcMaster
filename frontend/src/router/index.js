@@ -9,6 +9,8 @@ import ShoppingCart from "@/components/ShoppingCart.vue"
 import ArticleView from "@/views/ArticleView.vue"
 import { useAuthStore } from '@/store/auth'
 import Configurator from "@/components/Configurator.vue";
+import PrivacyPolicy from "@/components/PrivacyPolicy.vue";
+import Copyright from "@/components/Copyright.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,7 +54,7 @@ const router = createRouter({
             path: '/cart',
             name: 'cart',
             component: ShoppingCart,
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: false }
         },
         {
             path: '/articles',
@@ -65,6 +67,18 @@ const router = createRouter({
             component: Configurator,
             meta: { requiresAuth: true }
         },
+        {
+            path: '/privacy',
+            name: 'privacy',
+            component: PrivacyPolicy,
+            meta: { requiresAuth: false }
+        },
+        {
+            path: '/copyright',
+            name: 'copyright',
+            component: Copyright,
+            meta: { requiresAuth: false }
+        },
     ],
 })
 
@@ -75,7 +89,6 @@ router.beforeEach(async (to, from, next) => {
     if (!authStore.isInitialized) {
         await authStore.initializeAuth();
     }
-
     // Handle routes requiring admin access
     if (to.meta.requiresAdmin && (!authStore.isAuthenticated || authStore.user?.role !== 'ADMIN')) {
         next('/'); // Redirect to home if not admin

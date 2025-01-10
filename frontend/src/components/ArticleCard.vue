@@ -29,7 +29,12 @@ export default {
       return `/api/placeholder/${id}/400/300`;
     },
     addToCart(product) {
-      // Implement add to cart functionality
+      console.log("added to cart");
+      cartStore.addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price
+      })
     }
   },
   filters: {
