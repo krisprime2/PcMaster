@@ -1,105 +1,116 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12">
-        <h1>Shopping Cart</h1>
-        <p v-if="cartItems.length === 0">Your cart is empty.</p>
-      </v-col>
-    </v-row>
-    <v-row v-if="cartItems.length > 0">
-      <v-col cols="12" v-for="item in cartItems" :key="item.id">
-        <v-card class="mb-4">
-          <v-row no-gutters>
-            <v-col cols="3">
-              <v-img :src="item.image || 'https://via.placeholder.com/150'" aspect-ratio="1"></v-img>
-            </v-col>
-            <v-col cols="9">
-              <v-card-title>{{ item.name }}</v-card-title>
-              <v-card-subtitle>{{ item.description }}</v-card-subtitle>
-              <v-card-text>
-                <div>Price: {{ formatPrice(item.price) }}</div>
-                <div>Quantity: {{ item.quantity }}</div>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn small color="error" @click="removeFromCart(item.id)">
-                  Remove
-                </v-btn>
-              </v-card-actions>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row v-if="cartItems.length > 0">
-      <v-col cols="12" class="text-right">
-        <h2>Total: {{ formatPrice(totalPrice) }}</h2>
-        <v-btn color="primary" @click="proceedToCheckout">Proceed to Checkout</v-btn>
-      </v-col>
-    </v-row>
+    <v-card class="pa-4">
+      <h1 class="text-h3 text-center my-6">Ihr Warenkorb</h1>
+      <v-data-table
+          :headers="headers"
+          :items="cart"
+          item-value="product.id"
+          class="elevation-1"
+          dense
+      >
+        <template #item.name="{ item }">
+          <div class="d-flex align-center">
+            <v-avatar class="me-2">
+              <v-img :src="item.product.image" alt="Product Image"></v-img>
+            </v-avatar>
+            <span>{{ item.product.name }}</span>
+          </div>
+        </template>
+
+        <template #item.price="{ item }">
+          {{ item.product.price.toFixed(2) }} €
+        </template>
+
+        <template #item.quantity="{ item }">
+          <v-text-field
+              v-model.number="item.quantity"
+              type="number"
+              min="1"
+              dense
+              hide-details
+              class="w-50"
+              @change="updateQuantity(item)"
+          ></v-text-field>
+        </template>
+
+        <template #item.total="{ item }">
+          {{ (item.product.price * item.quantity).toFixed(2) }} €
+        </template>
+
+        <template #item.actions="{ item }">
+          <v-icon
+              color="red darken-1"
+              clickable
+              @click="removeItem(item.product.id)"
+              title="Entfernen"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+
+        <template #no-data>
+          <div class="text-center py-6">
+            <h2 class="text-h5">Ihr Warenkorb ist leer</h2>
+          </div>
+        </template>
+      </v-data-table>
+
+      <v-divider class="my-4"></v-divider>
+
+      <div class="d-flex justify-space-between">
+        <h2 class="text-h6">Gesamt: {{ cartTotal.toFixed(2) }} €</h2>
+        <v-btn
+            color="green darken-1"
+            :disabled="cart.length === 0"
+            @click="checkout"
+        >
+          Zur Kasse
+        </v-btn>
+      </div>
+    </v-card>
   </v-container>
 </template>
 
-<script>
-import axios from 'axios';
+<script setup>
+import {ref, onMounted, computed} from 'vue';
+import axios from "axios";
 
-export default {
-  data() {
-    return {
-      cartItems: [],
-    };
-  },
-  computed: {
-    totalPrice() {
-      return this.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    },
-  },
-  methods: {
-    loadCartItems() {
-      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-      const itemIds = cart.map((item) => item.id);
-      console.log(itemIds)
-      axios
-          .post('http://localhost:1337/api/articles/by-ids', {ids: itemIds})
-          .then((response) => {
-            console.log(response)
-            const articles = response.data;
-            this.cartItems = cart.map((cartItem) => {
-              const article = articles.find((a) => a.id === cartItem.id);
-              return {
-                ...article,
-                quantity: cartItem.quantity,
-              };
-            });
-          })
-          .catch((error) => {
-            console.error('Error loading cart items:', error);
-          });
-    },
-    formatPrice(price) {
-      return new Intl.NumberFormat('de-DE', {
-        style: 'currency',
-        currency: 'EUR',
-      }).format(price);
-    },
-    removeFromCart(id) {
-      this.cartItems = this.cartItems.filter((item) => item.id !== id);
-      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-      const updatedCart = cart.filter((item) => item.id !== id);
-      sessionStorage.setItem('cart', JSON.stringify(updatedCart));
-    },
-    proceedToCheckout() {
-      this.$router.push('/checkout');
-    },
-  },
-  mounted() {
-    this.loadCartItems();
-  },
-};
+const cart = ref([]);
+const headers = [
+  { text: "Produkt", value: "name" },
+  { text: "Preis", value: "price", align: "end" },
+  { text: "Menge", value: "quantity", align: "center" },
+  { text: "Gesamt", value: "total", align: "end" },
+  { text: "Aktionen", value: "actions", align: "center" },
+];
+
+const cartTotal = computed(() =>
+    cart.value.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+);
+
+async function fetchCart() {
+  const response = await axios.get('/api/cart')
+  cart.value = response.data;
+}
+
+async function removeItem(productId) {
+  await axios.post(`/api/cart/remove`, { productId });
+  await fetchCart();
+}
+
+async function clearCart() {
+  await axios.post(`/api/cart/clear`)
+  await fetchCart();
+}
+
+onMounted(fetchCart);
 </script>
 
 <style scoped>
-h1 {
-  text-align: center;
-  margin-bottom: 1rem;
+/* Styling für die Produktbilder */
+.v-avatar {
+  width: 40px;
+  height: 40px;
 }
 </style>

@@ -72,6 +72,11 @@ module.exports.routes = {
   'POST /api/auth/register': 'AuthController.register',
   'POST /api/auth/logout': 'AuthController.logout',
   'GET /api/auth/check': 'AuthController.checkAuth',
+
+  'POST /api/cart/add': 'CartController.addItem',
+  'POST /api/cart/remove': 'CartController.removeItem',
+  'GET /api/cart': 'CartController.getCart',
+  'POST /api/cart/clear': 'CartController.clearCart',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
