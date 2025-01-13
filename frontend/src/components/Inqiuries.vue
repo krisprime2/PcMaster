@@ -107,6 +107,8 @@
       </v-row>
     </v-container>
 
+    <ArticleCarousel></ArticleCarousel>
+
     <!-- Contact Section -->
     <v-container class="contact-container">
       <v-row justify="center">
@@ -132,8 +134,12 @@
 <script>
 // Script remains the same as in your code
 import axios from 'axios';
+import ArticleCarousel from "@/components/ArticleCarousel.vue";
 
 export default {
+  components: {
+    ArticleCarousel
+  },
   name: 'DeviceForm',
   data: () => ({
     valid: false,
@@ -189,6 +195,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
