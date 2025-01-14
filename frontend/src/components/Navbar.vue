@@ -39,9 +39,6 @@ const handleLogout = async () => {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link" to="/">Startseite</router-link>
-          </li>
-          <li class="nav-item">
             <router-link class="nav-link" to="/articles">Artikel</router-link>
           </li>
           <li class="nav-item">
@@ -67,6 +64,9 @@ const handleLogout = async () => {
               </li>
               <li>
                 <router-link class="dropdown-item" to="/admin/articles">Artikel-Verwaltung</router-link>
+              </li>
+              <li>
+                <router-link class="dropdown-item" to="/admin/orders">Bestell-Verwaltung</router-link>
               </li>
             </ul>
           </li>

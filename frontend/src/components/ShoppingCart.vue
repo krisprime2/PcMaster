@@ -60,13 +60,14 @@
 
       <div class="d-flex justify-space-between">
         <h2 class="text-h6">Gesamt: {{ cartTotal.toFixed(2) }} €</h2>
-        <v-btn
-            color="green darken-1"
-            :disabled="cart.length === 0"
-            @click="checkout"
-        >
-          Zur Kasse
-        </v-btn>
+        <router-link to="/checkout">
+          <v-btn
+              color="green darken-1"
+              :disabled="cart.length === 0"
+          >
+            Zur Kasse
+          </v-btn>
+        </router-link>
       </div>
     </v-card>
   </v-container>

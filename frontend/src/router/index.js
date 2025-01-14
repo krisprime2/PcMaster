@@ -85,12 +85,12 @@ const router = createRouter({
             path: '/checkout',
             name: 'checkout',
             component: Checkout,
-            meta: { requiresAuth: false }
+            meta: { requiresAuth: true }
         },{
-            path: '/admin/order',
+            path: '/admin/orders',
             name: 'admin-order',
             component: OrderDashboardView,
-            meta: { requiresAuth: false }
+            meta: { requiresAdmin: true }
         },
     ],
 })
