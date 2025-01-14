@@ -7,6 +7,7 @@ module.exports = {
     price: { type: 'number', columnType: 'float' },
     name: { type: 'string' },
     description: { type: 'string' },
+    imageUrl: { type: 'string' },
 
     orders: {
       collection: 'order',

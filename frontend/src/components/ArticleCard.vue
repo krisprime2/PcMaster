@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     getPlaceholderImage(id) {
-      return `/api/placeholder/${id}/400/300`;
+      return `/public/img-about-us.jpg`;
     },
     addToCart(product) {
       console.log("added to cart");

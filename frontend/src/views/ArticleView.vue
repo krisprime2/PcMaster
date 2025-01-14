@@ -94,7 +94,7 @@
                       :elevation="hover ? 12 : 2"
                   >
                     <v-img
-                        :src="getProductImage(product.id)"
+                        :src="product.imageUrl"
                         height="220"
                         class="white--text align-end"
                         gradient="to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%"
@@ -239,8 +239,9 @@ export default {
       }[type] || 'Produkt';
     },
 
-    getProductImage(id) {
-      return `/api/placeholder/${id}/400/300`;
+    getProductImage(product) {
+      console.log(product.imageUrl);
+      return product.imageUrl;
     },
 
     async fetchProducts() {
