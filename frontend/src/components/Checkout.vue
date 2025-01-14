@@ -102,13 +102,15 @@
               <v-card-title class="text-h5">Order Summary</v-card-title>
               <v-card-text>
                 <v-list>
-                  <v-list-item v-for="item in cart" :key="item.product.id">
+                  <v-list-item v-for="item in cart" :key="item.item.id">
                     <v-list-item-content>
-                      <v-list-item-title>{{ item.product.name }}</v-list-item-title>
+                      <v-list-item-title>
+                        {{ item.type === 'configuration' ? 'PC Konfiguration' : item.item.name }}
+                      </v-list-item-title>
                       <v-list-item-subtitle>Quantity: {{ item.quantity }}</v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-action>
-                      {{ (item.product.price * item.quantity).toFixed(2) }}€
+                      {{ (item.item.price * item.quantity).toFixed(2) }}€
                     </v-list-item-action>
                   </v-list-item>
 
@@ -168,10 +170,9 @@ const shippingForm = ref({
   country: ''
 });
 
-// Calculate total price
 const totalPrice = computed(() => {
   return cart.value
-      .reduce((total, item) => total + item.product.price * item.quantity, 0)
+      .reduce((total, item) => total + item.item.price * item.quantity, 0)
       .toFixed(2);
 });
 
@@ -233,13 +234,18 @@ const submitOrder = async () => {
       firstName: shippingForm.value.firstName,
       lastName: shippingForm.value.lastName,
       street: shippingForm.value.street,
-      streetNumber: Number(shippingForm.value.streetNumber), // Konvertierung zu Number
+      streetNumber: Number(shippingForm.value.streetNumber),
       city: shippingForm.value.city,
-      postalNumber: Number(shippingForm.value.postalNumber), // Konvertierung zu Number
+      postalNumber: Number(shippingForm.value.postalNumber),
       country: shippingForm.value.country,
       user: userId,
-
-      articles: cart.value.map(item => item.product.id)
+      // Artikel bleiben als Array
+      articles: cart.value
+          .filter(item => item.type === 'article')
+          .map(item => item.item.id),
+      // Configuration wird als einzelne ID gesetzt
+      configuration: cart.value
+          .find(item => item.type === 'configuration')?.item.id || null
     };
 
     console.log(orderData)

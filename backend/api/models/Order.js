@@ -16,6 +16,10 @@ module.exports = {
       model: 'user',
     },
 
+    configuration: {
+      model: 'configuration',
+    },
+
     articles: {
       collection: 'article',
       via: 'orders',
