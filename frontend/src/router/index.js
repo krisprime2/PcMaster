@@ -90,7 +90,7 @@ router.beforeEach(async (to, from, next) => {
         await authStore.initializeAuth();
     }
     // Handle routes requiring admin access
-    if (to.meta.requiresAdmin && (!authStore.isAuthenticated || authStore.user?.role !== 'ADMIN')) {
+    if (to.meta.requiresAdmin && (!authStore.isAuthenticated || authStore.user?.role !== 1)) {
         next('/'); // Redirect to home if not admin
         return;
     }

@@ -50,7 +50,7 @@ const handleLogout = async () => {
           <li class="nav-item">
             <router-link class="nav-link" to="/inquiry">Gerät verkaufen</router-link>
           </li>
-          <li v-if="authStore.isAuthenticated" class="nav-item dropdown">
+          <li v-if="authStore.isAuthenticated && authStore.user?.role === 1" class="nav-item dropdown">
             <a
                 class="nav-link dropdown-toggle"
                 href="#"

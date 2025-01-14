@@ -1,236 +1,297 @@
 <template>
-  <v-container fluid class="configurator-container">
-    <!-- Progress bar -->
-    <v-row>
-      <v-col cols="12" class="py-8">
-        <div class="progress-container">
-          <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
+  <v-container fluid class="configurator-container pa-0">
+    <!-- Hero Banner -->
+    <v-sheet class="banner-wrapper mb-8">
+      <v-card flat class="banner-card pa-8">
+        <div class="banner-background">
+          <div class="circuit-line-1"></div>
+          <div class="circuit-line-2"></div>
+          <div class="circuit-dot-1"></div>
+          <div class="circuit-dot-2"></div>
         </div>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <!-- Left sidebar with component types -->
-      <v-col cols="2" class="component-sidebar">
-        <v-list dense dark>
-          <v-list-item
-              v-for="(type, index) in componentTypes"
-              :key="index"
-              @click="currentType = type.id"
-              :class="{
-              'selected-type': currentType === type.id,
-              'completed-type': selectedComponents[type.id] !== null
-            }"
-          >
-            <v-list-item-icon>
-              <v-icon>{{ getTypeIcon(type.id) }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ type.name }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-col>
-
-      <!-- Main content area -->
-      <v-col cols="10" class="component-content">
-        <v-row>
-          <v-col cols="12">
-            <h2 class="text-h5 mb-4 white--text">
-              {{ getCurrentTypeName }}
-            </h2>
+        <v-row align="center" justify="space-between">
+          <v-col cols="12" md="6">
+            <h1 class="text-h3 font-weight-bold mb-4">PC Konfigurator</h1>
+            <p class="text-h6 text-grey-lighten-1">
+              Stelle deinen perfekten PC zusammen
+            </p>
           </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col
-              v-for="component in getCurrentComponents"
-              :key="component.id"
-              cols="12"
-              sm="6"
-              md="4"
-              lg="3"
-          >
-            <v-card
-                dark
-                class="component-card"
-                :class="{ 'selected-card': isSelected(component) }"
-                @click="selectComponent(component)"
-            >
-              <v-img
-                  :src="getComponentImage(component)"
-                  height="200"
-                  contain
-                  class="grey darken-4"
-              ></v-img>
-
-              <v-card-title class="text-subtitle-1">
-                {{ component.name }}
-              </v-card-title>
-
-              <v-card-text>
-                <div class="text-h6 primary--text mb-2">
-                  €{{ component.price }}
-                </div>
-                <div class="text-caption">
-                  {{ component.description }}
-                </div>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-btn
-                    text
-                    color="primary"
-                    @click.stop="showDetails(component)"
-                >
-                  DETAILS
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn
-                    color="primary"
-                    @click.stop="selectComponent(component)"
-                >
-                  {{ isSelected(component) ? 'DESELECT' : 'SELECT' }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <!-- Navigation buttons -->
-        <v-row class="mt-4">
-          <v-col>
-            <v-btn
-                color="grey"
-                dark
-                @click="previousType"
-                :disabled="isFirstType"
-            >
-              BACK
-            </v-btn>
-            <v-btn
+          <v-col cols="12" md="6" class="d-flex justify-end">
+            <v-progress-linear
+                v-model="progressPercentage"
                 color="primary"
-                class="ml-4"
-                @click="nextType"
-                :disabled="!canContinue"
+                height="20"
+                rounded
+                striped
+                class="w-75"
             >
-              CONTINUE
-            </v-btn>
+              <template v-slot:default="{ value }">
+                <strong class="text-white">{{ Math.ceil(value) }}% Konfiguriert</strong>
+              </template>
+            </v-progress-linear>
           </v-col>
         </v-row>
+      </v-card>
+    </v-sheet>
 
-        <!-- Configuration Summary -->
-        <v-row v-if="hasSelectedComponents" class="mt-6">
-          <v-col cols="12">
-            <v-card dark elevation="4" class="summary-card">
-              <v-card-title class="headline">
-                Deine Konfiguration
-                <v-spacer></v-spacer>
-                <div class="text-h4 orange--text">
-                  €{{ totalPrice }}
-                </div>
-              </v-card-title>
+    <!-- Main Content -->
+    <v-row no-gutters>
+      <!-- Enhanced Sidebar -->
+      <v-col cols="12" md="3" lg="2">
+        <v-sheet class="component-sidebar h-100" rounded="lg">
+          <v-list bg-color="transparent">
+            <v-list-item
+                v-for="(type, index) in componentTypes"
+                :key="index"
+                :value="type"
+                :active="currentType === type.id"
+                @click="currentType = type.id"
+                class="mb-2"
+                rounded="lg"
+            >
+              <template v-slot:prepend>
+                <v-avatar
+                    :color="selectedComponents[type.id] ? 'primary' : 'grey-darken-3'"
+                    size="42"
+                >
+                  <v-icon :icon="getTypeIcon(type.id)" size="24"></v-icon>
+                </v-avatar>
+              </template>
 
-              <v-divider class="mx-4"></v-divider>
+              <v-list-item-title class="font-weight-medium">
+                {{ type.name }}
+              </v-list-item-title>
 
-              <v-card-text>
-                <v-row>
-                  <v-col cols="12" md="8">
-                    <div class="selected-components">
-                      <template v-for="(component, typeId) in selectedComponents" :key="typeId">
-                        <v-sheet
-                            v-if="component"
-                            class="component-summary pa-4 mb-3"
-                            rounded
-                            elevation="2"
-                        >
-                          <div class="d-flex align-center">
-                            <v-avatar
-                                size="50"
-                                class="mr-4"
-                                :color="'grey darken-3'"
-                            >
-                              <v-icon size="24">{{ getTypeIcon(typeId) }}</v-icon>
-                            </v-avatar>
-                            <div class="flex-grow-1">
-                              <div class="subtitle-1 grey--text text--lighten-1">
-                                {{ getTypeNameById(typeId) }}
-                              </div>
-                              <div class="title">{{ component.name }}</div>
-                            </div>
-                            <div class="text-h6">
-                              €{{ component.price }}
-                            </div>
-                          </div>
-                        </v-sheet>
-                      </template>
-                    </div>
-                  </v-col>
+              <template v-slot:append>
+                <v-icon
+                    v-if="selectedComponents[type.id]"
+                    color="success"
+                    icon="mdi-check-circle"
+                ></v-icon>
+              </template>
+            </v-list-item>
+            <v-divider class="my-4"></v-divider>
 
-                  <v-col cols="12" md="4">
-                    <v-card class="summary-details" outlined>
-                      <v-card-text>
-                        <div class="text-subtitle-1 mb-2">Zusammenfassung</div>
-                        <div class="d-flex justify-space-between mb-2">
-                          <span class="grey--text">Komponenten</span>
-                          <span>{{ Object.values(selectedComponents).filter(c => c).length }}</span>
-                        </div>
-                        <div class="d-flex justify-space-between mb-2">
-                          <span class="grey--text">Durchschnittspreis</span>
-                          <span>€{{ (totalPrice / Object.values(selectedComponents).filter(c => c).length).toFixed(2) }}</span>
-                        </div>
-                        <v-divider class="my-3"></v-divider>
-                        <div class="d-flex justify-space-between text-h6">
-                          <strong>Gesamtpreis</strong>
-                          <strong class="orange--text">€{{ totalPrice }}</strong>
-                        </div>
-                      </v-card-text>
-                    </v-card>
+            <div class="px-4 pb-4">
+              <v-btn
+                  block
+                  variant="tonal"
+                  :disabled="isFirstType"
+                  @click="previousType"
+                  class="mb-2"
+              >
+                <v-icon start>mdi-arrow-left</v-icon>
+                Previous
+              </v-btn>
 
-                    <v-btn
-                        color="orange"
-                        x-large
-                        block
-                        class="mt-4"
-                        elevation="2"
-                        @click="saveConfiguration"
-                        :disabled="!isConfigurationComplete"
+              <v-btn
+                  block
+                  color="primary"
+                  :disabled="!canContinue"
+                  @click="nextType"
+              >
+                Next
+                <v-icon end>mdi-arrow-right</v-icon>
+              </v-btn>
+            </div>
+          </v-list>
+        </v-sheet>
+      </v-col>
+
+      <!-- Enhanced Main Content -->
+      <v-col cols="12" md="9" lg="10">
+        <v-container>
+          <!-- Component Grid -->
+          <v-row>
+            <v-col
+                v-for="component in getCurrentComponents"
+                :key="component.id"
+                cols="12"
+                sm="6"
+                md="4"
+                lg="3"
+            >
+              <v-hover v-slot="{ isHovering, props }">
+                <v-card
+                    v-bind="props"
+                    :elevation="isHovering ? 8 : 2"
+                    :class="[
+                    'component-card',
+                    { 'selected-card': isSelected(component) }
+                  ]"
+                    @click="selectComponent(component)"
+                >
+                  <v-img
+                      :src="getComponentImage(component)"
+                      height="200"
+                      cover
+                      class="bg-grey-darken-4"
+                  >
+                    <template v-slot:placeholder>
+                      <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                      >
+                        <v-progress-circular
+                            indeterminate
+                            color="primary"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+
+                  <v-card-title class="pt-4">
+                    {{ component.name }}
+                    <v-chip
+                        v-if="isSelected(component)"
+                        color="success"
+                        size="small"
+                        class="ml-2"
                     >
-                      <v-icon left>mdi-content-save</v-icon>
-                      Konfiguration speichern
+                      Selected
+                    </v-chip>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <div class="text-h6 primary--text mb-2">
+                      €{{ component.price.toFixed(2) }}
+                    </div>
+                    <div class="text-body-2 text-grey">
+                      {{ component.description }}
+                    </div>
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions class="pa-4">
+                    <v-btn
+                        variant="text"
+                        color="primary"
+                        @click.stop="showDetails(component)"
+                    >
+                      Details
                     </v-btn>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        :color="isSelected(component) ? 'error' : 'primary'"
+                        variant="tonal"
+                        @click.stop="selectComponent(component)"
+                    >
+                      {{ isSelected(component) ? 'Remove' : 'Select' }}
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
+
+          <!-- Navigation and Summary -->
+          <v-row class="mt-8">
+            <v-col cols="12" md="8">
+              <v-card class="summary-card">
+                <v-card-title class="text-h5 px-6 py-4">
+                  Selected Components
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text class="pa-4">
+                  <v-timeline density="compact" align="start">
+                    <template v-for="(type) in componentTypes" :key="type.id">
+                      <v-timeline-item
+                          v-if="selectedComponents[type.id]"
+                          :dot-color="'primary'"
+                          size="small"
+                      >
+                        <div class="d-flex align-center justify-space-between">
+                            <div>
+                              <div class="text-caption text-grey mb-1">
+                                {{ type.name }}
+                              </div>
+                              <div class="d-flex align-center justify-space-between">
+                                <div class="text-subtitle-1 font-weight-medium">
+                                  {{ selectedComponents[type.id].name }}
+                                </div>
+                                <div class="text-subtitle-1 primary--text ps-4">
+                                  €{{ selectedComponents[type.id].price.toFixed(2) }}
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+
+                      </v-timeline-item>
+                    </template>
+                  </v-timeline>
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <v-card class="summary-total-card">
+                <v-card-text class="pa-6">
+                  <div class="text-h6 mb-4 text-center">Konfigurations Zusammenfassung</div>
+                  <v-divider class="my-4"></v-divider>
+                  <div class="d-flex justify-space-between align-center">
+                    <span class="text-h5">Total</span>
+                    <span class="text-h4 primary--text">€{{ totalPrice.toFixed(2) }}</span>
+                  </div>
+
+                  <v-btn
+                      block
+                      color="primary"
+                      size="large"
+                      class="mt-6"
+                      :disabled="!isConfigurationComplete"
+                      @click="saveConfiguration"
+                  >
+                    <v-icon start>mdi-check-circle</v-icon>
+                    Complete Configuration
+                  </v-btn>
+                </v-card-text>
+              </v-card>
+
+              <!-- Navigation Buttons -->
+
+            </v-col>
+          </v-row>
+        </v-container>
       </v-col>
     </v-row>
 
-    <!-- Details Dialog -->
-    <v-dialog v-model="detailsDialog" max-width="500">
-      <v-card dark v-if="selectedDetails">
-        <v-card-title>{{ selectedDetails.name }}</v-card-title>
-        <v-card-text>
-          <v-img
-              :src="getComponentImage(selectedDetails)"
-              height="250"
-              contain
-          ></v-img>
-          <div class="mt-4">
-            <p>{{ selectedDetails.description }}</p>
-            <p class="text-h6">Price: €{{ selectedDetails.price }}</p>
+    <!-- Enhanced Details Dialog -->
+    <v-dialog v-model="detailsDialog" max-width="600">
+      <v-card v-if="selectedDetails">
+        <v-img
+            :src="getComponentImage(selectedDetails)"
+            height="300"
+            cover
+            class="bg-grey-darken-4"
+        ></v-img>
+        <v-card-title class="text-h5 pa-4">
+          {{ selectedDetails.name }}
+        </v-card-title>
+        <v-card-text class="pa-4">
+          <p class="text-body-1">{{ selectedDetails.description }}</p>
+          <div class="d-flex align-center justify-space-between mt-4">
+            <div class="text-h6">Price</div>
+            <div class="text-h5 primary--text">
+              €{{ selectedDetails.price.toFixed(2) }}
+            </div>
           </div>
         </v-card-text>
-        <v-card-actions>
+        <v-divider></v-divider>
+        <v-card-actions class="pa-4">
           <v-spacer></v-spacer>
-          <v-btn text @click="detailsDialog = false">Close</v-btn>
+          <v-btn
+              variant="tonal"
+              @click="detailsDialog = false"
+          >
+            Close
+          </v-btn>
           <v-btn
               color="primary"
               @click="selectAndCloseDetails(selectedDetails)"
           >
-            Select
+            Select Component
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -248,7 +309,6 @@ const COMPONENT_TYPES = {
   CASE: '6',
   PSU: '7'
 };
-
 export default {
   name: 'PcConfigurator',
 
@@ -278,7 +338,17 @@ export default {
     components: {
       [COMPONENT_TYPES.CPU]: [
         { id: 1, name: 'Intel Core i7', price: 499.99, description: 'High-performance CPU with 8 cores' },
-        { id: 2, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' }
+        { id: 2, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 3, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 5, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 6, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
+        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
       ],
       [COMPONENT_TYPES.MOTHERBOARD]: [
         { id: 3, name: 'ASUS ROG', price: 299.99, description: 'Gaming motherboard with RGB' },
@@ -458,16 +528,16 @@ export default {
 </script>
 
 <style scoped>
-.banner-wrapper {
-  position: relative;
-  width: 100%;
-  margin-bottom: 32px;
+.configurator-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  min-height: 100vh;
 }
 
 .banner-card {
-  background: linear-gradient(135deg, #232730 0%, #1a1d24 100%) !important;
-  overflow: hidden;
+  background: linear-gradient(135deg, #2A2E35 0%, #1E2228 100%) !important;
+  border-radius: 16px;
   position: relative;
+  overflow: hidden;
 }
 
 .banner-background {
@@ -481,9 +551,9 @@ export default {
 
 .circuit-line-1, .circuit-line-2 {
   position: absolute;
-  background: linear-gradient(90deg, transparent, #FF9800, transparent);
+  background: linear-gradient(90deg, transparent, var(--v-primary-base), transparent);
   height: 2px;
-  width: 150px;
+  width: 200px;
 }
 
 .circuit-line-1 {
@@ -502,7 +572,7 @@ export default {
 
 .circuit-dot-1, .circuit-dot-2 {
   position: absolute;
-  background: #FF9800;
+  background: var(--v-primary-base);
   border-radius: 50%;
   opacity: 0.6;
 }
@@ -552,122 +622,52 @@ export default {
   }
 }
 
-.summary-card {
-  background-color: #2A2E35 !important;
-  border-radius: 12px;
-}
-
-.component-summary {
-  background-color: #232730 !important;
-  transition: transform 0.2s ease;
-}
-
-.component-summary:hover {
-  transform: translateX(8px);
-}
-
-.summary-details {
-  background-color: #232730 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.configurator-container {
-  background-color: #1E1E1E;
-  min-height: 100vh;
-}
-
 .component-sidebar {
-  background-color: #2A2E35;
+  background: linear-gradient(135deg, #2A2E35 0%, #1E2228 100%);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.component-content {
-  padding: 24px;
+  min-height: calc(100vh - 200px);
+  position: sticky;
+  top: 24px;
 }
 
 .component-card {
-  background-color: #2A2E35 !important;
+  background: linear-gradient(145deg, #2A2E35, #1E2228) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
-  height: 100%;
 }
 
 .component-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+  border-color: rgba(var(--v-primary-base), 0.5);
 }
 
 .selected-card {
-  border: 2px solid var(--v-primary-base);
+  border: 2px solid var(--v-primary-base) !important;
+  box-shadow: 0 0 20px rgba(var(--v-primary-base), 0.2) !important;
 }
 
-.selected-type {
-  background-color: rgba(var(--v-primary-base), 0.1);
+.summary-card, .summary-total-card {
+  background: linear-gradient(145deg, #2A2E35, #1E2228) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
 }
 
-.completed-type {
-  color: var(--v-primary-base);
+.v-timeline-item__body {
+  padding: 12px !important;
 }
 
-.progress-container {
-  width: 100%;
-  height: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
+.v-list-item--active {
+  background: linear-gradient(90deg, rgba(var(--v-primary-base), 0.1), transparent) !important;
 }
 
-.progress-bar {
-  height: 100%;
-  background-color: #FF9800; /* Orange color */
-  transition: width 0.3s ease;
+/* Smooth transitions */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
 }
 
-.v-list-item {
-  border-radius: 4px;
-  margin: 4px 0;
-}
-
-.configurator-container {
-  background-color: #1E1E1E;
-  min-height: 100vh;
-}
-
-.component-sidebar {
-  background-color: #2A2E35;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.component-content {
-  padding: 24px;
-}
-
-.component-card {
-  background-color: #2A2E35 !important;
-  transition: all 0.3s ease;
-  height: 100%;
-}
-
-.component-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.selected-card {
-  border: 2px solid var(--v-primary-base);
-}
-
-.selected-type {
-  background-color: rgba(var(--v-primary-base), 0.1);
-}
-
-.completed-type {
-  color: var(--v-primary-base);
-}
-
-
-.v-list-item {
-  border-radius: 4px;
-  margin: 4px 0;
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
