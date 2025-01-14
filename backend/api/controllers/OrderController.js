@@ -37,6 +37,7 @@ module.exports = {
       const updatedOrder = await Order.updateOne({ id: req.params.id }).set(req.body);
       return res.status(200).json(updatedOrder);
     } catch (error) {
+      sails.log(error)
       return res.status(400).json({ error });
     }
   },

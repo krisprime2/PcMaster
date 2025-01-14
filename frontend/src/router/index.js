@@ -12,6 +12,7 @@ import Configurator from "@/components/Configurator.vue";
 import PrivacyPolicy from "@/components/PrivacyPolicy.vue";
 import Copyright from "@/components/Copyright.vue";
 import Checkout from "@/components/Checkout.vue";
+import OrderDashboardView from "@/views/OrderDashboardView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,6 +85,11 @@ const router = createRouter({
             path: '/checkout',
             name: 'checkout',
             component: Checkout,
+            meta: { requiresAuth: false }
+        },{
+            path: '/admin/order',
+            name: 'admin-order',
+            component: OrderDashboardView,
             meta: { requiresAuth: false }
         },
     ],
