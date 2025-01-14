@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import {onMounted} from "vue";
 import {useAuthStore} from "@/store/auth.js";
+import CookieConsent from "@/components/CookieConsent.vue";
 
 const authStore = useAuthStore();
 
@@ -15,6 +16,7 @@ onMounted(async () => {
   <Navbar/>
   <main>
     <router-view />
+    <CookieConsent/>
   </main>
   <Footer/>
 </template>
