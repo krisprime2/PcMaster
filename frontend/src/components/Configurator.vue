@@ -122,7 +122,7 @@
                     @click="selectComponent(component)"
                 >
                   <v-img
-                      :src="getComponentImage(component)"
+                      :src="component.imageUrl"
                       height="200"
                       cover
                       class="bg-grey-darken-4"
@@ -244,7 +244,7 @@
                       @click="saveConfiguration"
                   >
                     <v-icon start>mdi-check-circle</v-icon>
-                    Complete Configuration
+                    In den Warenkorb
                   </v-btn>
                 </v-card-text>
               </v-card>
@@ -296,6 +296,17 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar
+        v-model="snackbar.visible"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+        elevation="2"
+    >
+      {{ snackbar.message }}
+      <template #action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar.visible = false">OK</v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -330,7 +341,13 @@ export default {
     selectedComponents: {},
     components: {},
     loading: false,
-    error: null
+    error: null,
+    snackbar: {
+      visible: false,
+      message: '',
+      color: 'success',
+      timeout: 3000,
+    },
   }),
 
   created() {
@@ -385,6 +402,12 @@ export default {
     getComponentImage(component) {
       // Return component type specific SVG placeholder
       return `data:image/svg+xml,${encodeURIComponent(this.getComponentSVG(this.currentType))}`;
+    },
+
+    showSnackbar(message, color) {
+      this.snackbar.message = message;
+      this.snackbar.color = color;
+      this.snackbar.visible = true;
     },
 
     async fetchComponents() {
@@ -507,8 +530,33 @@ export default {
     },
 
     async saveConfiguration() {
+      // Map the selectedComponents object to an array of component IDs
+      const componentIds = Object.values(this.selectedComponents).map(component => component.id);
 
-      console.log('Configuration saved:', this.selectedComponents);
+      const configuration = {
+        components: componentIds, // Pass an array of IDs
+        price: this.totalPrice,
+        user: this.currentUser // Adjust based on your user authentication setup
+      };
+
+      try {
+        // Create the configuration in the database
+        const response = await axios.post('/api/configurations', configuration);
+
+        const createdConfiguration = response.data;
+
+        // Add the created configuration to the cart
+        await axios.post('/api/cart/add', {
+          item: createdConfiguration,
+          type: 'configuration',
+          quantity: 1 // Default quantity
+        });
+        this.showSnackbar('Produkt wurde zum Warenkorb hinzugefügt', 'success');
+        console.log('Configuration saved and added to cart:', createdConfiguration);
+      } catch (error) {
+        this.showSnackbar('Fehler beim Hinzufügen zum Warenkorb', 'error');
+        console.error('Error saving configuration:', error.response?.data || error.message);
+      }
     }
   }
 }

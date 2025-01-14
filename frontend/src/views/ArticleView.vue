@@ -267,9 +267,9 @@ export default {
       }));
     },
 
-    async addToCart(product) {
+    async addToCart(article) {
       try {
-        await axios.post('/api/cart/add', {product: product, quantity: 1});
+        await axios.post('/api/cart/add', {item: article, type: 'article', quantity: 1})
         this.showSnackbar('Produkt wurde zum Warenkorb hinzugefügt', 'success');
       } catch (error) {
         this.showSnackbar('Fehler beim Hinzufügen zum Warenkorb', 'error');

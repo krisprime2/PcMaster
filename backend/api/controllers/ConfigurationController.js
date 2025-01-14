@@ -1,9 +1,14 @@
 module.exports = {
   create: async (req, res) => {
     try {
-      const configuration = await Configuration.create(req.body).fetch();
+      const userId = req.session.userId || req.body.user; // Use session or request body for user ID
+      const configurationData = { ...req.body, user: userId };
+
+      const configuration = await Configuration.create(configurationData).fetch();
+
       return res.status(201).json(configuration);
     } catch (error) {
+      console.error('Error creating configuration:', error);
       return res.status(400).json({ error });
     }
   },

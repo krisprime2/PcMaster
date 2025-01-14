@@ -1,34 +1,51 @@
 module.exports = {
   addItem: async function (req, res) {
-    const { product, quantity } = req.body;
+    const { item, type, quantity } = req.body;
 
-    if (!product || !quantity) {
-      return res.badRequest({ message: 'Invalid product or quantity' });
+    if (!item || !type || !quantity) {
+      return res.badRequest({ message: 'Invalid item, type, or quantity' });
     }
 
     if (!req.session.cart) {
       req.session.cart = [];
     }
 
-    const existingItem = req.session.cart.find(item => item.product.id === product.id);
+    const isConfiguration = type === 'configuration';
+
+    const existingItem = req.session.cart.find(cartItem => {
+      if (isConfiguration) {
+        return (
+          cartItem.type === 'configuration' &&
+          JSON.stringify(cartItem.item.components) === JSON.stringify(item.components)
+        );
+      } else {
+        return cartItem.type === 'article' && cartItem.item.id === item.id;
+      }
+    });
 
     if (existingItem) {
       existingItem.quantity += quantity;
     } else {
-      req.session.cart.push({ product, quantity });
+      req.session.cart.push({ item, type, quantity });
     }
 
     return res.json(req.session.cart);
   },
 
   removeItem: async function (req, res) {
-    const { productId } = req.body;
+    const { itemId, type } = req.body;
 
-    if (!productId || !req.session.cart) {
-      return res.badRequest({ message: 'Invalid product or no cart found' });
+    if (!itemId || !type || !req.session.cart) {
+      return res.badRequest({ message: 'Invalid item ID, type, or no cart found' });
     }
 
-    req.session.cart = req.session.cart.filter(item => item.product.id !== productId);
+    req.session.cart = req.session.cart.filter(cartItem => {
+      if (type === 'configuration') {
+        return cartItem.type !== 'configuration' || cartItem.item.id !== itemId;
+      } else {
+        return cartItem.type !== 'article' || cartItem.item.id !== itemId;
+      }
+    });
 
     return res.json(req.session.cart);
   },

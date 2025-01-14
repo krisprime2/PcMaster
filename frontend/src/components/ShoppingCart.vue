@@ -9,17 +9,23 @@
           class="elevation-1"
           dense
       >
+        <template #item.type="{ item }">
+          <v-chip color="primary" outlined small>
+            {{ item.type === 'configuration' ? 'Konfiguration' : 'Artikel' }}
+          </v-chip>
+        </template>
+
         <template #item.name="{ item }">
           <div class="d-flex align-center">
             <v-avatar class="me-2">
-              <v-img :src="item.product.image" alt="Product Image"></v-img>
+              <v-img :src="item.type === 'configuration' ? '/images/config-icon.png' : item.item.imageUrl" alt="Product Image"></v-img>
             </v-avatar>
-            <span>{{ item.product.name }}</span>
+            <span>{{ item.type === 'configuration' ? 'Deine PC Konfiguration' : item.item.name }}</span>
           </div>
         </template>
 
         <template #item.price="{ item }">
-          {{ item.product.price.toFixed(2) }} €
+          {{ item.item.price.toFixed(2) }} €
         </template>
 
         <template #item.quantity="{ item }">
@@ -35,24 +41,18 @@
         </template>
 
         <template #item.total="{ item }">
-          {{ (item.product.price * item.quantity).toFixed(2) }} €
+          {{ (item.item.price * item.quantity).toFixed(2) }} €
         </template>
 
         <template #item.actions="{ item }">
           <v-icon
               color="red darken-1"
               clickable
-              @click="removeItem(item.product.id)"
+              @click="removeItem(item.item.id, item.type)"
               title="Entfernen"
           >
             mdi-delete
           </v-icon>
-        </template>
-
-        <template #no-data>
-          <div class="text-center py-6">
-            <h2 class="text-h5">Ihr Warenkorb ist leer</h2>
-          </div>
         </template>
       </v-data-table>
 
@@ -78,6 +78,7 @@ import axios from "axios";
 
 const cart = ref([]);
 const headers = [
+  { text: "Typ", value: "type" },
   { text: "Produkt", value: "name" },
   { text: "Preis", value: "price", align: "end" },
   { text: "Menge", value: "quantity", align: "center" },
@@ -86,18 +87,32 @@ const headers = [
 ];
 
 const cartTotal = computed(() =>
-    cart.value.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+    cart.value.reduce((sum, item) => sum + item.item.price * item.quantity, 0)
 );
 
 async function fetchCart() {
-  const response = await axios.get('/api/cart')
-  cart.value = response.data;
-  console.log(response.data)
+  try {
+    const response = await axios.get('/api/cart');
+    cart.value = response.data.map(cartItem => ({
+      ...cartItem,
+      item: cartItem.item, // Ensure item is correctly mapped
+      type: cartItem.type, // Pass type as 'article' or 'configuration'
+      quantity: cartItem.quantity
+    }));
+    console.log('Fetched cart:', cart.value); // Log for debugging
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+  }
 }
 
-async function removeItem(productId) {
-  await axios.post(`/api/cart/remove`, { productId });
-  await fetchCart();
+async function removeItem(itemId, type) {
+  try {
+    console.log('Removing item:', { itemId, type }); // Debug log
+    await axios.post('/api/cart/remove', { itemId, type });
+    await fetchCart();
+  } catch (error) {
+    console.error('Error removing item from cart:', error.response?.data || error.message);
+  }
 }
 
 async function clearCart() {
