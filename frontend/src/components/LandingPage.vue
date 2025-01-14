@@ -21,25 +21,25 @@ import Testimonials from "@/components/Testimonials.vue";
     <div class="row text-center">
       <div class="col-6 col-md-3">
         <a href="#pc" class="category-item">
-          <img src="../../public/icon-pc.png" alt="PCs">
+          <img src="/public/icon-pc.png" alt="PCs">
           <p>PCs</p>
         </a>
       </div>
       <div class="col-6 col-md-3">
         <a href="#laptops" class="category-item">
-          <img src="../../../public/icon-laptop.png" alt="Laptops">
+          <img src="/public/icon-laptop.png" alt="Laptops">
           <p>Laptops</p>
         </a>
       </div>
       <div class="col-6 col-md-3">
         <a href="#ersatzteile" class="category-item">
-          <img src="../../public/icon-cpu.png" alt="Ersatzteile">
+          <img src="/public/icon-cpu.png" alt="Ersatzteile">
           <p>Ersatzteile</p>
         </a>
       </div>
       <div class="col-6 col-md-3">
         <a href="#konfigurator" class="category-item">
-          <img src="../../public/icon-tools.png" alt="PC konfigurieren">
+          <img src="/public/icon-tools.png" alt="PC konfigurieren">
           <p>PC konfigurieren</p>
         </a>
       </div>

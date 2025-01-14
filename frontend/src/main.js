@@ -13,8 +13,15 @@ import {createPinia} from "pinia";
 import {useAuthStore} from "@/store/auth.js";
 import {validate} from "vee-validate";
 
-axios.defaults.baseURL = 'http://localhost:1337'; // API-Base-URL
+
 axios.defaults.withCredentials = true;
+if (!import.meta.env.PROD) {
+    console.log("--> Development Mode")
+    axios.defaults.baseURL = "http://localhost:1337";
+} else {
+    console.log("--> Production Mode")
+    axios.defaults.baseURL = "/";
+}
 
 const vuetify = createVuetify({
     components,
