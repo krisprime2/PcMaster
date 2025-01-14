@@ -39,7 +39,7 @@ module.exports.routes = {
   'POST /inquiry/create': 'InquiryController.create',
 
   // Order Routes
-  'POST /api/orders': 'OrderController.create',
+  'POST /api/order/create': 'OrderController.create',
   'GET /api/orders': 'OrderController.find',
   'GET /api/orders/:id': 'OrderController.findOne',
   'PATCH /api/orders/:id': 'OrderController.update',

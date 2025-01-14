@@ -3,6 +3,7 @@ module.exports = {
     name: { type: 'string' },
     price: { type: 'number', columnType: 'float' },
     type: { type: 'string' },
+    description: { type: 'string' },
 
     configurations: {
       collection: 'configuration',

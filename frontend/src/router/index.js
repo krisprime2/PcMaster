@@ -11,6 +11,7 @@ import { useAuthStore } from '@/store/auth'
 import Configurator from "@/components/Configurator.vue";
 import PrivacyPolicy from "@/components/PrivacyPolicy.vue";
 import Copyright from "@/components/Copyright.vue";
+import Checkout from "@/components/Checkout.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,6 +78,12 @@ const router = createRouter({
             path: '/copyright',
             name: 'copyright',
             component: Copyright,
+            meta: { requiresAuth: false }
+        },
+        {
+            path: '/checkout',
+            name: 'checkout',
+            component: Checkout,
             meta: { requiresAuth: false }
         },
     ],

@@ -1,40 +1,71 @@
-<!-- DeviceForm.vue -->
 <template>
-  <div class="form-wrapper">
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-content">
-        <h1 class="text-h3 font-weight-bold white--text mb-4">We buy Old Devices</h1>
-        <p class="text-subtitle-1 white--text mb-6">We make it easy to turn your old devices into cash.</p>
-        <v-btn
-            color="#636AE8"
-            class="get-started-btn"
-            elevation="2"
-            x-large
-            @click="scrollToForm"
-        >
-          Get Started
-        </v-btn>
-      </div>
-    </section>
+  <v-app>
+    <v-main class="bg-background">
+      <!-- Hero Section -->
+      <v-parallax
+          src="../public/desktopMainBg.png"
+          :height="400"
+      >
+        <div class="d-flex flex-column fill-height justify-center align-center text-white text-center">
+          <h1 class="text-h2 font-weight-thin mb-4">We Buy Old Devices</h1>
+          <h4 class="subheading mb-6">Turn your old tech into cash with ease</h4>
+          <v-btn
+              color="primary"
+              size="x-large"
+              rounded
+              elevation="2"
+              @click="scrollToForm"
+          >
+            Get Started
+          </v-btn>
+        </div>
+      </v-parallax>
 
-    <!-- Form Section -->
-    <v-container class="form-container">
-      <v-row justify="center">
-        <v-col cols="12" sm="10" md="8" lg="6">
-          <v-card class="pa-6" color="#2A2E35">
-            <v-card-text>
-              <h2 class="text-h4 text-center mb-6 white--text">Device Inquiry Form</h2>
+      <!-- Form Section with Side Content -->
+      <v-container class="form-container py-12">
+        <v-row justify="center">
+          <v-col cols="12" md="3" class="d-none d-md-flex flex-column justify-center">
+            <v-card class="mb-6" flat>
+              <v-card-text>
+                <h3 class="text-h5 mb-3">Why Choose Us?</h3>
+                <ul class="pl-4">
+                  <li>Fast and fair valuations</li>
+                  <li>Secure data wiping</li>
+                  <li>Free shipping for all devices</li>
+                  <li>Eco-friendly recycling options</li>
+                </ul>
+              </v-card-text>
+            </v-card>
+            <v-img
+                src="../public/recycling-image.jpg"
+                height="200"
+                cover
+                class="rounded-lg"
+            ></v-img>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-card
+                class="mx-auto pa-6"
+                elevation="8"
+                rounded="xl"
+                :loading="isLoading"
+            >
+              <template v-slot:loader>
+                <v-progress-linear indeterminate color="primary"></v-progress-linear>
+              </template>
+
+              <v-card-title class="text-h4 font-weight-bold text-center mb-6">
+                Device Inquiry Form
+              </v-card-title>
 
               <v-form v-if="!isSubmitted" ref="form" v-model="valid" @submit.prevent="submitForm">
                 <v-text-field
                     v-model="formData.name"
                     label="Your Name"
-                    required
                     :rules="nameRules"
-                    outlined
-                    dark
-                    color="red darken-1"
+                    variant="outlined"
+                    color="primary"
                     class="mb-4"
                 ></v-text-field>
 
@@ -42,23 +73,19 @@
                     v-model="formData.deviceType"
                     label="Device Type"
                     placeholder="e.g., Laptop, Smartphone"
-                    required
                     :rules="requiredRule"
-                    outlined
-                    dark
-                    color="red darken-1"
+                    variant="outlined"
+                    color="primary"
                     class="mb-4"
                 ></v-text-field>
 
                 <v-text-field
                     v-model="formData.modelNumber"
                     label="Model Number"
-                    type="number"
-                    required
+                    type="text"
                     :rules="requiredRule"
-                    outlined
-                    dark
-                    color="red darken-1"
+                    variant="outlined"
+                    color="primary"
                     class="mb-4"
                 ></v-text-field>
 
@@ -67,19 +94,17 @@
                     label="Description"
                     placeholder="Describe the condition of your device"
                     :rules="requiredRule"
-                    outlined
-                    dark
-                    color="red darken-1"
+                    variant="outlined"
+                    color="primary"
                     rows="4"
                     class="mb-6"
                 ></v-textarea>
 
                 <v-btn
                     type="submit"
-                    color="#F44336"
-                    x-large
+                    color="primary"
+                    size="x-large"
                     block
-                    :loading="isLoading"
                     :disabled="!valid"
                 >
                   {{ isLoading ? "Sending Inquiry..." : "Submit Inquiry" }}
@@ -89,6 +114,7 @@
               <v-alert
                   v-if="isSubmitted"
                   type="success"
+                  variant="tonal"
                   class="mt-4"
               >
                 {{ successMessage }}
@@ -97,230 +123,150 @@
               <v-alert
                   v-if="serverError"
                   type="error"
+                  variant="tonal"
                   class="mt-4"
               >
                 {{ serverError }}
               </v-alert>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+            </v-card>
+          </v-col>
 
-    <ArticleCarousel></ArticleCarousel>
+          <v-col cols="12" md="3" class="d-none d-md-flex flex-column justify-center">
+            <v-card class="mb-6" flat>
+              <v-card-text>
+                <h3 class="text-h5 mb-3">Our Process</h3>
+                <ol class="pl-4">
+                  <li>Submit your device details</li>
+                  <li>Receive a quick quote</li>
+                  <li>Ship your device (it's free!)</li>
+                  <li>Get paid fast</li>
+                </ol>
+              </v-card-text>
+            </v-card>
+            <v-img
+                src="../public/happy-customer.jpg"
+                height="200"
+                cover
+                class="rounded-lg"
+            ></v-img>
+          </v-col>
+        </v-row>
+      </v-container>
 
-    <!-- Contact Section -->
-    <v-container class="contact-container">
-      <v-row justify="center">
-        <v-col cols="12" sm="10" md="8" lg="6" class="text-center">
-          <h2 class="text-h4 mb-4 white--text">Get In Touch</h2>
-          <p class="subtitle-1 grey--text text--lighten-1 mb-6">
-            Reach out to us for more information or personalized assistance on your tech needs.
-            We're here to help you make the best choices.
-          </p>
-          <v-btn
-              color="#636AE8"
-              x-large
-              @click="contactUs"
-          >
-            Contact Us
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+      <!-- Contact Section -->
+      <v-container class="contact-container py-12">
+        <v-row justify="center">
+          <v-col cols="12" sm="10" md="8" lg="6" class="text-center">
+            <h2 class="text-h3 font-weight-light mb-4">Get In Touch</h2>
+            <p class="text-body-1 mb-6">
+              Need more information or personalized assistance? We're here to help you make the best choices for your tech needs.
+            </p>
+            <v-btn
+                color="secondary"
+                size="x-large"
+                rounded
+                elevation="2"
+                @click="contactUs"
+            >
+              Contact Us
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<script>
-// Script remains the same as in your code
+<script setup>
+import { ref, reactive } from 'vue';
+import { useForm } from 'vee-validate';
+import * as yup from 'yup';
 import axios from 'axios';
-import ArticleCarousel from "@/components/ArticleCarousel.vue";
 
-export default {
-  components: {
-    ArticleCarousel
-  },
-  name: 'DeviceForm',
-  data: () => ({
-    valid: false,
-    isLoading: false,
-    isSubmitted: false,
-    serverError: null,
-    successMessage: "Your inquiry has been successfully submitted!",
-    formData: {
+const valid = ref(false);
+const isLoading = ref(false);
+const isSubmitted = ref(false);
+const serverError = ref(null);
+const successMessage = ref("Your inquiry has been successfully submitted!");
+
+const formData = reactive({
+  name: '',
+  deviceType: '',
+  modelNumber: '',
+  description: '',
+  user: null,
+  status: 'pending'
+});
+
+const nameRules = [
+  v => !!v || 'Name is required',
+  v => v.length <= 50 || 'Name must be less than 50 characters'
+];
+
+const requiredRule = [
+  v => !!v || 'This field is required'
+];
+
+const schema = yup.object({
+  name: yup.string().required('Name is required').max(50, 'Name must be less than 50 characters'),
+  deviceType: yup.string().required('Device type is required'),
+  modelNumber: yup.string().required('Model number is required'),
+  description: yup.string().required('Description is required')
+});
+
+const { handleSubmit, errors } = useForm({
+  validationSchema: schema,
+});
+
+const submitForm = handleSubmit(async (values) => {
+  isLoading.value = true;
+  serverError.value = null;
+
+  try {
+    const userId = localStorage.getItem('userId');
+    formData.user = userId;
+    await axios.post('http://localhost:1337/inquiry/create', formData);
+    isSubmitted.value = true;
+    Object.assign(formData, {
       name: '',
       deviceType: '',
-      modelNumber: null,
+      modelNumber: '',
       description: '',
       user: null,
       status: 'pending'
-    },
-    nameRules: [
-      v => !!v || 'Name is required',
-      v => v.length <= 50 || 'Name must be less than 50 characters'
-    ],
-    requiredRule: [
-      v => !!v || 'This field is required'
-    ]
-  }),
-  methods: {
-    scrollToForm() {
-      const formSection = document.querySelector('.form-container');
-      if (formSection) {
-        formSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    },
-    async submitForm() {
-      if (this.$refs.form.validate()) {
-        this.successMessage = null;
-        this.serverError = null;
-        this.isLoading = true;
-
-        try {
-          const userId = localStorage.getItem('userId');
-          this.formData.user = userId;
-          const response = await axios.post('http://localhost:1337/inquiry/create', this.formData);
-          this.isSubmitted = true;
-          this.$refs.form.reset();
-        } catch (error) {
-          this.serverError = error.response?.data?.message || 'An unexpected error occurred.';
-          console.error('Form submission error:', error);
-        } finally {
-          this.isLoading = false;
-        }
-      }
-    },
-    contactUs() {
-      window.location.href = 'mailto:contact@yourwebsite.com';
-    }
+    });
+  } catch (error) {
+    serverError.value = error.response?.data?.message || 'An unexpected error occurred.';
+    console.error('Form submission error:', error);
+  } finally {
+    isLoading.value = false;
   }
-}
+});
 
+const scrollToForm = () => {
+  const formSection = document.querySelector('.form-container');
+  if (formSection) {
+    formSection.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
+const contactUs = () => {
+  window.location.href = 'support@pcshop.de';
+};
 </script>
 
 <style scoped>
-.form-wrapper {
-  background-color: #0A0E1A;
-  min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-.hero-section {
-  position: relative;
-  width: 100%;
-  height: 60vh;
-  margin: 0;
-  padding: 0;
-  background-image: url('../../public/HeroInquiry.png');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  padding: 0 20px;
-  max-width: 800px;
-  margin: 0 auto;
+.bg-background {
+  background-color: #000000;
 }
 
 .form-container {
-  padding: 2rem 1rem;
-  position: relative;
+  background-color: #000000;
 }
 
 .contact-container {
-  padding: 2rem 0;
-  margin-bottom: 0.5rem;
+  background-color: #000000;
 }
 
-.get-started-btn {
-  text-transform: none;
-}
-
-.v-card {
-  background-color: #1c1f26 !important;
-}
-
-.v-text-field ::v-deep .v-input__slot,
-.v-textarea ::v-deep .v-input__slot {
-  background-color: #2A2E35 !important;
-}
-
-.v-text-field ::v-deep .v-label,
-.v-textarea ::v-deep .v-label {
-  color: #fff !important;
-}
-
-.v-text-field ::v-deep input,
-.v-textarea ::v-deep textarea {
-  color: #fff !important;
-}
-
-@media (max-width: 960px) {
-  .hero-section {
-    height: 50vh;
-  }
-
-  .form-container {
-    margin-top: -40px;
-  }
-
-  .hero-content h1 {
-    font-size: 2rem !important;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero-section {
-    height: 40vh;
-  }
-
-  .form-container {
-    padding: 1rem 0;
-  }
-
-  .v-card {
-    border-radius: 0 !important;
-    margin: 0 !important;
-  }
-
-  .hero-content h1 {
-    font-size: 1.75rem !important;
-  }
-
-  .hero-content p {
-    font-size: 1rem !important;
-  }
-
-  .contact-container {
-    padding: 1rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .hero-section {
-    height: 35vh;
-  }
-
-  .hero-content h1 {
-    font-size: 1.5rem !important;
-  }
-}
+/* Add any additional custom styles here */
 </style>
