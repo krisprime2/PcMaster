@@ -1,8 +1,8 @@
-const {ACTIVE, LOCKED} = require("../constants/Status");
+const {INPROCESSING, SENT, CANCELLED} = require("../constants/OrderStatus");
 
 module.exports = {
   attributes: {
-    status: { type: 'number', required: true, isIn: [ACTIVE, LOCKED]},
+    status: { type: 'number', required: true, isIn: [INPROCESSING, SENT, CANCELLED]},
     price: { type: 'number' },
     firstName: {type: 'string', required: false},
     lastName: {type: 'string', required: false},

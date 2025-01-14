@@ -19,11 +19,7 @@
         <v-col cols="12">
           <v-select
               v-model="statusFilter"
-              :items="[
-              { text: 'Alle', value: null },
-              { text: 'Aktiv', value: ACTIVE },
-              { text: 'Gesperrt', value: LOCKED }
-            ]"
+              :items="statusOptions"
               label="Filter nach Status"
               variant="outlined"
               clearable
@@ -41,7 +37,7 @@
           item-value="id"
       >
         <template v-slot:[`item.status`]="{ item }">
-          {{ item.status === ACTIVE ? 'Aktiv' : 'Gesperrt' }}
+          {{ getStatusText(item.status) }}
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn @click="editOrder(item)" class="mr-2 edit-btn">
@@ -88,10 +84,7 @@
                 <v-col cols="12">
                   <v-select
                       v-model="selectedOrder.status"
-                      :items="[
-                      { text: 'Aktiv', value: ACTIVE },
-                      { text: 'Gesperrt', value: LOCKED }
-                    ]"
+                      :items="statusOptions"
                       label="Status"
                       required
                       item-value="value"
@@ -117,8 +110,30 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { useDisplay } from 'vuetify'
 
-const ACTIVE = 1
-const LOCKED = 2
+// Import order status constants
+const INPROCESSING = 1
+const SENT = 2
+const CANCELLED = 3
+
+const statusOptions = [
+  { text: 'Alle', value: null },
+  { text: 'In Bearbeitung', value: INPROCESSING },
+  { text: 'Versendet', value: SENT },
+  { text: 'Storniert', value: CANCELLED }
+]
+
+const getStatusText = (status) => {
+  switch (status) {
+    case INPROCESSING:
+      return 'In Bearbeitung'
+    case SENT:
+      return 'Versendet'
+    case CANCELLED:
+      return 'Storniert'
+    default:
+      return 'Unbekannt'
+  }
+}
 
 const editDialog = ref(false)
 const selectedOrder = ref(null)

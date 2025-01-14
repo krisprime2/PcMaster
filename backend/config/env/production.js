@@ -71,7 +71,12 @@ module.exports = {
       *                                                                           *
       ****************************************************************************/
       // ssl: { rejectUnauthorized: true },
-
+      adapter: 'sails-mysql',
+      host: '193.196.53.194',
+      port: 33061,
+      user: 'user8_test',
+      database: 'pcmaster_test',
+      password: 'c116112'
     },
 
   },
@@ -148,9 +153,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     cors: {
-      allowOrigins: [
-      "http://localhost:5173"
-      ]
+      allowOrigins: ['https://pcmaster.onrender.com']
     },
 
   },
@@ -265,10 +268,9 @@ module.exports = {
     * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
     *                                                                          *
     ***************************************************************************/
-    // onlyAllowOrigins: [
-    //   'https://example.com',
-    //   'https://staging.example.com',
-    // ],
+     onlyAllowOrigins: [
+       'https://pcmaster.onrender.com',
+     ],
 
 
     /***************************************************************************
