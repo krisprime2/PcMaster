@@ -300,6 +300,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 const COMPONENT_TYPES = {
   CPU: '1',
   MOTHERBOARD: '2',
@@ -325,59 +327,24 @@ export default {
       { id: COMPONENT_TYPES.CASE, name: 'Case' },
       { id: COMPONENT_TYPES.PSU, name: 'Power Supply' }
     ],
-    selectedComponents: {
-      [COMPONENT_TYPES.CPU]: null,
-      [COMPONENT_TYPES.MOTHERBOARD]: null,
-      [COMPONENT_TYPES.RAM]: null,
-      [COMPONENT_TYPES.GPU]: null,
-      [COMPONENT_TYPES.STORAGE]: null,
-      [COMPONENT_TYPES.CASE]: null,
-      [COMPONENT_TYPES.PSU]: null
-    },
-    // Sample components for each category
-    components: {
-      [COMPONENT_TYPES.CPU]: [
-        { id: 1, name: 'Intel Core i7', price: 499.99, description: 'High-performance CPU with 8 cores' },
-        { id: 2, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 3, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 5, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 6, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-        { id: 7, name: 'AMD Ryzen 9', price: 549.99, description: 'Premium CPU for gaming and content creation' },
-      ],
-      [COMPONENT_TYPES.MOTHERBOARD]: [
-        { id: 3, name: 'ASUS ROG', price: 299.99, description: 'Gaming motherboard with RGB' },
-        { id: 4, name: 'MSI MPG', price: 259.99, description: 'Reliable motherboard for gaming' }
-      ],
-      [COMPONENT_TYPES.RAM]: [
-        { id: 5, name: 'Corsair 32GB', price: 159.99, description: 'High-speed DDR4 RAM' },
-        { id: 6, name: 'G.Skill 16GB', price: 89.99, description: 'Reliable gaming memory' }
-      ],
-      [COMPONENT_TYPES.GPU]: [
-        { id: 7, name: 'NVIDIA RTX 4080', price: 799.99, description: 'High-end gaming graphics' },
-        { id: 8, name: 'AMD RX 6800', price: 649.99, description: 'Excellent 4K gaming performance' }
-      ],
-      [COMPONENT_TYPES.STORAGE]: [
-        { id: 9, name: 'Samsung 2TB SSD', price: 199.99, description: 'Fast NVMe storage' },
-        { id: 10, name: 'WD Black 1TB', price: 149.99, description: 'Reliable gaming SSD' }
-      ],
-      [COMPONENT_TYPES.CASE]: [
-        { id: 11, name: 'Lian Li PC-O11', price: 149.99, description: 'Premium ATX case' },
-        { id: 12, name: 'NZXT H510', price: 99.99, description: 'Clean minimal design' }
-      ],
-      [COMPONENT_TYPES.PSU]: [
-        { id: 13, name: 'Corsair 850W', price: 129.99, description: '80+ Gold certified' },
-        { id: 14, name: 'EVGA 750W', price: 109.99, description: 'Reliable power supply' }
-      ]
-    }
+    selectedComponents: {},
+    components: {},
+    loading: false,
+    error: null
   }),
 
+  created() {
+    // Initialize selectedComponents with null values
+    this.componentTypes.forEach(type => {
+      this.selectedComponents[type.id] = null;
+    });
+    this.fetchComponents();
+  },
+
+
+
   computed: {
+
     progressPercentage() {
       const total = Object.keys(this.selectedComponents).length;
       const completed = Object.values(this.selectedComponents).filter(comp => comp !== null).length;
@@ -419,6 +386,28 @@ export default {
     getComponentImage(component) {
       // Return component type specific SVG placeholder
       return `data:image/svg+xml,${encodeURIComponent(this.getComponentSVG(this.currentType))}`;
+    },
+
+    async fetchComponents() {
+  this.loading = true;
+  this.error = null;
+  try {
+    const response = await axios.get('/api/components');
+    // Axios automatically throws on error status codes, and data is in response.data
+    this.components = this.groupComponentsByCategory(response.data);
+  } catch (error) {
+    this.error = error.message;
+  } finally {
+    this.loading = false;
+  }
+},
+
+    groupComponentsByCategory(components) {
+      return components.reduce((acc, component) => {
+        acc[component.type] = acc[component.type] || [];
+        acc[component.type].push(component);
+        return acc;
+      }, {});
     },
 
     getComponentSVG(type) {

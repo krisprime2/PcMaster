@@ -1,9 +1,15 @@
+const {ACTIVE, LOCKED} = require("../constants/Status");
+
+
 module.exports = {
   create: async (req, res) => {
     try {
-      const order = await Order.create(req.body).fetch();
+      const data = req.body;
+      data.status = ACTIVE;
+      const order = await Order.create(data).fetch();
       return res.status(201).json(order);
     } catch (error) {
+      console.log(error)
       return res.status(400).json({ error });
     }
   },

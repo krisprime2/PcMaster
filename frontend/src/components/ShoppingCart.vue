@@ -92,6 +92,7 @@ const cartTotal = computed(() =>
 async function fetchCart() {
   const response = await axios.get('/api/cart')
   cart.value = response.data;
+  console.log(response.data)
 }
 
 async function removeItem(productId) {

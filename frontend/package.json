@@ -10,12 +10,17 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "pinia": "^2.3.0",
+    "vee-validate": "^4.15.0",
     "vue": "^3.5.12",
+    "vue-confetti": "^2.3.0",
     "vue-router": "^4.4.5",
-    "vuetify": "^3.7.5"
+    "vuetify": "^3.7.5",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.4",

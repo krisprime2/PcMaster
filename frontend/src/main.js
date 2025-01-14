@@ -11,6 +11,7 @@ import * as directives from "vuetify/directives";
 import axios from "axios";
 import {createPinia} from "pinia";
 import {useAuthStore} from "@/store/auth.js";
+import {validate} from "vee-validate";
 
 axios.defaults.baseURL = 'http://localhost:1337'; // API-Base-URL
 axios.defaults.withCredentials = true;
@@ -37,7 +38,7 @@ const pinia = createPinia();
 app.use(pinia)
 app.use(vuetify)
 app.use(router)
-
+app.use(validate)
 const authStore = useAuthStore()
 
 app.mount('#app')
