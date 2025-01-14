@@ -203,20 +203,20 @@
                           size="small"
                       >
                         <div class="d-flex align-center justify-space-between">
-                            <div>
-                              <div class="text-caption text-grey mb-1">
-                                {{ type.name }}
+                          <div>
+                            <div class="text-caption text-grey mb-1">
+                              {{ type.name }}
+                            </div>
+                            <div class="d-flex align-center justify-space-between">
+                              <div class="text-subtitle-1 font-weight-medium">
+                                {{ selectedComponents[type.id].name }}
                               </div>
-                              <div class="d-flex align-center justify-space-between">
-                                <div class="text-subtitle-1 font-weight-medium">
-                                  {{ selectedComponents[type.id].name }}
-                                </div>
-                                <div class="text-subtitle-1 primary--text ps-4">
-                                  €{{ selectedComponents[type.id].price.toFixed(2) }}
-                                </div>
+                              <div class="text-subtitle-1 primary--text ps-4">
+                                €{{ selectedComponents[type.id].price.toFixed(2) }}
                               </div>
                             </div>
-                            </div>
+                          </div>
+                        </div>
 
                       </v-timeline-item>
                     </template>
@@ -319,13 +319,13 @@ export default {
     detailsDialog: false,
     selectedDetails: null,
     componentTypes: [
-      { id: COMPONENT_TYPES.CPU, name: 'Processor' },
-      { id: COMPONENT_TYPES.MOTHERBOARD, name: 'Motherboard' },
-      { id: COMPONENT_TYPES.RAM, name: 'RAM' },
-      { id: COMPONENT_TYPES.GPU, name: 'Graphics Card' },
-      { id: COMPONENT_TYPES.STORAGE, name: 'Storage' },
-      { id: COMPONENT_TYPES.CASE, name: 'Case' },
-      { id: COMPONENT_TYPES.PSU, name: 'Power Supply' }
+      {id: COMPONENT_TYPES.CPU, name: 'Processor'},
+      {id: COMPONENT_TYPES.MOTHERBOARD, name: 'Motherboard'},
+      {id: COMPONENT_TYPES.RAM, name: 'RAM'},
+      {id: COMPONENT_TYPES.GPU, name: 'Graphics Card'},
+      {id: COMPONENT_TYPES.STORAGE, name: 'Storage'},
+      {id: COMPONENT_TYPES.CASE, name: 'Case'},
+      {id: COMPONENT_TYPES.PSU, name: 'Power Supply'}
     ],
     selectedComponents: {},
     components: {},
@@ -340,7 +340,6 @@ export default {
     });
     this.fetchComponents();
   },
-
 
 
   computed: {
@@ -389,18 +388,18 @@ export default {
     },
 
     async fetchComponents() {
-  this.loading = true;
-  this.error = null;
-  try {
-    const response = await axios.get('/api/components');
-    // Axios automatically throws on error status codes, and data is in response.data
-    this.components = this.groupComponentsByCategory(response.data);
-  } catch (error) {
-    this.error = error.message;
-  } finally {
-    this.loading = false;
-  }
-},
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await axios.get('/api/components');
+        // Axios automatically throws on error status codes, and data is in response.data
+        this.components = this.groupComponentsByCategory(response.data);
+      } catch (error) {
+        this.error = error.message;
+      } finally {
+        this.loading = false;
+      }
+    },
 
     groupComponentsByCategory(components) {
       return components.reduce((acc, component) => {
@@ -456,8 +455,7 @@ export default {
     selectComponent(component) {
       if (this.selectedComponents[this.currentType] === component) {
         this.selectedComponents[this.currentType] = null;
-      }
-      else {
+      } else {
         this.selectedComponents[this.currentType] = component;
       }
     },
@@ -509,7 +507,7 @@ export default {
     },
 
     async saveConfiguration() {
-      // Implement save configuration logic here
+
       console.log('Configuration saved:', this.selectedComponents);
     }
   }

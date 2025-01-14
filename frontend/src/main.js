@@ -7,7 +7,7 @@ import { createVuetify } from "vuetify";
 import "vuetify/styles";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
-//import "@mdi/font/css/materialdesignicons.css";
+import "@mdi/font/css/materialdesignicons.css";
 import axios from "axios";
 import {createPinia} from "pinia";
 import {useAuthStore} from "@/store/auth.js";
