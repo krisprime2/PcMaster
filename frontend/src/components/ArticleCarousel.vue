@@ -26,6 +26,7 @@
                     variant="flat"
                     block
                     class="shop-now-btn"
+                    @click="router.push('/articles')"
                 >
                   Jetzt Kaufen
                 </v-btn>
@@ -71,6 +72,8 @@
 </template>
 
 <script setup>
+import router from "@/router/index.js";
+
 const topSelling = [
   {
     id: 1,
