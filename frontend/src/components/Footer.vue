@@ -1,86 +1,25 @@
 <!-- Footer.vue -->
 <template>
   <v-footer class="custom-footer">
-    <v-container fluid class="px-4"> <!-- Added fluid and px-4 for better mobile handling -->
-      <v-row>
-        <!-- Logo Section -->
-        <v-col cols="12" md="3" class="text-center text-md-left mb-6 mb-md-0">
+    <v-container fluid class="px-4">
+      <!-- Logo Section -->
+      <v-row justify="center">
+        <v-col cols="12" sm="3" class="text-center mb-4">
           <v-img
               src="@/assets/logo.png"
               max-width="120"
-              class="mx-auto mx-md-0"
+              class="mx-auto"
               alt="Logo"
           />
         </v-col>
-
-        <!-- Newsletter Section -->
-        <v-col cols="12" class="text-center mb-6 border-top">
-          <div class="newsletter-container">
-            <p class="text-h6 mb-4">Subscribe to our newsletter</p>
-            <div class="newsletter-form">
-              <input
-                  v-model="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  class="custom-input"
-              />
-              <button
-                  @click="subscribe"
-                  class="custom-button"
-              >
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </v-col>
       </v-row>
 
-      <!-- Navigation Links -->
-      <v-row class="mt-6">
-        <!-- Product Column -->
-        <v-col cols="6" sm="3" class="px-2"> <!-- Added sm breakpoint and adjusted padding -->
-          <h3 class="text-h6 mb-4">Product</h3>
-          <v-list density="compact" bg-color="transparent" class="pa-0"> <!-- Added pa-0 -->
-            <v-list-item to="/features" class="footer-link">Features</v-list-item>
-            <v-list-item to="/pricing" class="footer-link">Pricing</v-list-item>
-          </v-list>
-        </v-col>
-
-        <!-- Resources Column -->
-        <v-col cols="6" sm="3" class="px-2">
-          <h3 class="text-h6 mb-4">Resources</h3>
-          <v-list density="compact" bg-color="transparent" class="pa-0">
-            <v-list-item to="/blog" class="footer-link">Blog</v-list-item>
-            <v-list-item to="/guides" class="footer-link">User guides</v-list-item>
-            <v-list-item to="/webinars" class="footer-link">Webinars</v-list-item>
-          </v-list>
-        </v-col>
-
-        <!-- Company Column -->
-        <v-col cols="6" sm="3" class="px-2">
-          <h3 class="text-h6 mb-4">Company</h3>
-          <v-list density="compact" bg-color="transparent" class="pa-0">
-            <v-list-item to="/about" class="footer-link">About us</v-list-item>
-            <v-list-item to="/contact" class="footer-link">Contact us</v-list-item>
-          </v-list>
-        </v-col>
-
-        <!-- Plans & Pricing Column -->
-        <v-col cols="6" sm="3" class="px-2">
-          <h3 class="text-h6 mb-4">Plans & Pricing</h3>
-          <v-list density="compact" bg-color="transparent" class="pa-0">
-            <v-list-item to="/personal" class="footer-link">Personal</v-list-item>
-            <v-list-item to="/startup" class="footer-link">Start up</v-list-item>
-            <v-list-item to="/organization" class="footer-link">Organization</v-list-item>
-          </v-list>
-        </v-col>
-      </v-row>
-
-      <!-- Bottom Section -->
-      <v-row class="mt-6 pt-6 border-top">
-        <v-col cols="12" md="6" class="text-center text-md-left">
-          <div class="d-flex align-center justify-center justify-md-start flex-wrap"> <!-- Added flex-wrap -->
-            <div class="custom-select">
+      <!-- Main Footer Content -->
+      <v-row class="border-top pt-4">
+        <!-- Language and Copyright -->
+        <v-col cols="12" class="text-center mb-4">
+          <div class="d-flex flex-column flex-sm-row align-center justify-center gap-3">
+            <div class="custom-select mb-3 mb-sm-0">
               <select v-model="selectedLanguage" class="select-input">
                 <option v-for="lang in languages" :key="lang" :value="lang">
                   {{ lang }}
@@ -88,12 +27,13 @@
               </select>
               <span class="select-arrow"></span>
             </div>
-            <span class="mx-2">•</span>
             <span>© {{ new Date().getFullYear() }} PC Shop Inc.</span>
           </div>
         </v-col>
-        <v-col cols="12" md="6" class="text-center text-md-right">
-          <div class="d-flex justify-center justify-md-end flex-wrap"> <!-- Added flex-wrap -->
+
+        <!-- Legal Links -->
+        <v-col cols="12" class="text-center mb-4">
+          <div class="d-flex flex-wrap justify-center gap-3">
             <v-btn
                 v-for="(link, index) in legalLinks"
                 :key="index"
@@ -105,19 +45,39 @@
             </v-btn>
           </div>
         </v-col>
+
+        <!-- Newsletter Section -->
+        <v-col cols="12" class="text-center">
+          <div class="newsletter-container">
+            <p class="text-h6 mb-4">Newsletter abonnieren</p>
+            <div class="newsletter-form">
+              <input
+                  v-model="email"
+                  type="email"
+                  placeholder="E-Mail-Adresse eingeben"
+                  class="custom-input"
+              />
+              <button
+                  @click="subscribe"
+                  class="custom-button"
+              >
+                Abonnieren
+              </button>
+            </div>
+          </div>
+        </v-col>
       </v-row>
     </v-container>
   </v-footer>
 </template>
 
 <script>
-// Script remains the same
 export default {
   name: 'Footer',
   data() {
     return {
       email: '',
-      selectedLanguage: 'English',
+      selectedLanguage: 'Deutsch',
       languages: ['English', 'Deutsch', 'Français'],
       legalLinks: [
         { text: 'Datenschutzerklärung', route: '/privacy' },
@@ -135,33 +95,114 @@ export default {
 </script>
 
 <style scoped>
-/* Previous styles remain the same */
 .custom-footer {
   background-color: #0A0E1A !important;
   color: #ffffff;
-  padding: 48px 0;
-  width: 100%; /* Added to ensure full width */
-  overflow-x: hidden; /* Added to prevent horizontal scroll */
+  padding: 32px 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
-/* Update container max-width for mobile */
 .newsletter-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 100%; /* Updated from 600px */
+  max-width: 100%;
   margin: 0 auto;
-  padding: 20px 0; /* Removed horizontal padding */
 }
 
 .newsletter-form {
   display: flex;
+  flex-direction: column;
   gap: 12px;
-  width: 100%;
+  width: 90%;
   max-width: 500px;
   margin: 0 auto;
 }
 
-/* Rest of the styles remain the same */
+@media (min-width: 600px) {
+  .newsletter-form {
+    flex-direction: row;
+  }
+}
+
+.custom-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ffffff3d;
+  border-radius: 4px;
+  background: transparent;
+  color: white;
+  width: 100%;
+}
+
+.custom-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ff0000;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .custom-button {
+    width: auto;
+  }
+}
+
+.custom-button:hover {
+  background-color: #cc0000;
+}
+
+.custom-select {
+  position: relative;
+  width: 200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+  .custom-select {
+    width: 120px;
+    margin: 0;
+  }
+}
+
+.select-input {
+  width: 100%;
+  padding: 8px 24px 8px 12px;
+  border: 1px solid #ffffff3d;
+  border-radius: 4px;
+  background: transparent;
+  color: white;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid white;
+  pointer-events: none;
+}
+
+.footer-link {
+  color: white !important;
+  text-decoration: none;
+}
+
+.custom-input::placeholder {
+  color: #ffffff8f;
+}
+
+.gap-3 {
+  gap: 12px;
+}
 </style>
