@@ -1,68 +1,72 @@
 <template>
   <v-container fluid class="bg-black pa-8">
-    <!-- Top Selling Products -->
-    <h1 class="text-h3 text-white text-center mb-12">Top Selling Products</h1>
-    <v-row>
-      <v-col v-for="product in topSelling" :key="product.id" cols="12" md="4">
-        <v-card class="bg-grey-darken-4" elevation="10">
-          <div class="position-relative">
-            <v-img
-                :src="product.image"
-                height="200"
-                cover
-                class="bg-grey-darken-3"
-            ></v-img>
-            <div class="discount-badge">{{ product.discount }}% Off</div>
-          </div>
-          <v-card-text>
-            <div class="text-subtitle-1 text-grey-lighten-1 mb-1">
-              Model: {{ product.model }}
-            </div>
-            <div class="text-body-2 text-grey-lighten-2 mb-4">
-              Price: ${{ product.price }}
-            </div>
-            <v-btn
-                color="indigo-accent-2"
-                variant="flat"
-                block
-                class="shop-now-btn"
-            >
-              Shop Now
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+    <v-row justify="center">
+      <v-col cols="12" lg="10" xl="8">
+        <!-- Top Selling Products -->
+        <h1 class="text-h4 text-white text-center mb-8">Top Selling Products</h1>
+        <v-row justify="center">
+          <v-col v-for="product in topSelling" :key="product.id" cols="12" sm="6" md="4">
+            <v-card class="bg-grey-darken-4" elevation="10" height="100%">
+              <div class="position-relative">
+                <v-img
+                    :src="product.image"
+                    height="150"
+                    cover
+                    class="bg-grey-darken-3"
+                ></v-img>
+                <div class="discount-badge">{{ product.discount }}% Off</div>
+              </div>
+              <v-card-text>
+                <div class="text-subtitle-2 text-grey-lighten-1 mb-1">
+                  Model: {{ product.model }}
+                </div>
+                <div class="text-body-2 text-grey-lighten-2 mb-3">
+                  Price: ${{ product.price }}
+                </div>
+                <v-btn
+                    color="indigo-accent-2"
+                    variant="flat"
+                    block
+                    class="shop-now-btn"
+                >
+                  Shop Now
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
 
-    <!-- New Arrivals -->
-    <h1 class="text-h3 text-white text-center my-12">New Arrivals</h1>
-    <v-row>
-      <v-col v-for="product in newArrivals" :key="product.id" cols="12" md="4">
-        <v-card class="bg-grey-darken-4" elevation="10">
-          <v-img
-              :src="product.image"
-              height="200"
-              cover
-              class="bg-grey-darken-3"
-          ></v-img>
-          <v-card-text>
-            <div class="text-h6 text-white mb-2">{{ product.name }}</div>
-            <div class="text-body-2 text-grey-lighten-2 mb-2">
-              Price: ${{ product.price }}
-            </div>
-            <div class="text-body-2 text-grey-lighten-1 mb-4">
-              {{ product.description }}
-            </div>
-            <v-btn
-                color="indigo-accent-2"
-                variant="flat"
-                block
-                class="shop-now-btn"
-            >
-              Shop Now
-            </v-btn>
-          </v-card-text>
-        </v-card>
+        <!-- New Arrivals -->
+        <h1 class="text-h4 text-white text-center my-8">New Arrivals</h1>
+        <v-row justify="center">
+          <v-col v-for="product in newArrivals" :key="product.id" cols="12" sm="6" md="4">
+            <v-card class="bg-grey-darken-4" elevation="10" height="100%">
+              <v-img
+                  :src="product.image"
+                  height="150"
+                  cover
+                  class="bg-grey-darken-3"
+              ></v-img>
+              <v-card-text>
+                <div class="text-h6 text-white mb-2">{{ product.name }}</div>
+                <div class="text-body-2 text-grey-lighten-2 mb-2">
+                  Price: ${{ product.price }}
+                </div>
+                <div class="text-body-2 text-grey-lighten-1 mb-3">
+                  {{ product.description }}
+                </div>
+                <v-btn
+                    color="indigo-accent-2"
+                    variant="flat"
+                    block
+                    class="shop-now-btn"
+                >
+                  Shop Now
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -121,12 +125,13 @@ const newArrivals = [
 <style scoped>
 .discount-badge {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 8px;
+  left: 8px;
   background: rgba(var(--v-theme-primary), 0.9);
   color: white;
-  padding: 4px 12px;
+  padding: 2px 8px;
   border-radius: 4px;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
@@ -135,7 +140,6 @@ const newArrivals = [
   letter-spacing: 0.5px;
 }
 
-/* Add subtle hover effect to cards */
 .v-card {
   transition: transform 0.2s ease-in-out;
 }
