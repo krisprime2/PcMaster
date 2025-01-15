@@ -154,7 +154,7 @@ module.exports = {
     ***************************************************************************/
     cors: {
       allRoutes: true,
-      allowOrigins: ['https://pcmaster-1.onrender.com'],
+      allowOrigins: ['https://pcmaster.onrender.com'],
       allowCredentials: true,
     },
 
@@ -271,7 +271,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
      onlyAllowOrigins: [
-       'https://pcmaster-1.onrender.com',
+       'https://pcmaster.onrender.com',
      ],
 
 
