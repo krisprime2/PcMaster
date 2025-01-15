@@ -17,10 +17,10 @@ import {validate} from "vee-validate";
 axios.defaults.withCredentials = true;
 if (!import.meta.env.PROD) {
     console.log("--> Development Mode")
-    axios.defaults.baseURL = "https://pcmaster-1.onrender.com/";
+    axios.defaults.baseURL = "https://pcmaster.onrender.com";
 } else {
     console.log("--> Production Mode")
-    axios.defaults.baseURL = "https://pcmaster-1.onrender.com/";
+    axios.defaults.baseURL = "https://pcmaster.onrender.com";
 }
 
 const vuetify = createVuetify({
