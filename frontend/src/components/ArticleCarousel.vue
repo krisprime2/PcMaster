@@ -80,14 +80,14 @@ const topSelling = [
     model: 'XPS 17',
     price: '1,799',
     discount: 15,
-    image: 'src/assets/images/delllaptop.jpg'
+    image: '/assets/images/delllaptop.jpg'
   },
   {
     id: 2,
     model: 'Alienware Aurora',
     price: '2,299',
     discount: 20,
-    image: 'src/assets/images/pcred1.jpg'
+    image: '/assets/images/pcred1.jpg'
   },
   {
     id: 3,
