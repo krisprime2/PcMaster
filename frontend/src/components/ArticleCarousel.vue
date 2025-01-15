@@ -59,7 +59,7 @@
                     block
                     class="shop-now-btn"
                 >
-                  Shop Now
+                  Jetzt Kaufen
                 </v-btn>
               </v-card-text>
             </v-card>
@@ -77,21 +77,21 @@ const topSelling = [
     model: 'XPS 17',
     price: '1,799',
     discount: 15,
-    image: 'src/assets/images/LaptopMobile.png'
+    image: 'src/assets/images/delllaptop.jpg'
   },
   {
     id: 2,
     model: 'Alienware Aurora',
     price: '2,299',
     discount: 20,
-    image: 'src/assets/images/LaptopMobile.png'
+    image: 'src/assets/images/pcred1.jpg'
   },
   {
     id: 3,
     model: 'MacBook Pro',
     price: '2,499',
     discount: 10,
-    image: 'src/assets/images/LaptopMobile.png'
+    image: 'src/assets/images/macbook1.jpg'
   }
 ]
 
@@ -101,21 +101,21 @@ const newArrivals = [
     name: 'Gaming Beast',
     price: '1,299',
     description: 'High-performance gaming PC',
-    image: 'src/assets/images/LaptopMobile.png'
+    image: 'src/assets/images/pcblue1.jpg'
   },
   {
     id: 2,
     name: 'Ultrabook Pro',
     price: '999',
     description: 'Lightweight ultrabook with 16GB RAM',
-    image: 'src/assets/images/LaptopMobile.png'
+    image: 'src/assets/images/delllaptop2.jpg'
   },
   {
     id: 3,
     name: 'Workstation Pro',
     price: '2,499',
     description: 'Workstation with Intel Xeon processor',
-    image: 'src/assets/images/LaptopMobile.png'
+    image: 'src/assets/images/pcred1.jpg'
   }
 ]
 </script>
