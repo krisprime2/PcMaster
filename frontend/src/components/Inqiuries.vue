@@ -3,21 +3,12 @@
     <v-main class="bg-surface">
       <!-- Hero Section -->
       <v-parallax
-          src="../public/desktopMainBg.png"
+          src="./src/assets/images/desktopMainBg.png"
           :height="400"
       >
         <div class="d-flex flex-column fill-height justify-center align-center text-white text-center">
           <h1 class="text-h2 font-weight-thin mb-4">Wir kaufen alte Geräte</h1>
           <h4 class="subheading mb-6">Verwandeln Sie Ihre alte Technik mühelos in Bargeld</h4>
-          <v-btn
-              color="primary"
-              size="x-large"
-              rounded
-              elevation="2"
-              @click="scrollToForm"
-          >
-            Jetzt starten
-          </v-btn>
         </div>
       </v-parallax>
 
@@ -50,100 +41,113 @@
 
           <!-- Main form -->
           <v-col cols="12" md="6">
-            <v-card
-                class="mx-auto pa-6"
-                elevation="8"
-                rounded="xl"
-                :loading="isLoading"
-                theme="dark"
-            >
-              <template v-slot:loader>
-                <v-progress-linear indeterminate color="primary"></v-progress-linear>
-              </template>
+            <v-card class="custom-card elevation-12">
+              <v-card-text class="text-center">
+                <h1 class="text-h4 mb-4 white--text">Geräte-Anfrageformular</h1>
+                <p class="text-subtitle-1 mb-6 grey--text">Verwandeln Sie Ihre alte Technik in Bargeld!</p>
 
-              <v-card-title class="text-h4 font-weight-bold text-center mb-6">
-                Geräte-Anfrageformular
-              </v-card-title>
-
-              <v-form v-if="!isSubmitted" ref="form" v-model="valid" @submit.prevent="submitForm">
-                <v-text-field
-                    v-model="formData.name"
-                    label="Ihr Name"
-                    :rules="nameRules"
-                    variant="outlined"
-                    color="primary"
-                    class="mb-4"
-                ></v-text-field>
-
-                <v-text-field
-                    v-model="formData.email"
-                    label="Ihre E-Mail"
-                    :rules="emailRules"
-                    variant="outlined"
-                    color="primary"
-                    class="mb-4"
-                    type="email"
-                ></v-text-field>
-
-                <v-text-field
-                    v-model="formData.deviceType"
-                    label="Gerätetyp"
-                    placeholder="z. B. Laptop, Smartphone"
-                    :rules="requiredRule"
-                    variant="outlined"
-                    color="primary"
-                    class="mb-4"
-                ></v-text-field>
-
-                <v-text-field
-                    v-model="formData.modelNumber"
-                    label="Modellnummer"
-                    type="text"
-                    :rules="requiredRule"
-                    variant="outlined"
-                    color="primary"
-                    class="mb-4"
-                ></v-text-field>
-
-                <v-textarea
-                    v-model="formData.description"
-                    label="Beschreibung"
-                    placeholder="Beschreiben Sie den Zustand Ihres Geräts"
-                    :rules="requiredRule"
-                    variant="outlined"
-                    color="primary"
-                    rows="4"
-                    class="mb-6"
-                ></v-textarea>
-
-                <v-btn
-                    type="submit"
-                    color="primary"
-                    size="x-large"
-                    block
-                    :disabled="!valid"
+                <v-form
+                    ref="form"
+                    v-model="valid"
+                    @submit.prevent="submitForm"
+                    v-if="!isSubmitted"
                 >
-                  {{ isLoading ? "Anfrage wird gesendet..." : "Anfrage absenden" }}
-                </v-btn>
-              </v-form>
+                  <div class="form-field-wrapper">
+                    <v-text-field
+                        v-model="formData.name"
+                        label="Ihr Name"
+                        :rules="nameRules"
+                        required
+                        dark
+                        color="red darken-1"
+                        class="centered-text-field"
+                    ></v-text-field>
+                  </div>
 
-              <v-alert
-                  v-if="isSubmitted"
-                  type="success"
-                  variant="tonal"
-                  class="mt-4"
-              >
-                {{ successMessage }}
-              </v-alert>
+                  <div class="form-field-wrapper">
+                    <v-text-field
+                        v-model="formData.email"
+                        label="Ihre E-Mail"
+                        :rules="emailRules"
+                        required
+                        type="email"
+                        dark
+                        color="red darken-1"
+                        class="centered-text-field"
+                    ></v-text-field>
+                  </div>
 
-              <v-alert
-                  v-if="serverError"
-                  type="error"
-                  variant="tonal"
-                  class="mt-4"
-              >
-                {{ serverError }}
-              </v-alert>
+                  <div class="form-field-wrapper">
+                    <v-text-field
+                        v-model="formData.deviceType"
+                        label="Gerätetyp"
+                        :rules="requiredRules"
+                        required
+                        dark
+                        color="red darken-1"
+                        placeholder="z. B. Laptop, Smartphone"
+                        class="centered-text-field"
+                    ></v-text-field>
+                  </div>
+
+                  <div class="form-field-wrapper">
+                    <v-text-field
+                        v-model="formData.modelNumber"
+                        label="Modellnummer"
+                        :rules="requiredRules"
+                        required
+                        dark
+                        color="red darken-1"
+                        class="centered-text-field"
+                    ></v-text-field>
+                  </div>
+
+                  <div class="form-field-wrapper">
+                    <v-textarea
+                        v-model="formData.description"
+                        label="Beschreibung"
+                        :rules="requiredRules"
+                        required
+                        dark
+                        color="red darken-1"
+                        placeholder="Beschreiben Sie den Zustand Ihres Geräts"
+                        rows="4"
+                        class="centered-text-field"
+                    ></v-textarea>
+                  </div>
+
+                  <v-btn
+                      color="red darken-1"
+                      dark
+                      block
+                      large
+                      class="mt-4"
+                      type="submit"
+                      :loading="isLoading"
+                      :disabled="!valid"
+                  >
+                    {{ isLoading ? "Anfrage wird gesendet..." : "Anfrage absenden" }}
+                  </v-btn>
+                </v-form>
+
+                <v-alert
+                    v-if="isSubmitted"
+                    type="success"
+                    variant="tonal"
+                    class="mt-4"
+                >
+                  {{ successMessage }}
+                </v-alert>
+
+                <v-alert
+                    v-if="serverError"
+                    type="error"
+                    variant="tonal"
+                    class="mt-4"
+                >
+                  {{ serverError }}
+                </v-alert>
+              </v-card-text>
             </v-card>
           </v-col>
 
@@ -199,10 +203,12 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
 import axios from 'axios';
 
+// Configure axios defaults for Strapi
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+const form = ref(null);
 const valid = ref(false);
 const isLoading = ref(false);
 const isSubmitted = ref(false);
@@ -215,13 +221,12 @@ const formData = reactive({
   deviceType: '',
   modelNumber: '',
   description: '',
-  user: null,
-  status: 'pending'
+  status: 1
 });
 
 const nameRules = [
   v => !!v || 'Name ist erforderlich',
-  v => v.length <= 50 || 'Name darf maximal 50 Zeichen haben'
+  v => (v && v.length <= 50) || 'Name darf maximal 50 Zeichen haben'
 ];
 
 const emailRules = [
@@ -229,47 +234,48 @@ const emailRules = [
   v => /.+@.+\..+/.test(v) || 'E-Mail muss gültig sein'
 ];
 
-const requiredRule = [
+const requiredRules = [
   v => !!v || 'Dieses Feld ist erforderlich'
 ];
 
-const schema = yup.object({
-  name: yup.string().required('Name ist erforderlich').max(50, 'Name darf maximal 50 Zeichen haben'),
-  email: yup.string().required('E-Mail ist erforderlich').email('E-Mail muss gültig sein'),
-  deviceType: yup.string().required('Gerätetyp ist erforderlich'),
-  modelNumber: yup.string().required('Modellnummer ist erforderlich'),
-  description: yup.string().required('Beschreibung ist erforderlich')
-});
+async function submitForm() {
+  const { valid } = await form.value.validate();
 
-const {handleSubmit, errors} = useForm({
-  validationSchema: schema,
-});
+  if (!valid) return;
 
-const submitForm = handleSubmit(async (values) => {
   isLoading.value = true;
   serverError.value = null;
 
   try {
-    const userId = localStorage.getItem('userId');
-    formData.user = userId;
-    await axios.post('/inquiry/create', formData);
-    isSubmitted.value = true;
-    Object.assign(formData, {
-      name: '',
-      email: '',
-      deviceType: '',
-      modelNumber: '',
-      description: '',
-      user: null,
-      status: 'pending'
+    const response = await axios.post('/inquiry/create', {
+      name: formData.name,
+      email: formData.email,
+      deviceType: formData.deviceType,
+      modelNumber: Number(formData.modelNumber), // Convert to number
+      description: formData.description,
+      status: 1 // INPROCESSING status
     });
+
+    if (response.status === 200 || response.status === 201) {
+      isSubmitted.value = true;
+
+      // Reset form data
+      Object.assign(formData, {
+        name: '',
+        email: '',
+        deviceType: '',
+        modelNumber: '',
+        description: '',
+        status: 1
+      });
+    }
   } catch (error) {
-    serverError.value = error.response?.data?.message || 'Ein unerwarteter Fehler ist aufgetreten.';
-    console.error('Fehler beim Absenden des Formulars:', error);
+    console.error('Error details:', error.response?.data);
+    serverError.value = error.response?.data?.message || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
   } finally {
     isLoading.value = false;
   }
-});
+}
 
 const scrollToForm = () => {
   const formSection = document.querySelector('.form-container');
@@ -286,5 +292,37 @@ const contactUs = () => {
 <style scoped>
 .bg-surface {
   background-color: #121212;
+}
+
+.custom-card {
+  background-color: #171717 !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.form-field-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.centered-text-field {
+  max-width: 100%;
+}
+
+.v-text-field >>> .v-input__slot {
+  background-color: #2A2E35 !important;
+}
+
+.v-text-field >>> .v-label {
+  color: #fff !important;
+}
+
+.v-text-field >>> input {
+  color: #fff !important;
+}
+
+.v-textarea >>> textarea {
+  color: #fff !important;
 }
 </style>

@@ -5,6 +5,8 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+
+
 module.exports = {
   create: async function (req, res) {
     try {
@@ -20,7 +22,7 @@ module.exports = {
       const inquiry = await Inquiry.create({
         name,
         description,
-        status:  'pending', // Standardstatus
+        status:  1,
         deviceType,
         modelNumber,
         user, // Fremdschlüssel zum User

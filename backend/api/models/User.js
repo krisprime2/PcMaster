@@ -25,10 +25,6 @@ module.exports = {
       collection: 'configuration',
       via: 'user'
     },
-    inquiries: {
-      collection: 'inquiry',
-      via: 'user',
-    },
   },
 };
 
