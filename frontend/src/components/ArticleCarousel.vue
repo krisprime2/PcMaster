@@ -77,21 +77,21 @@ const topSelling = [
     model: 'XPS 17',
     price: '1,799',
     discount: 15,
-    image: 'public/LaptopMobile.png'
+    image: 'src/assets/images/LaptopMobile.png'
   },
   {
     id: 2,
     model: 'Alienware Aurora',
     price: '2,299',
     discount: 20,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-TJqjP0xUa5cJj36pYrGfwciwHef8ff.png'
+    image: 'src/assets/images/LaptopMobile.png'
   },
   {
     id: 3,
     model: 'MacBook Pro',
     price: '2,499',
     discount: 10,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-TJqjP0xUa5cJj36pYrGfwciwHef8ff.png'
+    image: 'src/assets/images/LaptopMobile.png'
   }
 ]
 
@@ -101,21 +101,21 @@ const newArrivals = [
     name: 'Gaming Beast',
     price: '1,299',
     description: 'High-performance gaming PC',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-TJqjP0xUa5cJj36pYrGfwciwHef8ff.png'
+    image: 'src/assets/images/LaptopMobile.png'
   },
   {
     id: 2,
     name: 'Ultrabook Pro',
     price: '999',
     description: 'Lightweight ultrabook with 16GB RAM',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-TJqjP0xUa5cJj36pYrGfwciwHef8ff.png'
+    image: 'src/assets/images/LaptopMobile.png'
   },
   {
     id: 3,
     name: 'Workstation Pro',
     price: '2,499',
     description: 'Workstation with Intel Xeon processor',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-TJqjP0xUa5cJj36pYrGfwciwHef8ff.png'
+    image: 'src/assets/images/LaptopMobile.png'
   }
 ]
 </script>

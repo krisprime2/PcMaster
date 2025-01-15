@@ -34,7 +34,7 @@ import Testimonials from "@/components/Testimonials.vue";
 }
 
 .main-header {
-  background: url('/public/MobileMainPicture.png') no-repeat center center / cover;
+  background: url('src/assets/images/MobileMainPicture.png') no-repeat center center / cover;
   min-height: 60vh;
   display: flex;
   align-items: center;
@@ -67,7 +67,7 @@ import Testimonials from "@/components/Testimonials.vue";
 
 @media (min-width: 992px) {
   .main-header {
-    background: url('/public/desktopMainBg.png') no-repeat center center / cover;
+    background: url('/src/assets/images/desktopMainBg.png') no-repeat center center / cover;
     min-height: 50vh;
     display: flex;
     align-items: center;

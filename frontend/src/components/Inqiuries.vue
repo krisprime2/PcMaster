@@ -41,7 +41,7 @@
               </v-card-text>
             </v-card>
             <v-img
-                src="../public/recycling-image.jpg"
+                src="../src/assets/images/recycling-image.jpg"
                 height="200"
                 cover
                 class="rounded-lg"
@@ -164,7 +164,7 @@
               </v-card-text>
             </v-card>
             <v-img
-                src="../public/happy-customer.jpg"
+                src="../src/assets/images/happy-customer.jpg"
                 height="200"
                 cover
                 class="rounded-lg"

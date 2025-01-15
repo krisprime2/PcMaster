@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     getPlaceholderImage(id) {
-      return `/public/img-about-us.jpg`;
+      return `/src/assets/images/img-about-us.jpg`;
     },
     addToCart(product) {
       console.log("added to cart");

@@ -36,7 +36,7 @@
                     class="pa-4 bg-transparent"
                 >
                   <v-img
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-nDRPzHGn62JCIeoudS9t7mvOIrqRqI.png"
+                      src="/src/assets/images/pckonfig.png"
                       height="400"
                       cover
                       class="rounded-lg"

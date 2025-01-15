@@ -268,7 +268,7 @@ const submitOrder = async () => {
 
 .main-header {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-  url('../../public/desktopMainBg.png') no-repeat center center / cover;
+  url('../assets/images/desktopMainBg.png') no-repeat center center / cover;
   padding: 50px 0;
   text-align: center;
 }

@@ -18,7 +18,6 @@ const handleLogout = async () => {
   }
 }
 </script>
-
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
@@ -37,15 +36,15 @@ const handleLogout = async () => {
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-lg-start text-end">
           <li class="nav-item">
-            <router-link class="nav-link" to="/articles">Artikel</router-link>
+            <router-link class="nav-link" to="/articles" @click="closeNavbar">Artikel</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/config">PC Konfigurator</router-link>
+            <router-link class="nav-link" to="/config" @click="closeNavbar">PC Konfigurator</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/inquiry">Gerät verkaufen</router-link>
+            <router-link class="nav-link" to="/inquiry" @click="closeNavbar">Gerät verkaufen</router-link>
           </li>
           <li v-if="authStore.isAuthenticated && authStore.user?.role === 1" class="nav-item dropdown">
             <a
@@ -60,25 +59,25 @@ const handleLogout = async () => {
             </a>
             <ul class="dropdown-menu" aria-labelledby="adminDropdown">
               <li>
-                <router-link class="dropdown-item" to="/admin/user">User-Verwaltung</router-link>
+                <router-link class="dropdown-item" to="/admin/user" @click="closeNavbar">User-Verwaltung</router-link>
               </li>
               <li>
-                <router-link class="dropdown-item" to="/admin/articles">Artikel-Verwaltung</router-link>
+                <router-link class="dropdown-item" to="/admin/articles" @click="closeNavbar">Artikel-Verwaltung</router-link>
               </li>
               <li>
-                <router-link class="dropdown-item" to="/admin/orders">Bestell-Verwaltung</router-link>
+                <router-link class="dropdown-item" to="/admin/orders" @click="closeNavbar">Bestell-Verwaltung</router-link>
               </li>
             </ul>
           </li>
         </ul>
 
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto text-end">
           <template v-if="!authStore.isAuthenticated">
             <li class="nav-item me-2">
-              <router-link class="btn btn-outline-light" to="/login">Login</router-link>
+              <router-link class="btn btn-outline-light" to="/login" @click="closeNavbar">Login</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="btn btn-outline-light" to="/register">Registrieren</router-link>
+              <router-link class="btn btn-outline-light" to="/register" @click="closeNavbar">Registrieren</router-link>
             </li>
           </template>
           <template v-else>
@@ -89,11 +88,11 @@ const handleLogout = async () => {
               <button @click="handleLogout" class="btn btn-outline-light">Logout</button>
             </li>
           </template>
-          <li class="nav-item me-3">
-            <router-link to="/cart" class="nav-link d-flex align-items-center">
+          <li class="nav-item">
+            <router-link to="/cart" class="nav-link" @click="closeNavbar">
               <v-icon
                   color="white"
-                  class="me-2 ms-3"
+                  class="me-2"
                   style="font-size: 24px;"
               >
                 mdi-cart

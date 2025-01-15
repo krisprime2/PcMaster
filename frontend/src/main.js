@@ -23,6 +23,10 @@ if (!import.meta.env.PROD) {
     axios.defaults.baseURL = "https://pcmaster.onrender.com";
 }
 
+export const BASE_IMAGE_URL = process.env.NODE_ENV === 'production'
+    ? 'https:/pcmaster.onrender.com/'
+    : '/src/';
+
 const vuetify = createVuetify({
     components,
     directives,

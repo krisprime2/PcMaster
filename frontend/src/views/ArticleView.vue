@@ -103,7 +103,7 @@
                     :elevation="hover ? 12 : 2"
                 >
                   <v-img
-                      :src="product.imageUrl"
+                      :src=getProductImage(product)
                       height="220"
                       class="white--text align-end"
                       gradient="to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%"
@@ -169,6 +169,7 @@ const LAPTOP = 1;
 const DESKTOP_PC = 2;
 const REPLACEMENT_PART = 3;
 import axios from 'axios';
+import { BASE_IMAGE_URL } from '@/main.js';
 
 export default {
   name: 'ArticleView',
@@ -250,6 +251,11 @@ export default {
         [DESKTOP_PC]: 'Desktop PC',
         [REPLACEMENT_PART]: 'Komponente'
       }[type] || 'Produkt';
+    },
+
+    getProductImage(product) {
+      console.log(`${BASE_IMAGE_URL}${product.imageUrl}`)
+      return `${BASE_IMAGE_URL}${product.imageUrl}`;
     },
 
     async fetchProducts() {
