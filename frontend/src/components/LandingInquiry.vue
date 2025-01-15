@@ -42,8 +42,7 @@
 
 <style scoped>
 .trade-in-section {
-  background-color: #0a0a0a;
-  position: relative;
+  background-color: #0A0E1A !important;
 }
 
 .trade-in-card {

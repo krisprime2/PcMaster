@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="configurator-section pa-0">
-    <v-card flat class="bg-black">
+    <v-card flat>
       <v-container>
         <v-row align="center" class="fill-height">
           <v-col cols="12" md="6" class="pr-md-8">
@@ -66,9 +66,13 @@
 
 <style scoped>
 .configurator-section {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  background: #0A0E1A !important;
   position: relative;
   overflow: hidden;
+}
+
+.v-card {
+  background-color: #0A0E1A !important;
 }
 
 .configurator-section::before {

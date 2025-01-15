@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="bg-black pa-8">
+  <v-container fluid class=" pa-8">
     <v-row justify="center">
       <v-col cols="12" lg="10" xl="8">
         <h1 class="text-h4 text-white text-center mb-8">Meistverkaufte Produkte</h1>

@@ -291,7 +291,7 @@ const contactUs = () => {
 
 <style scoped>
 .bg-surface {
-  background-color: #121212;
+  background-color: #0A0E1A !important;
 }
 
 .custom-card {

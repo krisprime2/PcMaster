@@ -36,8 +36,8 @@ const vuetify = createVuetify({
             dark: {
                 dark: true, // Wichtig für den Darkmode
                 colors: {
-                    primary: '#1E88E5',
-                    secondary: '#FFCDD2',
+                    primary: '#636AE8',
+                    background: '#0A0E1A'
                 },
             },
         },

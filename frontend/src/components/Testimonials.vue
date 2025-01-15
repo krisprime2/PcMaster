@@ -96,7 +96,7 @@ const testimonials = ref([
 
 <style scoped>
 .testimonials-section {
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  background: #0A0E1A !important;
   position: relative;
   overflow: hidden;
 }

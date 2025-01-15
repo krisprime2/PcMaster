@@ -4,6 +4,7 @@ import AboutUS from "@/components/AboutUs.vue";
 import Config from "@/components/LandingConfig.vue";
 import Inquiry from "@/components/LandingInquiry.vue";
 import Testimonials from "@/components/Testimonials.vue";
+import router from "@/router/index.js";
 </script>
 
 <template>
@@ -12,7 +13,6 @@ import Testimonials from "@/components/Testimonials.vue";
       <div class="header-container px-4 py-8 md:py-16">
         <h1 class="text-3xl md:text-4xl font-bold mb-4 mx-auto max-w-2xl">Unschlagbare PC-Angebote</h1>
         <p class="text-lg md:text-xl mb-6 mx-auto max-w-xl">Sparen Sie groß bei hochwertigen PCs und Laptops!</p>
-        <a href="#" class="btn btn-primary inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">Jetzt einkaufen</a>
       </div>
     </header>
 
@@ -49,7 +49,7 @@ import Testimonials from "@/components/Testimonials.vue";
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2); /* Reduced opacity from 0.5 to 0.2 */
 }
 
 .header-container {

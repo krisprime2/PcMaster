@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="about-us-section pa-0">
-    <v-card flat class="bg-black">
+    <v-card flat>
       <!-- Hero Section -->
       <v-row no-gutters>
         <v-col cols="12" md="6">
@@ -103,21 +103,18 @@ const qualityPromises = ref([
 
 <style scoped>
 .about-us-section {
-  background-color: #121212;
+  background-color: #0A0E1A !important;
+}
+
+.v-card {
+  background-color: #0A0E1A !important;
 }
 
 .promise-card {
-  background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+  background: linear-gradient(145deg, #1E2127, #2A2E35);
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
-.promise-card.on-hover {
-  transform: translateY(-5px);
-  background: linear-gradient(145deg, #2a2a2a, #3a3a3a);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
 .image-overlay {
   position: absolute;
   top: 0;

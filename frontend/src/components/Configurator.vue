@@ -122,7 +122,7 @@
                     @click="selectComponent(component)"
                 >
                   <v-img
-                      :src="component.imageUrl"
+                      :src=getComponentBigImage(component)
                       height="200"
                       cover
                       class="bg-grey-darken-4"
@@ -312,6 +312,7 @@
 
 <script>
 import axios from "axios";
+import {BASE_IMAGE_URL} from "@/main.js";
 
 const COMPONENT_TYPES = {
   CPU: '1',
@@ -360,6 +361,9 @@ export default {
 
 
   computed: {
+    c() {
+      return c
+    },
 
     progressPercentage() {
       const total = Object.keys(this.selectedComponents).length;
@@ -402,6 +406,11 @@ export default {
     getComponentImage(component) {
       // Return component type specific SVG placeholder
       return `data:image/svg+xml,${encodeURIComponent(this.getComponentSVG(this.currentType))}`;
+    },
+
+    getComponentBigImage(component) {
+      console.log(`${BASE_IMAGE_URL}${component.imageUrl}`)
+      return `${BASE_IMAGE_URL}${component.imageUrl}`;
     },
 
     showSnackbar(message, color) {
@@ -564,7 +573,7 @@ export default {
 
 <style scoped>
 .configurator-container {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  background: #0A0E1A !important;
   min-height: 100vh;
 }
 
