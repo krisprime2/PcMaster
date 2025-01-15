@@ -74,9 +74,9 @@ module.exports = {
       adapter: 'sails-mysql',
       host: '193.196.53.194',
       port: 33061,
-      user: 'user8_test',
-      database: 'pcmaster_test',
-      password: 'c116112'
+      user: 'user8_prod',
+      database: 'pcmaster_prod',
+      password: 'c100112'
     },
 
   },
