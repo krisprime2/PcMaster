@@ -17,7 +17,7 @@ import {validate} from "vee-validate";
 axios.defaults.withCredentials = true;
 if (!import.meta.env.PROD) {
     console.log("--> Development Mode")
-    axios.defaults.baseURL = "https://pcmaster.onrender.com";
+    axios.defaults.baseURL = "http://localhost:1337";
 } else {
     console.log("--> Production Mode")
     axios.defaults.baseURL = "https://pcmaster.onrender.com";

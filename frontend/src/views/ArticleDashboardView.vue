@@ -130,7 +130,7 @@
 
  const fetchArticles = async () => {
    try {
-     const response = await axios.get('http://localhost:1337/article')
+     const response = await axios.get('/article')
      articles.value = response.data
      console.log(response.data)
    } catch (error) {
@@ -157,10 +157,10 @@
    try {
      if (selectedArticle.value.id) {
        // Artikel aktualisieren
-       await axios.patch(`http://localhost:1337/api/articles/${selectedArticle.value.id}`, selectedArticle.value);
+       await axios.patch(`/api/articles/${selectedArticle.value.id}`, selectedArticle.value);
      } else {
        // Neuen Artikel erstellen
-       await axios.post('http://localhost:1337/api/articles', selectedArticle.value);
+       await axios.post('/api/articles', selectedArticle.value);
      }
      await fetchArticles(); // Artikel-Liste neu laden
      editDialog.value = false; // Dialog schließen
@@ -174,7 +174,7 @@
    if (!confirm('Are you sure you want to delete this article?')) return
 
    try {
-     await axios.delete(`http://localhost:1337/article/${id}`)
+     await axios.delete(`/article/${id}`)
      await fetchArticles()
    } catch (error) {
      console.error('Error deleting article:', error)

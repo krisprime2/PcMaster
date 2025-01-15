@@ -74,7 +74,7 @@ export default {
           email: this.editedUser.email,
         };
 
-        const response = await axios.put(`http://localhost:1337/user/${this.user.id}`, updateData);
+        const response = await axios.put(`/user/${this.user.id}`, updateData);
 
         this.$emit('user-updated', response.data.updatedUser);
         this.dialog = false;

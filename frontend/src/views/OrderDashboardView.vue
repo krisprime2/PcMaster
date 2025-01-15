@@ -155,7 +155,7 @@ const { smAndDown } = useDisplay()
 
 const fetchOrders = async () => {
   try {
-    const response = await axios.get('http://localhost:1337/order')
+    const response = await axios.get('/order')
     orders.value = response.data
   } catch (error) {
     console.error('Error loading orders:', error)
@@ -184,7 +184,7 @@ const deleteOrder = async (id) => {
   if (!confirm('Sind Sie sicher, dass Sie diese Bestellung löschen möchten?')) return
 
   try {
-    await axios.delete(`http://localhost:1337/order/${id}`)
+    await axios.delete(`/order/${id}`)
     await fetchOrders()
   } catch (error) {
     console.error('Error deleting order:', error)

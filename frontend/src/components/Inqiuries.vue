@@ -225,7 +225,7 @@ const submitForm = handleSubmit(async (values) => {
   try {
     const userId = localStorage.getItem('userId');
     formData.user = userId;
-    await axios.post('http://localhost:1337/inquiry/create', formData);
+    await axios.post('/inquiry/create', formData);
     isSubmitted.value = true;
     Object.assign(formData, {
       name: '',

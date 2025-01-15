@@ -171,7 +171,7 @@ const { smAndDown } = useDisplay()
 
 const fetchUsers = async () => {
   try {
-    const response = await axios.get('http://localhost:1337/user')
+    const response = await axios.get('/user')
     users.value = response.data
   } catch (error) {
     console.error('Error loading users:', error)
@@ -186,7 +186,7 @@ const editUser = (item) => {
 const saveUser = async () => {
   try {
     const response = await axios.put(
-        `http://localhost:1337/user/${selectedUser.value.id}`,
+        `/user/${selectedUser.value.id}`,
         selectedUser.value
     )
 
@@ -202,7 +202,7 @@ const deleteUser = async (id) => {
   if (!confirm('Are you sure you want to delete this user?')) return
 
   try {
-    await axios.delete(`http://localhost:1337/user/${id}`)
+    await axios.delete(`/user/${id}`)
     await fetchUsers()
   } catch (error) {
     console.error('Error deleting user:', error)
