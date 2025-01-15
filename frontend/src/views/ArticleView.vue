@@ -1,6 +1,13 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app class="sidebar" width="200">
+    <!-- Hide drawer on mobile using display properties -->
+    <v-navigation-drawer
+        v-model="drawer"
+        app
+        class="sidebar hidden-sm-and-down"
+        width="200"
+    >
+      <!-- Existing drawer content -->
       <v-list-item class="px-6 py-4">
         <v-list-item-content>
           <v-list-item-title class="text-h5 white--text">Kategorien</v-list-item-title>
@@ -28,119 +35,121 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-row class="mb-6">
-      <v-col cols="12" :style="{ marginLeft: '100px' }"> <!-- Adjust margin to match sidebar width -->
-        <v-card class="banner-card">
-          <v-img
-              src="/api/placeholder/banner/1200/300"
-              height="200"
-              gradient="to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%"
-              position="center"
-          >
-            <v-row class="fill-height align-center justify-center">
-              <v-col cols="8" class="text-center">
-                <div class="banner-content">
-                  <h1 class="text-h3 font-weight-bold white--text mb-2">
-                    PC Shop
-                  </h1>
-                  <p class="text-h6 white--text">
-                    Hochwertige Computer, Laptops und Komponenten
-                  </p>
-                </div>
-              </v-col>
-            </v-row>
-          </v-img>
-        </v-card>
-      </v-col>
-    </v-row>
-
     <v-main class="main-content">
-      <v-container fluid class="pa-6">
-        <v-row>
-          <v-col cols="12">
-            <v-card class="search-card mb-6">
-              <v-card-text>
-                <v-text-field
-                    v-model="searchQuery"
-                    label="Produkte suchen..."
-                    prepend-inner-icon="mdi-magnify"
-                    clearable
-                    outlined
-                    dense
-                    dark
-                    hide-details
-                    class="search-field"
-                ></v-text-field>
-              </v-card-text>
+      <v-container fluid :class="{'pa-0': $vuetify && $vuetify.display.smAndDown}">
+        <!-- Banner section -->
+        <v-row class="mb-6">
+          <v-col cols="12" :class="{'ma-0': $vuetify && $vuetify.display.smAndDown}">
+            <v-card :class="{'banner-card': !$vuetify || !$vuetify.display.smAndDown, 'banner-card-mobile': $vuetify && $vuetify.display.smAndDown}">
+              <v-img
+                  src="/api/placeholder/banner/1200/300"
+                  height="200"
+                  gradient="to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%"
+                  position="center"
+              >
+                <v-row class="fill-height align-center justify-center">
+                  <v-col cols="12" md="8" class="text-center">
+                    <div class="banner-content">
+                      <h1 class="banner-title white--text mb-2">PC Shop</h1>
+                      <p class="banner-subtitle white--text">
+                        Hochwertige Computer, Laptops und Komponenten
+                      </p>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-img>
             </v-card>
           </v-col>
         </v-row>
 
-        <v-row>
-          <v-col cols="12">
-            <v-row>
-              <v-col
-                  v-for="product in displayedProducts"
-                  :key="product.id"
-                  cols="12"
-                  sm="6"
-                  md="4"
-                  lg="3"
-              >
-                <v-hover v-slot="{ hover }">
-                  <v-card
-                      class="product-card"
-                      :class="{ 'on-hover': hover }"
-                      :elevation="hover ? 12 : 2"
+        <!-- Content section -->
+        <v-container :class="{'pa-2': $vuetify && $vuetify.display.smAndDown, 'pa-6': !$vuetify || !$vuetify.display.smAndDown}">
+          <!-- Search section -->
+          <v-row>
+            <v-col cols="12">
+              <v-card class="search-card mb-6">
+                <v-card-text>
+                  <v-text-field
+                      v-model="searchQuery"
+                      label="Produkte suchen..."
+                      prepend-inner-icon="mdi-magnify"
+                      clearable
+                      outlined
+                      dense
+                      dark
+                      hide-details
+                      class="search-field"
+                  ></v-text-field>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+
+          <!-- Products grid -->
+          <v-row>
+            <v-col
+                v-for="product in displayedProducts"
+                :key="product.id"
+                cols="12"
+                sm="6"
+                md="4"
+                lg="3"
+                :class="{'pa-2': $vuetify && $vuetify.display.smAndDown}"
+            >
+              <v-hover v-slot="{ hover }">
+                <v-card
+                    class="product-card"
+                    :class="{ 'on-hover': hover }"
+                    :elevation="hover ? 12 : 2"
+                >
+                  <v-img
+                      :src="product.imageUrl"
+                      height="220"
+                      class="white--text align-end"
+                      gradient="to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%"
                   >
-                    <v-img
-                        :src="product.imageUrl"
-                        height="220"
-                        class="white--text align-end"
-                        gradient="to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%"
+                    <v-card-title class="product-title">{{ product.name }}</v-card-title>
+                  </v-img>
+
+                  <v-divider></v-divider>
+
+                  <v-card-text class="pt-4">
+                    <div class="product-description">{{ product.description }}</div>
+                    <v-row class="mt-4" align="center">
+                      <v-col cols="auto">
+                        <v-chip color="primary" label small>{{ getCategoryName(product.type) }}</v-chip>
+                      </v-col>
+                      <v-spacer></v-spacer>
+                      <v-col cols="auto">
+                        <div class="text-h5 font-weight-bold primary--text">
+                          €{{ product.price }}
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions class="pa-4">
+                    <v-btn
+                        block
+                        color="primary"
+                        elevation="2"
+                        @click="addToCart(product)"
+                        class="text-capitalize"
                     >
-                      <v-card-title class="product-title">{{ product.name }}</v-card-title>
-                    </v-img>
-
-                    <v-divider></v-divider>
-
-                    <v-card-text class="pt-4">
-                      <div class="product-description">{{ product.description }}</div>
-                      <v-row class="mt-4" align="center">
-                        <v-col cols="auto">
-                          <v-chip color="primary" label small>{{ getCategoryName(product.type) }}</v-chip>
-                        </v-col>
-                        <v-spacer></v-spacer>
-                        <v-col cols="auto">
-                          <div class="text-h5 font-weight-bold primary--text">
-                            €{{ product.price }}
-                          </div>
-                        </v-col>
-                      </v-row>
-                    </v-card-text>
-
-                    <v-divider></v-divider>
-
-                    <v-card-actions class="pa-4">
-                      <v-btn
-                          block
-                          color="primary"
-                          elevation="2"
-                          @click="addToCart(product)"
-                          class="text-capitalize"
-                      >
-                        <v-icon left>mdi-cart-plus</v-icon>
-                        In den Warenkorb
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-hover>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
+                      <v-icon left>mdi-cart-plus</v-icon>
+                      In den Warenkorb
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-container>
     </v-main>
+
     <v-snackbar
         v-model="snackbar.visible"
         :timeout="snackbar.timeout"
@@ -161,9 +170,9 @@ const DESKTOP_PC = 2;
 const REPLACEMENT_PART = 3;
 import axios from 'axios';
 
-
-
 export default {
+  name: 'ArticleView',
+
   data() {
     return {
       drawer: true,
@@ -186,6 +195,9 @@ export default {
   },
 
   computed: {
+    isMobile() {
+      return this.$vuetify && this.$vuetify.display.smAndDown;
+    },
     displayedProducts() {
       let result = [...this.products];
 
@@ -207,6 +219,7 @@ export default {
     }
   },
 
+  // Rest of your existing methods remain the same
   methods: {
     showSnackbar(message, color) {
       this.snackbar.message = message;
@@ -237,11 +250,6 @@ export default {
         [DESKTOP_PC]: 'Desktop PC',
         [REPLACEMENT_PART]: 'Komponente'
       }[type] || 'Produkt';
-    },
-
-    getProductImage(product) {
-      console.log(product.imageUrl);
-      return product.imageUrl;
     },
 
     async fetchProducts() {
@@ -332,23 +340,48 @@ export default {
   min-height: 60px;
 }
 
-.v-chip {
-  font-weight: 500;
+.banner-card {
+  background-color: #2A2E35 !important;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
+.banner-card-mobile {
+  background-color: #2A2E35 !important;
+  border-radius: 0;
+  overflow: hidden;
+}
 
- .banner-card {
-   background-color: #2A2E35 !important;
-   border-radius: 12px;
-   overflow: hidden;
- }
+.banner-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
 
-.banner-card .v-image {
+@media (max-width: 600px) {
+  .banner-title {
+    font-size: 1.8rem;
+  }
+
+  .banner-subtitle {
+    font-size: 1rem;
+  }
+
+  .banner-content {
+    padding: 0 16px;
+  }
+}
+
+.banner-card .v-image,
+.banner-card-mobile .v-image {
   transform: scale(1);
   transition: transform 0.3s ease;
 }
 
 .banner-card:hover .v-image {
   transform: scale(1.05);
+}
+
+.v-chip {
+  font-weight: 500;
 }
 </style>

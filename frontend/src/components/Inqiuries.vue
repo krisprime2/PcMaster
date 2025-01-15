@@ -1,14 +1,14 @@
 <template>
   <v-app>
-    <v-main class="bg-background">
+    <v-main class="bg-surface">
       <!-- Hero Section -->
       <v-parallax
           src="../public/desktopMainBg.png"
           :height="400"
       >
         <div class="d-flex flex-column fill-height justify-center align-center text-white text-center">
-          <h1 class="text-h2 font-weight-thin mb-4">We Buy Old Devices</h1>
-          <h4 class="subheading mb-6">Turn your old tech into cash with ease</h4>
+          <h1 class="text-h2 font-weight-thin mb-4">Wir kaufen alte Geräte</h1>
+          <h4 class="subheading mb-6">Verwandeln Sie Ihre alte Technik mühelos in Bargeld</h4>
           <v-btn
               color="primary"
               size="x-large"
@@ -16,23 +16,27 @@
               elevation="2"
               @click="scrollToForm"
           >
-            Get Started
+            Jetzt starten
           </v-btn>
         </div>
       </v-parallax>
 
-      <!-- Form Section with Side Content -->
-      <v-container class="form-container py-12">
+      <!-- Form section with side content -->
+      <v-container class="py-12">
         <v-row justify="center">
+          <!-- Left side box -->
           <v-col cols="12" md="3" class="d-none d-md-flex flex-column justify-center">
-            <v-card class="mb-6" flat>
+            <v-card class="mb-6" elevation="2" rounded="lg" theme="dark">
+              <v-card-title class="text-h5 px-4 pt-4 pb-2">
+                <v-icon icon="mdi-check-circle" color="primary" class="mr-2"></v-icon>
+                Warum wir?
+              </v-card-title>
               <v-card-text>
-                <h3 class="text-h5 mb-3">Why Choose Us?</h3>
                 <ul class="pl-4">
-                  <li>Fast and fair valuations</li>
-                  <li>Secure data wiping</li>
-                  <li>Free shipping for all devices</li>
-                  <li>Eco-friendly recycling options</li>
+                  <li class="mb-2">Schnelle und faire Bewertungen</li>
+                  <li class="mb-2">Sicheres Datenlöschen</li>
+                  <li class="mb-2">Kostenloser Versand für alle Geräte</li>
+                  <li class="mb-2">Umweltfreundliche Recycling-Optionen</li>
                 </ul>
               </v-card-text>
             </v-card>
@@ -44,25 +48,27 @@
             ></v-img>
           </v-col>
 
+          <!-- Main form -->
           <v-col cols="12" md="6">
             <v-card
                 class="mx-auto pa-6"
                 elevation="8"
                 rounded="xl"
                 :loading="isLoading"
+                theme="dark"
             >
               <template v-slot:loader>
                 <v-progress-linear indeterminate color="primary"></v-progress-linear>
               </template>
 
               <v-card-title class="text-h4 font-weight-bold text-center mb-6">
-                Device Inquiry Form
+                Geräte-Anfrageformular
               </v-card-title>
 
               <v-form v-if="!isSubmitted" ref="form" v-model="valid" @submit.prevent="submitForm">
                 <v-text-field
                     v-model="formData.name"
-                    label="Your Name"
+                    label="Ihr Name"
                     :rules="nameRules"
                     variant="outlined"
                     color="primary"
@@ -70,9 +76,19 @@
                 ></v-text-field>
 
                 <v-text-field
+                    v-model="formData.email"
+                    label="Ihre E-Mail"
+                    :rules="emailRules"
+                    variant="outlined"
+                    color="primary"
+                    class="mb-4"
+                    type="email"
+                ></v-text-field>
+
+                <v-text-field
                     v-model="formData.deviceType"
-                    label="Device Type"
-                    placeholder="e.g., Laptop, Smartphone"
+                    label="Gerätetyp"
+                    placeholder="z. B. Laptop, Smartphone"
                     :rules="requiredRule"
                     variant="outlined"
                     color="primary"
@@ -81,7 +97,7 @@
 
                 <v-text-field
                     v-model="formData.modelNumber"
-                    label="Model Number"
+                    label="Modellnummer"
                     type="text"
                     :rules="requiredRule"
                     variant="outlined"
@@ -91,8 +107,8 @@
 
                 <v-textarea
                     v-model="formData.description"
-                    label="Description"
-                    placeholder="Describe the condition of your device"
+                    label="Beschreibung"
+                    placeholder="Beschreiben Sie den Zustand Ihres Geräts"
                     :rules="requiredRule"
                     variant="outlined"
                     color="primary"
@@ -107,7 +123,7 @@
                     block
                     :disabled="!valid"
                 >
-                  {{ isLoading ? "Sending Inquiry..." : "Submit Inquiry" }}
+                  {{ isLoading ? "Anfrage wird gesendet..." : "Anfrage absenden" }}
                 </v-btn>
               </v-form>
 
@@ -131,15 +147,19 @@
             </v-card>
           </v-col>
 
+          <!-- Right side box -->
           <v-col cols="12" md="3" class="d-none d-md-flex flex-column justify-center">
-            <v-card class="mb-6" flat>
+            <v-card class="mb-6" elevation="2" rounded="lg" theme="dark">
+              <v-card-title class="text-h5 px-4 pt-4 pb-2">
+                <v-icon icon="mdi-clock-outline" color="primary" class="mr-2"></v-icon>
+                Unser Prozess
+              </v-card-title>
               <v-card-text>
-                <h3 class="text-h5 mb-3">Our Process</h3>
                 <ol class="pl-4">
-                  <li>Submit your device details</li>
-                  <li>Receive a quick quote</li>
-                  <li>Ship your device (it's free!)</li>
-                  <li>Get paid fast</li>
+                  <li class="mb-2">Senden Sie uns Ihre Gerätedetails</li>
+                  <li class="mb-2">Erhalten Sie ein schnelles Angebot</li>
+                  <li class="mb-2">Versenden Sie Ihr Gerät (kostenlos!)</li>
+                  <li class="mb-2">Erhalten Sie schnell Ihr Geld</li>
                 </ol>
               </v-card-text>
             </v-card>
@@ -153,13 +173,13 @@
         </v-row>
       </v-container>
 
-      <!-- Contact Section -->
-      <v-container class="contact-container py-12">
+      <!-- Contact section -->
+      <v-container class="py-12">
         <v-row justify="center">
           <v-col cols="12" sm="10" md="8" lg="6" class="text-center">
-            <h2 class="text-h3 font-weight-light mb-4">Get In Touch</h2>
+            <h2 class="text-h3 font-weight-light mb-4">Kontaktieren Sie uns</h2>
             <p class="text-body-1 mb-6">
-              Need more information or personalized assistance? We're here to help you make the best choices for your tech needs.
+              Benötigen Sie weitere Informationen oder persönliche Unterstützung? Wir helfen Ihnen gerne dabei, die besten Entscheidungen für Ihre Technik zu treffen.
             </p>
             <v-btn
                 color="secondary"
@@ -168,7 +188,7 @@
                 elevation="2"
                 @click="contactUs"
             >
-              Contact Us
+              Kontaktieren Sie uns
             </v-btn>
           </v-col>
         </v-row>
@@ -187,10 +207,11 @@ const valid = ref(false);
 const isLoading = ref(false);
 const isSubmitted = ref(false);
 const serverError = ref(null);
-const successMessage = ref("Your inquiry has been successfully submitted!");
+const successMessage = ref("Ihre Anfrage wurde erfolgreich übermittelt!");
 
 const formData = reactive({
   name: '',
+  email: '',
   deviceType: '',
   modelNumber: '',
   description: '',
@@ -199,22 +220,28 @@ const formData = reactive({
 });
 
 const nameRules = [
-  v => !!v || 'Name is required',
-  v => v.length <= 50 || 'Name must be less than 50 characters'
+  v => !!v || 'Name ist erforderlich',
+  v => v.length <= 50 || 'Name darf maximal 50 Zeichen haben'
+];
+
+const emailRules = [
+  v => !!v || 'E-Mail ist erforderlich',
+  v => /.+@.+\..+/.test(v) || 'E-Mail muss gültig sein'
 ];
 
 const requiredRule = [
-  v => !!v || 'This field is required'
+  v => !!v || 'Dieses Feld ist erforderlich'
 ];
 
 const schema = yup.object({
-  name: yup.string().required('Name is required').max(50, 'Name must be less than 50 characters'),
-  deviceType: yup.string().required('Device type is required'),
-  modelNumber: yup.string().required('Model number is required'),
-  description: yup.string().required('Description is required')
+  name: yup.string().required('Name ist erforderlich').max(50, 'Name darf maximal 50 Zeichen haben'),
+  email: yup.string().required('E-Mail ist erforderlich').email('E-Mail muss gültig sein'),
+  deviceType: yup.string().required('Gerätetyp ist erforderlich'),
+  modelNumber: yup.string().required('Modellnummer ist erforderlich'),
+  description: yup.string().required('Beschreibung ist erforderlich')
 });
 
-const { handleSubmit, errors } = useForm({
+const {handleSubmit, errors} = useForm({
   validationSchema: schema,
 });
 
@@ -229,6 +256,7 @@ const submitForm = handleSubmit(async (values) => {
     isSubmitted.value = true;
     Object.assign(formData, {
       name: '',
+      email: '',
       deviceType: '',
       modelNumber: '',
       description: '',
@@ -236,8 +264,8 @@ const submitForm = handleSubmit(async (values) => {
       status: 'pending'
     });
   } catch (error) {
-    serverError.value = error.response?.data?.message || 'An unexpected error occurred.';
-    console.error('Form submission error:', error);
+    serverError.value = error.response?.data?.message || 'Ein unerwarteter Fehler ist aufgetreten.';
+    console.error('Fehler beim Absenden des Formulars:', error);
   } finally {
     isLoading.value = false;
   }
@@ -246,27 +274,17 @@ const submitForm = handleSubmit(async (values) => {
 const scrollToForm = () => {
   const formSection = document.querySelector('.form-container');
   if (formSection) {
-    formSection.scrollIntoView({ behavior: 'smooth' });
+    formSection.scrollIntoView({behavior: 'smooth'});
   }
 };
 
 const contactUs = () => {
-  window.location.href = 'support@pcshop.de';
+  window.location.href = 'mailto:support@pcshop.de';
 };
 </script>
 
 <style scoped>
-.bg-background {
-  background-color: #000000;
+.bg-surface {
+  background-color: #121212;
 }
-
-.form-container {
-  background-color: #000000;
-}
-
-.contact-container {
-  background-color: #000000;
-}
-
-/* Add any additional custom styles here */
 </style>

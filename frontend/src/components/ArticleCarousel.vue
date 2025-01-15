@@ -2,8 +2,7 @@
   <v-container fluid class="bg-black pa-8">
     <v-row justify="center">
       <v-col cols="12" lg="10" xl="8">
-        <!-- Top Selling Products -->
-        <h1 class="text-h4 text-white text-center mb-8">Top Selling Products</h1>
+        <h1 class="text-h4 text-white text-center mb-8">Meistverkaufte Produkte</h1>
         <v-row justify="center">
           <v-col v-for="product in topSelling" :key="product.id" cols="12" sm="6" md="4">
             <v-card class="bg-grey-darken-4" elevation="10" height="100%">
@@ -14,14 +13,13 @@
                     cover
                     class="bg-grey-darken-3"
                 ></v-img>
-                <div class="discount-badge">{{ product.discount }}% Off</div>
               </div>
               <v-card-text>
                 <div class="text-subtitle-2 text-grey-lighten-1 mb-1">
-                  Model: {{ product.model }}
+                  Modell: {{ product.model }}
                 </div>
                 <div class="text-body-2 text-grey-lighten-2 mb-3">
-                  Price: ${{ product.price }}
+                  Preis: {{ product.price }} €
                 </div>
                 <v-btn
                     color="indigo-accent-2"
@@ -29,7 +27,7 @@
                     block
                     class="shop-now-btn"
                 >
-                  Shop Now
+                  Jetzt Kaufen
                 </v-btn>
               </v-card-text>
             </v-card>

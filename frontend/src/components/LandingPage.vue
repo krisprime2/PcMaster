@@ -4,54 +4,74 @@ import AboutUS from "@/components/AboutUs.vue";
 import Config from "@/components/LandingConfig.vue";
 import Inquiry from "@/components/LandingInquiry.vue";
 import Testimonials from "@/components/Testimonials.vue";
-
 </script>
 
 <template>
+  <div class="landing-page">
+    <header class="main-header text-center text-white">
+      <div class="header-container px-4 py-8 md:py-16">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 mx-auto max-w-2xl">Unschlagbare PC-Angebote</h1>
+        <p class="text-lg md:text-xl mb-6 mx-auto max-w-xl">Sparen Sie groß bei hochwertigen PCs und Laptops!</p>
+        <a href="#" class="btn btn-primary inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">Jetzt einkaufen</a>
+      </div>
+    </header>
 
-  <header class="main-header text-center text-white">
-    <div class="header-container">
-      <h1>Unschlagbare PC-Angebote</h1>
-      <p>Sparen Sie groß bei hochwertigen PCs und Laptops!</p>
-      <a href="#" class="btn btn-primary">Jetzt einkaufen</a>
-    </div>
-  </header>
-
-  <div class="container categories py-5">
-    <div class="row text-center">
-      <div class="col-6 col-md-3">
-        <a href="#pc" class="category-item">
-          <img src="/public/icon-pc.png" alt="PCs">
-          <p>PCs</p>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a href="#laptops" class="category-item">
-          <img src="/public/icon-laptop.png" alt="Laptops">
-          <p>Laptops</p>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a href="#ersatzteile" class="category-item">
-          <img src="/public/icon-cpu.png" alt="Ersatzteile">
-          <p>Ersatzteile</p>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a href="#konfigurator" class="category-item">
-          <img src="/public/icon-tools.png" alt="PC konfigurieren">
-          <p>PC konfigurieren</p>
-        </a>
-      </div>
+    <div class="content-wrapper">
+      <ArticleCarousel></ArticleCarousel>
+      <AboutUS></AboutUS>
+      <Config></Config>
+      <Inquiry></Inquiry>
+      <Testimonials />
     </div>
   </div>
-  <ArticleCarousel></ArticleCarousel>
-  <AboutUS></AboutUS>
-  <Config></Config>
-  <Inquiry></Inquiry>
-  <Testimonials />
 </template>
 
 <style scoped>
+.landing-page {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
 
+.main-header {
+  background: url('/public/MobileMainPicture.png') no-repeat center center / cover;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #fff;
+  width: 100%;
+  padding: 0;
+}
+
+.main-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.header-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.content-wrapper {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (min-width: 992px) {
+  .main-header {
+    background: url('/public/desktopMainBg.png') no-repeat center center / cover;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 </style>

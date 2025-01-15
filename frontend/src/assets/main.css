@@ -39,6 +39,10 @@ body {
   background-color: #a51307;
   border-color: #a51307;
 }
+/** {
+  outline: 1px solid red;
+  overflow-x: visible;
+}*/
 
 .main-header {
   background: url('../../public/MobileMainPicture.png') no-repeat center center / cover;

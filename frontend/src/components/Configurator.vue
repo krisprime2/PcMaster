@@ -81,7 +81,7 @@
                   class="mb-2"
               >
                 <v-icon start>mdi-arrow-left</v-icon>
-                Previous
+                Zurück
               </v-btn>
 
               <v-btn
@@ -90,7 +90,7 @@
                   :disabled="!canContinue"
                   @click="nextType"
               >
-                Next
+                Weiter
                 <v-icon end>mdi-arrow-right</v-icon>
               </v-btn>
             </div>
@@ -178,7 +178,7 @@
                         variant="tonal"
                         @click.stop="selectComponent(component)"
                     >
-                      {{ isSelected(component) ? 'Remove' : 'Select' }}
+                      {{ isSelected(component) ? 'Entfernen' : 'Auswählen' }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -330,13 +330,13 @@ export default {
     detailsDialog: false,
     selectedDetails: null,
     componentTypes: [
-      {id: COMPONENT_TYPES.CPU, name: 'Processor'},
-      {id: COMPONENT_TYPES.MOTHERBOARD, name: 'Motherboard'},
+      {id: COMPONENT_TYPES.CPU, name: 'Prozessor'},
+      {id: COMPONENT_TYPES.MOTHERBOARD, name: 'Mainboard'},
       {id: COMPONENT_TYPES.RAM, name: 'RAM'},
-      {id: COMPONENT_TYPES.GPU, name: 'Graphics Card'},
-      {id: COMPONENT_TYPES.STORAGE, name: 'Storage'},
-      {id: COMPONENT_TYPES.CASE, name: 'Case'},
-      {id: COMPONENT_TYPES.PSU, name: 'Power Supply'}
+      {id: COMPONENT_TYPES.GPU, name: 'Grafikkarte'},
+      {id: COMPONENT_TYPES.STORAGE, name: 'Speicher'},
+      {id: COMPONENT_TYPES.CASE, name: 'Gehäuse'},
+      {id: COMPONENT_TYPES.PSU, name: 'Netzteil'}
     ],
     selectedComponents: {},
     components: {},
