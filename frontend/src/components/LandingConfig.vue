@@ -36,7 +36,7 @@
                     class="pa-4 bg-transparent"
                 >
                   <v-img
-                      src="/src/assets/images/pckonfig.png"
+                      src="/assets/images/pckonfig.png"
                       height="400"
                       cover
                       class="rounded-lg"

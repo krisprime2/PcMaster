@@ -34,7 +34,7 @@ import router from "@/router/index.js";
 }
 
 .main-header {
-  background: url('src/assets/images/MobileMainPicture.png') no-repeat center center / cover;
+  background: url('/assets/MobileMainPicture.png') no-repeat center center / cover;
   min-height: 60vh;
   display: flex;
   align-items: center;

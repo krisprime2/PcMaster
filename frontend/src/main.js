@@ -24,7 +24,7 @@ if (!import.meta.env.PROD) {
 }
 
 export const BASE_IMAGE_URL = process.env.NODE_ENV === 'production'
-    ? 'https:/pcmaster.onrender.com/'
+    ? 'https://pcmaster.onrender.com/'
     : '/src/';
 
 const vuetify = createVuetify({

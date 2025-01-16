@@ -94,7 +94,7 @@ const topSelling = [
     model: 'MacBook Pro',
     price: '2,499',
     discount: 10,
-    image: 'src/assets/images/macbook1.jpg'
+    image: '/assets/images/macbook1.jpg'
   }
 ]
 
@@ -104,21 +104,21 @@ const newArrivals = [
     name: 'Gaming Beast',
     price: '1,299',
     description: 'High-performance gaming PC',
-    image: 'src/assets/images/pcblue1.jpg'
+    image: '/assets/images/pcblue1.jpg'
   },
   {
     id: 2,
     name: 'Ultrabook Pro',
     price: '999',
     description: 'Lightweight ultrabook with 16GB RAM',
-    image: 'src/assets/images/delllaptop2.jpg'
+    image: '/assets/images/delllaptop2.jpg'
   },
   {
     id: 3,
     name: 'Workstation Pro',
     price: '2,499',
     description: 'Workstation with Intel Xeon processor',
-    image: 'src/assets/images/pcred1.jpg'
+    image: '/assets/images/pcred1.jpg'
   }
 ]
 </script>

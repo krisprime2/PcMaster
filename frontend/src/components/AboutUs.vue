@@ -5,7 +5,7 @@
       <v-row no-gutters>
         <v-col cols="12" md="6">
           <v-img
-              src="/src/assets/images/img-about-us.jpg"
+              src="/assets/images/img-about-us.jpg"
               height="700"
               cover
               class="about-image"
