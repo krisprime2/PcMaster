@@ -50,4 +50,25 @@ module.exports = {
       return res.status(400).json({ error });
     }
   },
+
+  getUserOrders: async (req, res) => {
+    try {
+      const userId = req.params.id;
+
+      // Prüfe ob der User existiert
+      const user = await User.findOne({ id: userId });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Hole alle Orders für diesen User mit populated articles
+      const orders = await Order.find({ user: userId })
+        .populate('articles')
+        .sort('createdAt DESC');  // Neueste zuerst
+
+      return res.status(200).json(orders);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 };

@@ -110,7 +110,6 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { useDisplay } from 'vuetify'
 
-// Import order status constants
 const INPROCESSING = 1
 const SENT = 2
 const CANCELLED = 3

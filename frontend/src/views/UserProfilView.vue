@@ -1,215 +1,82 @@
+<!-- UserProfileView.vue -->
 <template>
   <v-app>
     <v-main class="main-content">
       <v-container>
         <v-row justify="center">
-          <v-col cols="12" md="8">
+          <v-col cols="12" md="10">
             <v-card class="profile-card">
               <v-card-title class="profile-header d-flex align-center pa-6">
                 <div class="d-flex align-center">
                   <v-icon color="primary" size="32" class="mr-3">mdi-account-circle</v-icon>
                   <span class="text-h4 white--text">Mein Profil</span>
                 </div>
-                <v-spacer></v-spacer>
-                <div class="d-flex align-center">
-                  <v-btn
-                      v-if="isEditing"
-                      color="primary"
-                      @click="saveProfile"
-                      :disabled="!valid"
-                      class="mr-2"
-                  >
-                    <v-icon left>mdi-content-save</v-icon>
-                    Speichern
-                  </v-btn>
-                  <v-btn
-                      color="primary"
-                      @click="toggleEdit"
-                  >
-                    <v-icon left>{{ isEditing ? 'mdi-close' : 'mdi-pencil' }}</v-icon>
-                    {{ isEditing ? 'Abbrechen' : 'Bearbeiten' }}
-                  </v-btn>
-                </div>
               </v-card-title>
 
-              <v-card-text>
-                <v-form ref="form" v-model="valid">
-                  <div class="profile-section">
-                    <div class="section-header">
-                      <v-icon color="primary" class="mr-2">mdi-account</v-icon>
-                      <span class="text-h6 white--text">Persönliche Informationen</span>
-                    </div>
+              <v-tabs
+                  v-model="activeTab"
+                  dark
+                  background-color="transparent"
+                  slider-color="primary"
+              >
+                <v-tab class="px-6">
+                  <v-icon left>mdi-account</v-icon>
+                  Persönliche Daten
+                </v-tab>
+                <v-tab class="px-6">
+                  <v-icon left>mdi-shopping</v-icon>
+                  Bestellungen
+                  <v-badge
+                      v-if="orderCount > 0"
+                      :content="orderCount"
+                      color="primary"
+                      offset-x="10"
+                      offset-y="-8"
+                  ></v-badge>
+                </v-tab>
+              </v-tabs>
 
-                    <v-row>
-                      <v-col cols="12" md="6">
-                        <div class="info-item">
-                          <div class="info-label">Benutzername</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.name"
-                                :rules="[v => !!v || 'Benutzername ist erforderlich']"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.name || '-' }}</div>
-                        </div>
-                      </v-col>
+              <v-divider></v-divider>
 
-                      <v-col cols="12" md="6">
-                        <div class="info-item">
-                          <div class="info-label">E-Mail</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.email"
-                                :rules="[
-                                v => !!v || 'E-Mail ist erforderlich',
-                                v => /.+@.+\..+/.test(v) || 'E-Mail muss gültig sein'
-                              ]"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.email || '-' }}</div>
-                        </div>
-                      </v-col>
+              <v-tabs-items v-model="activeTab">
+                <!-- Persönliche Daten Tab -->
+                <v-tab-item>
+                  <UserAddressComponent
+                      v-if="activeTab === 0"
+                      ref="addressComponent"
+                      @error="showError"
+                      @saved="handleProfileSaved"
+                  />
+                </v-tab-item>
 
-                      <v-col cols="12" md="6">
-                        <div class="info-item">
-                          <div class="info-label">Vorname</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.firstName"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.firstName || '-' }}</div>
-                        </div>
-                      </v-col>
-
-                      <v-col cols="12" md="6">
-                        <div class="info-item">
-                          <div class="info-label">Nachname</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.lastName"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.lastName || '-' }}</div>
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </div>
-
-                  <div class="profile-section mt-6">
-                    <div class="section-header">
-                      <v-icon color="primary" class="mr-2">mdi-home</v-icon>
-                      <span class="text-h6 white--text">Adresse</span>
-                    </div>
-
-                    <v-row>
-                      <v-col cols="12" md="8">
-                        <div class="info-item">
-                          <div class="info-label">Straße</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.street"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.street || '-' }}</div>
-                        </div>
-                      </v-col>
-
-                      <v-col cols="12" md="4">
-                        <div class="info-item">
-                          <div class="info-label">Hausnummer</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.streetNumber"
-                                type="number"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.streetNumber || '-' }}</div>
-                        </div>
-                      </v-col>
-
-                      <v-col cols="12" md="6">
-                        <div class="info-item">
-                          <div class="info-label">Stadt</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.city"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.city || '-' }}</div>
-                        </div>
-                      </v-col>
-
-                      <v-col cols="12" md="6">
-                        <div class="info-item">
-                          <div class="info-label">PLZ</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.postalNumber"
-                                type="number"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.postalNumber || '-' }}</div>
-                        </div>
-                      </v-col>
-
-                      <v-col cols="12">
-                        <div class="info-item">
-                          <div class="info-label">Land</div>
-                          <template v-if="isEditing">
-                            <v-text-field
-                                v-model="editedProfile.country"
-                                outlined
-                                dense
-                                dark
-                            ></v-text-field>
-                          </template>
-                          <div v-else class="info-value">{{ profile.country || '-' }}</div>
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </div>
-                </v-form>
-              </v-card-text>
+                <!-- Bestellungen Tab -->
+                <v-tab-item>
+                  <UserOrdersComponent
+                      v-if="activeTab === 1"
+                      ref="ordersComponent"
+                      @error="showError"
+                      @order-count-updated="updateOrderCount"
+                  />
+                </v-tab-item>
+              </v-tabs-items>
             </v-card>
           </v-col>
         </v-row>
       </v-container>
+
+      <!-- Global Snackbar -->
       <v-snackbar
-          v-model="snackbar.visible"
+          v-model="snackbar.show"
           :color="snackbar.color"
           :timeout="snackbar.timeout"
+          top
       >
-        {{ snackbar.message }}
+        {{ snackbar.text }}
         <template v-slot:action="{ attrs }">
           <v-btn
               text
               v-bind="attrs"
-              @click="snackbar.visible = false"
+              @click="snackbar.show = false"
           >
             Schließen
           </v-btn>
@@ -220,136 +87,130 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { useAuthStore } from '../store/auth';
+import UserAddressComponent from '@/components/UserProfileAdress.vue';
+import UserOrdersComponent from '@/components/UserProfileOrders.vue';
 
 export default {
-  name: 'ProfileView',
+  name: 'UserProfileView',
+
+  components: {
+    UserAddressComponent,
+    UserOrdersComponent
+  },
 
   data() {
     return {
-      valid: true,
-      isEditing: false,
-      profile: {
-        name: '',
-        email: '',
-        firstName: '',
-        lastName: '',
-        street: '',
-        streetNumber: null,
-        city: '',
-        postalNumber: null,
-        country: ''
-      },
-      editedProfile: {},
+      activeTab: 0,
+      orderCount: 0,
       snackbar: {
-        visible: false,
+        show: false,
+        text: '',
         color: 'success',
-        timeout: 3000,
-        message: ''
+        timeout: 3000
       }
-    }
+    };
   },
 
   methods: {
-    async loadProfile() {
-      try {
-        const authStore = useAuthStore();
-        const response = await axios.get(`/user/${authStore.user.id}`);
-        this.profile = { ...response.data };
-      } catch (error) {
-        this.showSnackbar('Fehler beim Laden des Profils', 'error');
-      }
+    showError(message) {
+      this.snackbar.text = message;
+      this.snackbar.color = 'error';
+      this.snackbar.show = true;
     },
 
-    toggleEdit() {
-      if (this.isEditing) {
-        this.editedProfile = {};
-        this.$refs.form.reset();
-      } else {
-        this.editedProfile = { ...this.profile };
-      }
-      this.isEditing = !this.isEditing;
+    showSuccess(message) {
+      this.snackbar.text = message;
+      this.snackbar.color = 'success';
+      this.snackbar.show = true;
     },
 
-    async saveProfile() {
-      try {
-        if (!this.$refs.form.validate()) return;
-
-        const authStore = useAuthStore();
-        await axios.put(`/user/${authStore.user.id}`, this.editedProfile);
-
-        this.profile = {...this.editedProfile};
-        this.isEditing = false;
-        this.showSnackbar('Profil erfolgreich aktualisiert', 'success');
-      } catch (error) {
-        this.showSnackbar('Fehler beim Speichern des Profils', 'error');
-      }
+    handleProfileSaved() {
+      this.showSuccess('Profil wurde erfolgreich aktualisiert');
     },
 
-    showSnackbar(message, color) {
-      this.snackbar.message = message;
-      this.snackbar.color = color;
-      this.snackbar.visible = true;
+    updateOrderCount(count) {
+      this.orderCount = count;
+    },
+
+    // Load data only for active tab
+    refreshData() {
+      if (this.activeTab === 0 && this.$refs.addressComponent) {
+        this.$refs.addressComponent.loadProfile();
+      } else if (this.activeTab === 1 && this.$refs.ordersComponent) {
+        this.$refs.ordersComponent.loadOrders();
+      }
     }
   },
 
-  mounted() {
-    this.loadProfile();
+  // Watch for route and tab changes to refresh data
+  watch: {
+    '$route'() {
+      this.refreshData();
+    },
+    activeTab() {
+      this.refreshData();
+    }
+  },
+
+  // Handle navigation guard to prevent leaving with unsaved changes
+  beforeRouteLeave(to, from, next) {
+    const addressComponent = this.$refs.addressComponent;
+    if (addressComponent && addressComponent.isEditing) {
+      const answer = window.confirm('Sie haben ungespeicherte Änderungen. Möchten Sie die Seite wirklich verlassen?');
+      if (answer) {
+        next();
+      } else {
+        next(false);
+      }
+    } else {
+      next();
+    }
   }
-}
+};
 </script>
 
 <style scoped>
 .main-content {
   background-color: #0A0E1A;
   min-height: 100vh;
+  padding: 2rem 0;
 }
 
 .profile-card {
   background-color: #2A2E35 !important;
   border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 .profile-header {
   background: linear-gradient(180deg, #1E2127 0%, #2A2E35 100%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.profile-section {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 1.5rem;
+::v-deep .v-tabs {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(99, 106, 232, 0.3);
-}
-
-.info-item {
-  background-color: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
-  padding: 1rem;
-  height: 100%;
-  transition: background-color 0.2s ease;
-}
-
-.info-item:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-}
-
-.info-label {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-}
-
-.info-value {
-  color: white;
-  font-size: 1rem;
+::v-deep .v-tab {
+  letter-spacing: 0.5px;
+  text-transform: none;
   font-weight: 500;
+}
+
+::v-deep .v-tab:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+::v-deep .v-tab--active {
+  color: var(--v-primary-base) !important;
+}
+
+.v-badge__badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  height: 20px;
+  min-width: 20px;
+  padding: 0 4px;
 }
 </style>

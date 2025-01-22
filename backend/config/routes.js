@@ -42,8 +42,10 @@ module.exports.routes = {
   'POST /api/order/create': 'OrderController.create',
   'GET /api/orders': 'OrderController.find',
   'GET /api/orders/:id': 'OrderController.findOne',
+  'GET /api/user-orders/:id': 'OrderController.getUserOrders',
   'PATCH /api/orders/:id': 'OrderController.update',
   'DELETE /api/orders/:id': 'OrderController.delete',
+
 
   // Article Routes
   'POST /api/articles': 'ArticleController.create',
