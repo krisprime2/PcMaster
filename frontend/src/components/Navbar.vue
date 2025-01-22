@@ -6,7 +6,6 @@ import { useAuthStore } from '../store/auth'
 const authStore = useAuthStore()
 
 onMounted(() => {
-  // Initialize all dropdowns
   const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
   const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
 })
@@ -122,7 +121,6 @@ const handleLogout = async () => {
   color: #ffffff !important;
 }
 
-/* Buttons */
 .btn-outline-light {
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.5);
@@ -132,7 +130,6 @@ const handleLogout = async () => {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Dropdown-Styling */
 .dropdown-menu {
   background-color: #1c1f26;
   border: none;

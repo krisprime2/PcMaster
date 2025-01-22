@@ -7,7 +7,6 @@
 
       <v-container class="mt-6">
         <v-row>
-          <!-- Shipping Form -->
           <v-col cols="12" md="8">
             <v-card class="mb-6" elevation="2">
               <v-card-title class="text-h5">Shipping Information</v-card-title>
@@ -96,7 +95,6 @@
             </v-card>
           </v-col>
 
-          <!-- Order Summary -->
           <v-col cols="12" md="4">
             <v-card elevation="2">
               <v-card-title class="text-h5">Order Summary</v-card-title>
@@ -155,10 +153,8 @@ const router = useRouter();
 const authStore = useAuthStore();
 const loading = ref(false);
 
-// Cart items from API
 const cart = ref([]);
 
-// Shipping form data
 const shippingForm = ref({
   firstName: '',
   lastName: '',
@@ -176,8 +172,6 @@ const totalPrice = computed(() => {
       .toFixed(2);
 });
 
-// Fill form with user data on mount
-// Fetch cart data
 const fetchCart = async () => {
   try {
     const response = await axios.get('/api/cart')
@@ -205,7 +199,6 @@ onMounted(() => {
   }
 });
 
-// Handle order submission
 const submitOrder = async () => {
   try {
     loading.value = true;
@@ -223,10 +216,8 @@ const submitOrder = async () => {
       country: shippingForm.value.country
     };
 
-    // Korrigierter axios request ohne /api prefix
     await axios.put(`/user/${userId}`, userUpdateData);
 
-    // Update user in auth store
     authStore.user = { ...authStore.user, ...userUpdateData };
 
     const orderData = {
@@ -239,11 +230,9 @@ const submitOrder = async () => {
       postalNumber: Number(shippingForm.value.postalNumber),
       country: shippingForm.value.country,
       user: userId,
-      // Artikel bleiben als Array
       articles: cart.value
           .filter(item => item.type === 'article')
           .map(item => item.item.id),
-      // Configuration wird als einzelne ID gesetzt
       configuration: cart.value
           .find(item => item.type === 'configuration')?.item.id || null
     };

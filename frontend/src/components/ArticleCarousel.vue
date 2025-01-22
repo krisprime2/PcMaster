@@ -35,7 +35,6 @@
           </v-col>
         </v-row>
 
-        <!-- New Arrivals -->
         <h1 class="text-h4 text-white text-center my-8">New Arrivals</h1>
         <v-row justify="center">
           <v-col v-for="product in newArrivals" :key="product.id" cols="12" sm="6" md="4">

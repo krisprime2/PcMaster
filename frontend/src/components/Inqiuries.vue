@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-main class="bg-surface">
-      <!-- Hero Section -->
       <v-parallax
           src="./src/assets/images/desktopMainBg.png"
           :height="400"
@@ -12,10 +11,8 @@
         </div>
       </v-parallax>
 
-      <!-- Form section with side content -->
       <v-container class="py-12">
         <v-row justify="center">
-          <!-- Left side box -->
           <v-col cols="12" md="3" class="d-none d-md-flex flex-column justify-center">
             <v-card class="mb-6" elevation="2" rounded="lg" theme="dark">
               <v-card-title class="text-h5 px-4 pt-4 pb-2">
@@ -38,8 +35,6 @@
                 class="rounded-lg"
             ></v-img>
           </v-col>
-
-          <!-- Main form -->
           <v-col cols="12" md="6">
             <v-card class="custom-card elevation-12">
               <v-card-text class="text-center">
@@ -151,7 +146,6 @@
             </v-card>
           </v-col>
 
-          <!-- Right side box -->
           <v-col cols="12" md="3" class="d-none d-md-flex flex-column justify-center">
             <v-card class="mb-6" elevation="2" rounded="lg" theme="dark">
               <v-card-title class="text-h5 px-4 pt-4 pb-2">
@@ -177,7 +171,6 @@
         </v-row>
       </v-container>
 
-      <!-- Contact section -->
       <v-container class="py-12">
         <v-row justify="center">
           <v-col cols="12" sm="10" md="8" lg="6" class="text-center">
@@ -205,7 +198,6 @@
 import { ref, reactive } from 'vue';
 import axios from 'axios';
 
-// Configure axios defaults for Strapi
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 const form = ref(null);
@@ -251,10 +243,10 @@ async function submitForm() {
       name: formData.name,
       email: formData.email,
       deviceType: formData.deviceType,
-      modelNumber: Number(formData.modelNumber), // Convert to number
+      modelNumber: Number(formData.modelNumber),
       description: formData.description,
       status: 1 // INPROCESSING status
-    });
+    })
 
     if (response.status === 200 || response.status === 201) {
       isSubmitted.value = true;

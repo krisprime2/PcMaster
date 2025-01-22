@@ -8,7 +8,6 @@
             <p class="text-subtitle-1 mb-6 grey--text">Create your PC-Shop account</p>
 
             <v-form ref="form" @submit.prevent="handleRegister">
-              <!-- Required Fields -->
               <v-text-field
                   v-model="formData.name"
                   label="Name"
@@ -55,7 +54,6 @@
                   ]"
               ></v-text-field>
 
-              <!-- Optional Basic Info -->
               <v-text-field
                   v-model="formData.firstName"
                   label="First Name (Optional)"

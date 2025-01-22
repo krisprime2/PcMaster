@@ -32,8 +32,6 @@
           </v-col>
         </v-row>
       </v-container>
-
-      <!-- Decorative Elements -->
       <div class="circuit-overlay"></div>
       <div class="glow-effect"></div>
     </v-card>

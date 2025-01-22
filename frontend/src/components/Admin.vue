@@ -13,8 +13,6 @@
           ></v-text-field>
         </v-col>
       </v-row>
-
-      <!-- Filter: Status und Rolle -->
       <v-row>
         <v-col cols="12" sm="6" md="4">
           <v-select
@@ -190,7 +188,7 @@ const saveUser = async () => {
         selectedUser.value
     )
 
-    await fetchUsers() // Benutzerliste aktualisieren
+    await fetchUsers()
 
     editDialog.value = false
   } catch (error) {
@@ -215,17 +213,14 @@ const roleFilter = ref(null)
 const filteredUsers = computed(() => {
   let result = users.value
 
-  // Status-Filter anwenden, wenn ein Wert ausgewählt wurde
   if (statusFilter.value !== null) {
     result = result.filter(user => user.status === statusFilter.value)
   }
 
-  // Rollen-Filter anwenden, wenn ein Wert ausgewählt wurde
   if (roleFilter.value !== null) {
     result = result.filter(user => user.role === roleFilter.value)
   }
 
-  // Suchfeld-Filter anwenden
   if (search.value) {
     const searchText = search.value.toLowerCase()
     result = result.filter(user =>
@@ -243,7 +238,8 @@ onMounted(() => {
   fetchUsers()
 })
 </script>
-<style>body.v-application--is-lt-dark {
+<style>
+body.v-application--is-lt-dark {
   background-color: #121212;
   color: #ffffff;
 }

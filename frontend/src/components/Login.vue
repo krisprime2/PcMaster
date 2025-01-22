@@ -88,7 +88,7 @@ async function handleLogin() {
     const result = await authStore.login(email.value, password.value);
 
     if (result.success) {
-      router.push('/articles'); // oder wohin auch immer nach dem Login navigiert werden soll
+      router.push('/articles');
     } else {
       errorMessage.value = result.message;
     }

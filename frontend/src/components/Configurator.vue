@@ -1,6 +1,5 @@
 <template>
   <v-container fluid class="configurator-container pa-0">
-    <!-- Hero Banner -->
     <v-sheet class="banner-wrapper mb-8">
       <v-card flat class="banner-card pa-8">
         <div class="banner-background">
@@ -34,9 +33,7 @@
       </v-card>
     </v-sheet>
 
-    <!-- Main Content -->
     <v-row no-gutters>
-      <!-- Enhanced Sidebar -->
       <v-col cols="12" md="3" lg="2">
         <v-sheet class="component-sidebar h-100" rounded="lg">
           <v-list bg-color="transparent">
@@ -98,10 +95,8 @@
         </v-sheet>
       </v-col>
 
-      <!-- Enhanced Main Content -->
       <v-col cols="12" md="9" lg="10">
         <v-container>
-          <!-- Component Grid -->
           <v-row>
             <v-col
                 v-for="component in getCurrentComponents"
@@ -186,7 +181,6 @@
             </v-col>
           </v-row>
 
-          <!-- Navigation and Summary -->
           <v-row class="mt-8">
             <v-col cols="12" md="8">
               <v-card class="summary-card">
@@ -217,7 +211,6 @@
                             </div>
                           </div>
                         </div>
-
                       </v-timeline-item>
                     </template>
                   </v-timeline>
@@ -234,7 +227,6 @@
                     <span class="text-h5">Total</span>
                     <span class="text-h4 primary--text">€{{ totalPrice.toFixed(2) }}</span>
                   </div>
-
                   <v-btn
                       block
                       color="primary"
@@ -248,16 +240,12 @@
                   </v-btn>
                 </v-card-text>
               </v-card>
-
-              <!-- Navigation Buttons -->
-
             </v-col>
           </v-row>
         </v-container>
       </v-col>
     </v-row>
 
-    <!-- Enhanced Details Dialog -->
     <v-dialog v-model="detailsDialog" max-width="600">
       <v-card v-if="selectedDetails">
         <v-img
@@ -352,7 +340,6 @@ export default {
   }),
 
   created() {
-    // Initialize selectedComponents with null values
     this.componentTypes.forEach(type => {
       this.selectedComponents[type.id] = null;
     });
@@ -404,7 +391,6 @@ export default {
 
   methods: {
     getComponentImage(component) {
-      // Return component type specific SVG placeholder
       return `data:image/svg+xml,${encodeURIComponent(this.getComponentSVG(this.currentType))}`;
     },
 
@@ -424,7 +410,6 @@ export default {
       this.error = null;
       try {
         const response = await axios.get('/api/components');
-        // Axios automatically throws on error status codes, and data is in response.data
         this.components = this.groupComponentsByCategory(response.data);
       } catch (error) {
         this.error = error.message;
@@ -539,26 +524,23 @@ export default {
     },
 
     async saveConfiguration() {
-      // Map the selectedComponents object to an array of component IDs
       const componentIds = Object.values(this.selectedComponents).map(component => component.id);
 
       const configuration = {
-        components: componentIds, // Pass an array of IDs
+        components: componentIds,
         price: this.totalPrice,
-        user: this.currentUser // Adjust based on your user authentication setup
+        user: this.currentUser
       };
 
       try {
-        // Create the configuration in the database
         const response = await axios.post('/api/configurations', configuration);
 
         const createdConfiguration = response.data;
 
-        // Add the created configuration to the cart
         await axios.post('/api/cart/add', {
           item: createdConfiguration,
           type: 'configuration',
-          quantity: 1 // Default quantity
+          quantity: 1
         });
         this.showSnackbar('Produkt wurde zum Warenkorb hinzugefügt', 'success');
         console.log('Configuration saved and added to cart:', createdConfiguration);

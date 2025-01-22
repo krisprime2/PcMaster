@@ -1,7 +1,6 @@
 <template>
   <v-container fluid class="about-us-section pa-0">
     <v-card flat>
-      <!-- Hero Section -->
       <v-row no-gutters>
         <v-col cols="12" md="6">
           <v-img
@@ -25,8 +24,6 @@
           </v-card-text>
         </v-col>
       </v-row>
-
-      <!-- Quality Promises Section -->
       <v-container class="py-12">
         <h3 class="text-h4 text-center text-white mb-12">
           Unsere Qualitätsversprechen
@@ -128,7 +125,6 @@ const qualityPromises = ref([
   );
 }
 
-/* Add smooth transitions */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;

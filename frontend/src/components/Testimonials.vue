@@ -4,7 +4,6 @@
       Das sagen unsere Kunden
     </h2>
 
-    <!-- Desktop View -->
     <v-row class="hidden-sm-and-down">
       <v-col
           v-for="(testimonial, index) in testimonials"
@@ -38,7 +37,6 @@
       </v-col>
     </v-row>
 
-    <!-- Mobile View with Carousel -->
     <v-row class="hidden-md-and-up">
       <v-col cols="12">
         <v-carousel
@@ -149,7 +147,6 @@ const testimonials = ref([
   pointer-events: none;
 }
 
-/* Smooth transitions */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;

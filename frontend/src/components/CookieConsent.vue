@@ -3,7 +3,6 @@
   <transition name="slide">
     <div v-if="isVisible" class="cookie-consent">
       <div class="cookie-content">
-        <!-- Hauptansicht -->
         <div class="cookie-main">
           <div class="cookie-basic-text">
             <h3>Cookie-Einstellungen</h3>
@@ -25,10 +24,8 @@
           </div>
         </div>
 
-        <!-- Ausklappbarer Bereich -->
         <div v-if="showDetails" class="cookie-details-section">
           <div class="cookie-options">
-            <!-- Notwendige Cookies -->
             <div class="cookie-option">
               <label class="option-label">
                 <input
@@ -44,7 +41,6 @@
               </label>
             </div>
 
-            <!-- Funktionale Cookies -->
             <div class="cookie-option">
               <label class="option-label">
                 <input
@@ -58,7 +54,6 @@
               </label>
             </div>
 
-            <!-- Analyse Cookies -->
             <div class="cookie-option">
               <label class="option-label">
                 <input
@@ -72,7 +67,6 @@
               </label>
             </div>
 
-            <!-- Marketing Cookies -->
             <div class="cookie-option">
               <label class="option-label">
                 <input

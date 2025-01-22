@@ -49,7 +49,7 @@ import router from "@/router/index.js";
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.2); /* Reduced opacity from 0.5 to 0.2 */
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .header-container {

@@ -96,11 +96,11 @@ async function fetchCart() {
     const response = await axios.get('/api/cart');
     cart.value = response.data.map(cartItem => ({
       ...cartItem,
-      item: cartItem.item, // Ensure item is correctly mapped
-      type: cartItem.type, // Pass type as 'article' or 'configuration'
+      item: cartItem.item,
+      type: cartItem.type,
       quantity: cartItem.quantity
     }));
-    console.log('Fetched cart:', cart.value); // Log for debugging
+    console.log('Fetched cart:', cart.value);
   } catch (error) {
     console.error('Error fetching cart:', error);
   }
@@ -108,7 +108,7 @@ async function fetchCart() {
 
 async function removeItem(itemId, type) {
   try {
-    console.log('Removing item:', { itemId, type }); // Debug log
+    console.log('Removing item:', { itemId, type });
     await axios.post('/api/cart/remove', { itemId, type });
     await fetchCart();
   } catch (error) {
@@ -125,7 +125,6 @@ onMounted(fetchCart);
 </script>
 
 <style scoped>
-/* Styling für die Produktbilder */
 .v-avatar {
   width: 40px;
   height: 40px;

@@ -1,8 +1,6 @@
-<!-- Footer.vue -->
 <template>
   <v-footer class="custom-footer">
     <v-container fluid class="px-4">
-      <!-- Logo Section -->
       <v-row justify="center">
         <v-col cols="12" sm="3" class="text-center mb-4">
           <v-img
@@ -14,9 +12,7 @@
         </v-col>
       </v-row>
 
-      <!-- Main Footer Content -->
       <v-row class="border-top pt-4">
-        <!-- Language and Copyright -->
         <v-col cols="12" class="text-center mb-4">
           <div class="d-flex flex-column flex-sm-row align-center justify-center gap-3">
             <div class="custom-select mb-3 mb-sm-0">
@@ -31,7 +27,6 @@
           </div>
         </v-col>
 
-        <!-- Legal Links -->
         <v-col cols="12" class="text-center mb-4">
           <div class="d-flex flex-wrap justify-center gap-3">
             <v-btn
@@ -45,8 +40,6 @@
             </v-btn>
           </div>
         </v-col>
-
-        <!-- Newsletter Section -->
         <v-col cols="12" class="text-center">
           <div class="newsletter-container">
             <p class="text-h6 mb-4">Newsletter abonnieren</p>
