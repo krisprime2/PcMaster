@@ -14,6 +14,7 @@ import Copyright from "@/components/Copyright.vue";
 import Checkout from "@/components/Checkout.vue";
 import OrderDashboardView from "@/views/OrderDashboardView.vue";
 import UserProfilView from "@/views/UserProfilView.vue";
+import OrderSuccess from "@/components/OrderSuccess.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -94,6 +95,11 @@ const router = createRouter({
             path: '/profil',
             name: 'user-profil',
             component: UserProfilView,
+            meta: { requiresAuth: true }
+        },{
+            path: '/order-success',
+            name: 'order-success',
+            component: OrderSuccess,
             meta: { requiresAuth: true }
         },
     ],
