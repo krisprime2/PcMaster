@@ -13,6 +13,7 @@ import PrivacyPolicy from "@/components/PrivacyPolicy.vue";
 import Copyright from "@/components/Copyright.vue";
 import Checkout from "@/components/Checkout.vue";
 import OrderDashboardView from "@/views/OrderDashboardView.vue";
+import UserProfilView from "@/views/UserProfilView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -89,6 +90,11 @@ const router = createRouter({
             name: 'admin-order',
             component: OrderDashboardView,
             meta: { requiresAdmin: true }
+        },{
+            path: '/profil',
+            name: 'user-profil',
+            component: UserProfilView,
+            meta: { requiresAuth: true }
         },
     ],
 })
