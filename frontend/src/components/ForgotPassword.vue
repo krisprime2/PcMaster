@@ -4,32 +4,19 @@
       <v-col cols="12" sm="8" md="6" lg="4">
         <v-card class="elevation-12 custom-card">
           <v-card-text class="text-center">
-            <h1 class="text-h4 mb-4 white--text">Login</h1>
-            <p class="text-subtitle-1 mb-6 grey--text">Sign in to your PC-Shop account!</p>
+            <h1 class="text-h4 mb-4 white--text">Passwort zurücksetzen</h1>
+            <p class="text-subtitle-1 mb-6 grey--text">Geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen</p>
 
-            <v-form @submit.prevent="handleLogin" ref="loginForm">
+            <v-form @submit.prevent="handleResetPassword" ref="resetForm">
               <div class="form-field-wrapper">
                 <v-text-field
                     v-model="email"
-                    label="Email Address"
+                    label="E-Mail-Adresse"
                     required
                     type="email"
                     dark
                     color="red darken-1"
                     :error-messages="errorMessage ? [errorMessage] : []"
-                    class="centered-text-field"
-                ></v-text-field>
-              </div>
-
-              <div class="form-field-wrapper">
-                <v-text-field
-                    v-model="password"
-                    label="Password"
-                    required
-                    type="password"
-                    dark
-                    color="red darken-1"
-                    @keyup.enter="handleLogin"
                     class="centered-text-field"
                 ></v-text-field>
               </div>
@@ -43,20 +30,19 @@
                   type="submit"
                   :loading="isLoading"
               >
-                {{ isLoading ? "Signing in..." : "Sign in" }}
+                {{ isLoading ? "Senden..." : "Passwort zurücksetzen" }}
               </v-btn>
             </v-form>
 
+            <div v-if="successMessage" class="mt-4 text-center">
+              <p class="green--text">{{ successMessage }}</p>
+            </div>
+
             <div class="text-center mt-4">
               <p class="grey--text text-caption">
-                Don't have an account?
-                <router-link to="/register" class="red--text text--darken-1">
-                  Register now
-                </router-link>
-              </p>
-              <p class="grey--text text-caption mt-2">
-                <router-link to="/forgot-password" class="red--text text--darken-1">
-                  Forgot Password?
+                Erinnern Sie sich an Ihr Passwort?
+                <router-link to="/login" class="red--text text--darken-1">
+                  Zurück zum Login
                 </router-link>
               </p>
             </div>
@@ -68,21 +54,26 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
-import {useAuthStore} from '@/store/auth';
-import {useRouter} from 'vue-router';
-
-const router = useRouter();
-const authStore = useAuthStore();
+import { ref } from 'vue';
 
 const email = ref('');
-const password = ref('');
 const isLoading = ref(false);
 const errorMessage = ref('');
+const successMessage = ref('');
 
-async function handleLogin() {
-  if (!email.value || !password.value) {
-    errorMessage.value = 'Bitte füllen Sie alle Felder aus';
+function isValidEmail(email) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email);
+}
+
+async function handleResetPassword() {
+  if (!email.value) {
+    errorMessage.value = 'Bitte geben Sie Ihre E-Mail-Adresse ein';
+    return;
+  }
+
+  if (!isValidEmail(email.value)) {
+    errorMessage.value = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
     return;
   }
 
@@ -90,15 +81,15 @@ async function handleLogin() {
     isLoading.value = true;
     errorMessage.value = '';
 
-    const result = await authStore.login(email.value, password.value);
+    // Simuliere API-Aufruf-Verzögerung
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
-    if (result.success) {
-      router.push('/');
-    } else {
-      errorMessage.value = result.message;
-    }
+    // Mock-Erfolgsmeldung
+    successMessage.value = 'Eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts wurde an Sie gesendet. Bitte überprüfen Sie Ihren Posteingang.';
+    email.value = '';
+
   } catch (error) {
-    errorMessage.value = error.response?.data?.message || 'Login fehlgeschlagen';
+    errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
   } finally {
     isLoading.value = false;
   }

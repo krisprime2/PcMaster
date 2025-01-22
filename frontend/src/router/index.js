@@ -15,6 +15,7 @@ import Checkout from "@/components/Checkout.vue";
 import OrderDashboardView from "@/views/OrderDashboardView.vue";
 import UserProfilView from "@/views/UserProfilView.vue";
 import OrderSuccess from "@/components/OrderSuccess.vue";
+import ForgotPassword from "@/components/ForgotPassword.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,10 @@ const router = createRouter({
             path: '/register',
             name: 'register',
             component: Register,
+        }, {
+            path: '/forgot-password',
+            name: 'forgot-password',
+            component: ForgotPassword,
         },
         {
             path: '/admin/user',
