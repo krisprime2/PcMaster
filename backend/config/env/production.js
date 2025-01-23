@@ -72,10 +72,10 @@ module.exports = {
       ****************************************************************************/
       // ssl: { rejectUnauthorized: true },
       adapter: 'sails-mysql',
-      host: '193.196.53.194',
-      port: 33061,
-      user: 'user8_prod',
-      database: 'pcmaster_prod',
+      host: process.env.sails_datastores__default__host,
+      port: process.env.sails_datastores__default__port,
+      user: process.env.sails_datastores__default__user,
+      database: process.env.sails_datastores__default__database,
       password: process.env.sails_datastores__default__password
     },
   },
