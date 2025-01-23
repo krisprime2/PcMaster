@@ -76,7 +76,7 @@ module.exports = {
       port: 33061,
       user: 'user8_prod',
       database: 'pcmaster_prod',
-      password: 'c100112'
+      password: process.env.sails_datastores__default__password
     },
   },
 
