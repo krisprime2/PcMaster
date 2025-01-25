@@ -72,6 +72,8 @@
 
 <script setup>
 import router from "@/router/index.js";
+import { BASE_IMAGE_URL } from '@/main.js';
+
 
 const topSelling = [
   {
@@ -79,21 +81,21 @@ const topSelling = [
     model: 'XPS 17',
     price: '1,799',
     discount: 15,
-    image: '/assets/images/delllaptop.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/delllaptop.jpg'
   },
   {
     id: 2,
     model: 'Alienware Aurora',
     price: '2,299',
     discount: 20,
-    image: '/assets/images/pcred1.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/pcred1.jpg'
   },
   {
     id: 3,
     model: 'MacBook Pro',
     price: '2,499',
     discount: 10,
-    image: '/assets/images/macbook1.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/macbook1.jpg'
   }
 ]
 
@@ -103,21 +105,21 @@ const newArrivals = [
     name: 'Gaming Beast',
     price: '1,299',
     description: 'High-performance gaming PC',
-    image: '/assets/images/pcblue1.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/pcblue1.jpg'
   },
   {
     id: 2,
     name: 'Ultrabook Pro',
     price: '999',
     description: 'Lightweight ultrabook with 16GB RAM',
-    image: '/assets/images/delllaptop2.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/delllaptop2.jpg'
   },
   {
     id: 3,
     name: 'Workstation Pro',
     price: '2,499',
     description: 'Workstation with Intel Xeon processor',
-    image: '/assets/images/pcred1.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/pcred1.jpg'
   }
 ]
 </script>

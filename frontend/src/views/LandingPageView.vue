@@ -1,18 +1,13 @@
-<script setup>
-import ArticleCarousel from "@/components/ArticleCarousel.vue";
-import AboutUS from "@/components/AboutUs.vue";
-import Config from "@/components/LandingConfig.vue";
-import Inquiry from "@/components/LandingInquiry.vue";
-import Testimonials from "@/components/Testimonials.vue";
-import router from "@/router/index.js";
-</script>
-
 <template>
   <div class="landing-page">
-    <header class="main-header text-center text-white">
+    <header :style="headerStyle" class="responsive-header">
       <div class="header-container px-4 py-8 md:py-16">
-        <h1 class="text-3xl md:text-4xl font-bold mb-4 mx-auto max-w-2xl">Unschlagbare PC-Angebote</h1>
-        <p class="text-lg md:text-xl mb-6 mx-auto max-w-xl">Sparen Sie groß bei hochwertigen PCs und Laptops!</p>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 mx-auto max-w-2xl">
+          Unschlagbare PC-Angebote
+        </h1>
+        <p class="text-lg md:text-xl mb-6 mx-auto max-w-xl">
+          Sparen Sie groß bei hochwertigen PCs und Laptops!
+        </p>
       </div>
     </header>
 
@@ -21,10 +16,47 @@ import router from "@/router/index.js";
       <AboutUS></AboutUS>
       <Config></Config>
       <Inquiry></Inquiry>
-      <Testimonials />
+      <Testimonials/>
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import ArticleCarousel from "@/components/ArticleCarousel.vue"
+import AboutUS from "@/components/AboutUs.vue"
+import Config from "@/components/LandingConfig.vue"
+import Inquiry from "@/components/LandingInquiry.vue"
+import Testimonials from "@/components/Testimonials.vue"
+
+import { BASE_IMAGE_URL } from '@/main.js'
+
+const mobileBackground = BASE_IMAGE_URL + 'assets/images/MobileMainPicture.png'
+const desktopBackground = BASE_IMAGE_URL + 'assets/images/desktopMainBg.png'
+
+const isDesktop = ref(false)
+function checkScreenSize() {
+  isDesktop.value = window.innerWidth >= 992
+}
+
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
+
+const headerStyle = computed(() => ({
+  background: `url('${
+      isDesktop.value ? desktopBackground : mobileBackground
+  }') no-repeat center center / cover`,
+  minHeight: '60vh',
+  width: '100%',
+  position: 'relative',
+  color: '#fff',
+}))
+</script>
 
 <style scoped>
 .landing-page {
@@ -33,8 +65,7 @@ import router from "@/router/index.js";
   max-width: 100vw;
 }
 
-.main-header {
-  background: url('/assets/MobileMainPicture.png') no-repeat center center / cover;
+.responsive-header {
   min-height: 60vh;
   display: flex;
   align-items: center;
@@ -45,7 +76,7 @@ import router from "@/router/index.js";
   padding: 0;
 }
 
-.main-header::after {
+.responsive-header::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -63,15 +94,5 @@ import router from "@/router/index.js";
 .content-wrapper {
   max-width: 100%;
   overflow-x: hidden;
-}
-
-@media (min-width: 992px) {
-  .main-header {
-    background: url('/src/assets/images/desktopMainBg.png') no-repeat center center / cover;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 </style>

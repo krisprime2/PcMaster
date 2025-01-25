@@ -4,7 +4,7 @@
       <v-row no-gutters>
         <v-col cols="12" md="6">
           <v-img
-              src="/assets/images/img-about-us.jpg"
+              :src="BASE_IMAGE_URL + '/assets/images/img-about-us.jpg'"
               height="700"
               cover
               class="about-image"
@@ -63,6 +63,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import {BASE_IMAGE_URL} from "@/main.js";
 
 const qualityPromises = ref([
   {

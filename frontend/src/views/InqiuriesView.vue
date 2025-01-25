@@ -2,7 +2,7 @@
   <v-app>
     <v-main class="bg-surface">
       <v-parallax
-          src="./src/assets/images/desktopMainBg.png"
+          :src="BASE_IMAGE_URL + 'assets/images/desktopMainBg.png'"
           :height="400"
       >
         <div class="d-flex flex-column fill-height justify-center align-center text-white text-center">
@@ -29,7 +29,7 @@
               </v-card-text>
             </v-card>
             <v-img
-                src="../src/assets/images/recycling-image.jpg"
+                :src="BASE_IMAGE_URL + 'assets/images/recycling-image.jpg'"
                 height="200"
                 cover
                 class="rounded-lg"
@@ -198,6 +198,7 @@
 import { ref, reactive } from 'vue';
 import axios from 'axios';
 import router from "@/router/index.js";
+import {BASE_IMAGE_URL} from "@/main.js";
 
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 

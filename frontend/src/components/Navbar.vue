@@ -16,6 +16,13 @@ const handleLogout = async () => {
     window.location.href = '/'
   }
 }
+
+const closeNavbar = () => {
+  const navbarCollapse = document.getElementById('navbarNav')
+  if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+    bootstrap.Collapse.getInstance(navbarCollapse).hide()
+  }
+}
 </script>
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
@@ -38,10 +45,10 @@ const handleLogout = async () => {
         <!-- Link-Liste links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-lg-start text-end">
           <li class="nav-item">
-            <router-link class="nav-link" to="/articles" @click="closeNavbar">Artikel</router-link>
+            <router-link class="nav-link" to="/articles" @click="closeNavbar()">Artikel</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/config" @click="closeNavbar">PC Konfigurator</router-link>
+            <router-link class="nav-link" to="/config" @click="closeNavbar()">PC Konfigurator</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/inquiry" @click="closeNavbar">Gerät verkaufen</router-link>
@@ -125,7 +132,6 @@ const handleLogout = async () => {
                   to="/profil"
                   class="nav-link"
                   @click="closeNavbar"
-                  style="display: flex; align-items: center;"
               >
                 <v-icon
                     color="white"
@@ -144,7 +150,10 @@ const handleLogout = async () => {
           </template>
 
           <li class="nav-item">
-            <router-link to="/cart" class="nav-link" @click="closeNavbar">
+            <router-link
+                to="/cart"
+                class="nav-link"
+                @click="closeNavbar">
               <v-icon
                   color="white"
                   class="me-2"

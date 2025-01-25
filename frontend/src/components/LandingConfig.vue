@@ -37,7 +37,7 @@
                     class="pa-4 bg-transparent"
                 >
                   <v-img
-                      src="/assets/images/pckonfig.png"
+                      :src="BASE_IMAGE_URL + 'assets/images/pckonfig.png'"
                       height="400"
                       cover
                       class="rounded-lg"
@@ -89,4 +89,6 @@
 </style>
 <script setup>
 import router from "@/router/index.js";
+import { BASE_IMAGE_URL } from '@/main.js';
+
 </script>
