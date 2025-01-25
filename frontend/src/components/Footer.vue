@@ -67,6 +67,7 @@ export default {
       legalLinks: [
         { text: 'Datenschutzerklärung', route: '/privacy' },
         { text: 'Urheberrecht', route: '/copyright' },
+        { text: 'Kontakt', route: '/contact' },
       ],
     }
   },
