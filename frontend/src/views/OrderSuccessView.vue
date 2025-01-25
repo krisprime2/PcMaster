@@ -1,4 +1,4 @@
-<!-- OrderSuccess.vue -->
+<!-- OrderSuccessView.vue -->
 <template>
   <v-app>
     <v-main class="success-content">

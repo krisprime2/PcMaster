@@ -1,22 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../components/Login.vue'
-import LandingPage from "@/components/LandingPage.vue"
-import Register from "@/components/Register.vue"
-import Admin from "@/views/UserDashboard.vue"
-import Inquiries from "@/components/Inqiuries.vue"
+import Login from '../views/LoginView.vue'
+import LandingPage from "@/views/LandingPageView.vue"
+import Register from "@/views/RegisterView.vue"
+import Inquiries from "@/views/InqiuriesView.vue"
 import ArticleDashboardView from "@/views/ArticleDashboardView.vue"
-import ShoppingCart from "@/components/ShoppingCart.vue"
+import ShoppingCart from "@/views/ShoppingCartView.vue"
 import ArticleView from "@/views/ArticleView.vue"
 import { useAuthStore } from '@/store/auth'
-import Configurator from "@/components/Configurator.vue";
-import PrivacyPolicy from "@/components/PrivacyPolicy.vue";
-import Copyright from "@/components/Copyright.vue";
-import Checkout from "@/components/Checkout.vue";
+import Configurator from "@/views/ConfiguratorView.vue";
+import PrivacyPolicy from "@/views/PrivacyPolicyView.vue";
+import Copyright from "@/views/CopyrightView.vue";
+import Checkout from "@/views/CheckoutView.vue";
 import OrderDashboardView from "@/views/OrderDashboardView.vue";
 import UserProfilView from "@/views/UserProfilView.vue";
-import OrderSuccess from "@/components/OrderSuccess.vue";
-import ForgotPassword from "@/components/ForgotPassword.vue";
-import Contact from "@/components/Contact.vue";
+import OrderSuccess from "@/views/OrderSuccessView.vue";
+import ForgotPassword from "@/views/ForgotPasswordView.vue";
+import Contact from "@/views/ContactView.vue";
+import UserDashboardView from "@/views/UserDashboardView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,7 +43,7 @@ const router = createRouter({
         {
             path: '/admin/user',
             name: 'admin-user',
-            component: Admin,
+            component: UserDashboardView,
             meta: { requiresAdmin: true },
         },
         {
