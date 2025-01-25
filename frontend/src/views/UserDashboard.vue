@@ -53,12 +53,28 @@
           {{ item.role === USER ? 'Benutzer' : 'Admin' }}
         </template>
         <template v-slot:[`item.actions`]="{ item }">
-          <v-btn @click="editUser(item)" class="mr-2 edit-btn">
-            Bearbeiten
-          </v-btn>
-          <v-btn @click="deleteUser(item.id)" color="error">
-            Löschen
-          </v-btn>
+          <div class="d-flex flex-wrap gap-2 justify-start">
+            <v-btn
+                @click="editUser(item)"
+                color="warning"
+                variant="outlined"
+                size="small"
+                class="action-btn"
+            >
+              <v-icon size="small" class="mr-1">mdi-pencil</v-icon>
+              Bearbeiten
+            </v-btn>
+            <v-btn
+                @click="deleteUser(item.id)"
+                color="error"
+                variant="outlined"
+                size="small"
+                class="action-btn"
+            >
+              <v-icon size="small" class="mr-1">mdi-delete</v-icon>
+              Löschen
+            </v-btn>
+          </div>
         </template>
       </v-data-table>
 

@@ -15,7 +15,6 @@
       </v-row>
 
       <v-row>
-        <!-- Kategorie-Filter -->
         <v-col cols="12" sm="6" md="4">
           <v-select
               v-model="categoryFilter"
@@ -29,7 +28,6 @@
           ></v-select>
         </v-col>
 
-        <!-- Neuer Artikel-Button -->
         <v-col cols="12" sm="6" md="8" class="text-end">
           <v-btn
               style="background-color: #F44336; color: white;"
@@ -48,12 +46,28 @@
           item-value="id"
       >
         <template v-slot:[`item.actions`]="{ item }">
-          <v-btn @click="editArticle(item)" class="mr-2 edit-btn">
-            Bearbeiten
-          </v-btn>
-          <v-btn @click="deleteArticle(item.id)" color="error">
-            Löschen
-          </v-btn>
+          <div class="d-flex flex-wrap gap-2 justify-start">
+            <v-btn
+                @click="editArticle(item)"
+                color="warning"
+                variant="outlined"
+                size="small"
+                class="action-btn"
+            >
+              <v-icon size="small" class="mr-1">mdi-pencil</v-icon>
+              Bearbeiten
+            </v-btn>
+            <v-btn
+                @click="deleteArticle(item.id)"
+                color="error"
+                variant="outlined"
+                size="small"
+                class="action-btn"
+            >
+              <v-icon size="small" class="mr-1">mdi-delete</v-icon>
+              Löschen
+            </v-btn>
+          </div>
         </template>
         <template v-slot:[`item.type`]="{ item }">
           {{ item.type === 1 ? 'Laptop' : item.type === 2 ? 'Desktop-PC' : 'Ersatzteil' }}
