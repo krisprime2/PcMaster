@@ -239,13 +239,13 @@ const submitOrder = async () => {
 
     console.log(orderData)
     await axios.post('/api/order/create', orderData);
-
     for (const cartItem of cart.value) {
       await axios.post('/api/cart/remove', {
         itemId: cartItem.item.id,
         type: cartItem.type
       });
     }
+    router.push('/order-success');
 
     router.push('/payment');
   } catch (error) {
