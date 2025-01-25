@@ -15,14 +15,6 @@
       <v-row class="border-top pt-4">
         <v-col cols="12" class="text-center mb-4">
           <div class="d-flex flex-column flex-sm-row align-center justify-center gap-3">
-            <div class="custom-select mb-3 mb-sm-0">
-              <select v-model="selectedLanguage" class="select-input">
-                <option v-for="lang in languages" :key="lang" :value="lang">
-                  {{ lang }}
-                </option>
-              </select>
-              <span class="select-arrow"></span>
-            </div>
             <span>© {{ new Date().getFullYear() }} PC Shop Inc.</span>
           </div>
         </v-col>

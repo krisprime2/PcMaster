@@ -5,13 +5,13 @@
         <v-card class="elevation-12 custom-card">
           <v-card-text class="text-center">
             <h1 class="text-h4 mb-4 white--text">Login</h1>
-            <p class="text-subtitle-1 mb-6 grey--text">Sign in to your PC-Shop account!</p>
+            <p class="text-subtitle-1 mb-6 grey--text">Melde dich in deinem PC-Shop an!</p>
 
             <v-form @submit.prevent="handleLogin" ref="loginForm">
               <div class="form-field-wrapper">
                 <v-text-field
                     v-model="email"
-                    label="Email Address"
+                    label="Email Addresse"
                     required
                     type="email"
                     dark
@@ -43,20 +43,20 @@
                   type="submit"
                   :loading="isLoading"
               >
-                {{ isLoading ? "Signing in..." : "Sign in" }}
+                {{ isLoading ? "Anmelden..." : "Anmelden" }}
               </v-btn>
             </v-form>
 
             <div class="text-center mt-4">
               <p class="grey--text text-caption">
-                Don't have an account?
+                Noch keinen Account?
                 <router-link to="/register" class="red--text text--darken-1">
-                  Register now
+                  Jetzt Registrieren
                 </router-link>
               </p>
               <p class="grey--text text-caption mt-2">
                 <router-link to="/forgot-password" class="red--text text--darken-1">
-                  Forgot Password?
+                  Passwort vergessen?
                 </router-link>
               </p>
             </div>

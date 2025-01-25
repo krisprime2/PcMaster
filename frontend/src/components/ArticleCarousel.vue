@@ -35,7 +35,7 @@
           </v-col>
         </v-row>
 
-        <h1 class="text-h4 text-white text-center my-8">New Arrivals</h1>
+        <h1 class="text-h4 text-white text-center my-8">Neue Produkte</h1>
         <v-row justify="center">
           <v-col v-for="product in newArrivals" :key="product.id" cols="12" sm="6" md="4">
             <v-card class="bg-grey-darken-4" elevation="10" height="100%">

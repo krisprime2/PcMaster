@@ -185,7 +185,7 @@
             <v-col cols="12" md="8">
               <v-card class="summary-card">
                 <v-card-title class="text-h5 px-6 py-4">
-                  Selected Components
+                  Ausgewählte Komponenten
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text class="pa-4">

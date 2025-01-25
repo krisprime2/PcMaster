@@ -2,21 +2,21 @@
   <v-app class="checkout-page">
     <v-main>
       <header class="main-header">
-        <h1 class="text-h3 font-weight-bold white--text">Checkout</h1>
+        <h1 class="text-h3 font-weight-bold white--text">Kasse</h1>
       </header>
 
       <v-container class="mt-6">
         <v-row>
           <v-col cols="12" md="8">
             <v-card class="mb-6" elevation="2">
-              <v-card-title class="text-h5">Shipping Information</v-card-title>
+              <v-card-title class="text-h5">Versandinformationen</v-card-title>
               <v-card-text>
                 <v-form @submit.prevent="submitOrder">
                   <v-row>
                     <v-col cols="12" md="6">
                       <v-text-field
                           v-model="shippingForm.firstName"
-                          label="First Name"
+                          label="Vorname"
                           dark
                           outlined
                           dense
@@ -25,7 +25,7 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                           v-model="shippingForm.lastName"
-                          label="Last Name"
+                          label="Nachname"
                           dark
                           outlined
                           dense
@@ -45,7 +45,7 @@
                     <v-col cols="12" md="8">
                       <v-text-field
                           v-model="shippingForm.street"
-                          label="Street"
+                          label="Straße"
                           dark
                           outlined
                           dense
@@ -54,7 +54,7 @@
                     <v-col cols="12" md="4">
                       <v-text-field
                           v-model="shippingForm.streetNumber"
-                          label="Street Number"
+                          label="Hausnummer"
                           dark
                           outlined
                           dense
@@ -66,7 +66,7 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                           v-model="shippingForm.postalNumber"
-                          label="Postal Code"
+                          label="Postleitzahl"
                           dark
                           outlined
                           dense
@@ -75,7 +75,7 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                           v-model="shippingForm.city"
-                          label="City"
+                          label="Stadt"
                           dark
                           outlined
                           dense
@@ -85,7 +85,7 @@
 
                   <v-text-field
                       v-model="shippingForm.country"
-                      label="Country"
+                      label="Land"
                       dark
                       outlined
                       dense
@@ -97,7 +97,7 @@
 
           <v-col cols="12" md="4">
             <v-card elevation="2">
-              <v-card-title class="text-h5">Order Summary</v-card-title>
+              <v-card-title class="text-h5">Bestellung</v-card-title>
               <v-card-text>
                 <v-list>
                   <v-list-item v-for="item in cart" :key="item.item.id">
@@ -105,7 +105,7 @@
                       <v-list-item-title>
                         {{ item.type === 'configuration' ? 'PC Konfiguration' : item.item.name }}
                       </v-list-item-title>
-                      <v-list-item-subtitle>Quantity: {{ item.quantity }}</v-list-item-subtitle>
+                      <v-list-item-subtitle>Anzahl: {{ item.quantity }}</v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-action>
                       {{ (item.item.price * item.quantity).toFixed(2) }}€
@@ -116,7 +116,7 @@
 
                   <v-list-item>
                     <v-list-item-content>
-                      <v-list-item-title class="text-h6">Total</v-list-item-title>
+                      <v-list-item-title class="text-h6">Gesamt</v-list-item-title>
                     </v-list-item-content>
                     <v-list-item-action class="text-h6">
                       {{ totalPrice }}€
@@ -132,7 +132,7 @@
                     @click="submitOrder"
                     :loading="loading"
                 >
-                  Continue to Payment
+                  Weiter zur Zahlung
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -239,6 +239,13 @@ const submitOrder = async () => {
 
     console.log(orderData)
     await axios.post('/api/order/create', orderData);
+
+    for (const cartItem of cart.value) {
+      await axios.post('/api/cart/remove', {
+        itemId: cartItem.item.id,
+        type: cartItem.type
+      });
+    }
 
     router.push('/payment');
   } catch (error) {

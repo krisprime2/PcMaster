@@ -1,13 +1,14 @@
 <template>
   <v-container>
     <v-card class="pa-4">
-      <h1 class="text-h3 text-center my-6">Ihr Warenkorb</h1>
+      <h1 class="text-h3 text-center my-6">Warenkorb</h1>
       <v-data-table
           :headers="headers"
           :items="cart"
           item-value="product.id"
           class="elevation-1"
           dense
+          no-data-text="Der Warenkorb ist leer"
       >
         <template #item.type="{ item }">
           <v-chip color="primary" outlined small>
