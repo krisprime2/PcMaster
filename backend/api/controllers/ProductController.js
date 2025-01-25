@@ -11,10 +11,7 @@ module.exports = {
     await Product.create(params);
     res.ok();
   },
- /* find: async function (req, res) {
-    let products = await Product.find();
-    return res.json(products);
-  },*/
+
   findOne: async function (req, res) {
     let product = await Product.findOne({ id: req.params.id });
     res.json(product);

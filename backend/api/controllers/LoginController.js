@@ -13,11 +13,9 @@ module.exports = {
     try {
       const {email, password} = req.body;
 
-      // Überprüfung der Eingaben
       if (!email || !password) {
         return res.badRequest({message: 'E-Mail und Passwort sind erforderlich.'});
       }
-      // Suche den Benutzer anhand der E-Mail
       const user = await sails.helpers.findOneByEmail(email);
 
       if (!user) {

@@ -1,7 +1,7 @@
 module.exports = {
   create: async (req, res) => {
     try {
-      const userId = req.session.userId || req.body.user; // Use session or request body for user ID
+      const userId = req.session.userId || req.body.user;
       const configurationData = { ...req.body, user: userId };
 
       const configuration = await Configuration.create(configurationData).fetch();

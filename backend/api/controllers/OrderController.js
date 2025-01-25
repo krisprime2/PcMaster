@@ -55,7 +55,6 @@ module.exports = {
     try {
       const userId = req.params.id;
 
-      // Prüfe ob der User existiert
       const user = await User.findOne({ id: userId });
       if (!user) {
         return res.status(404).json({ error: 'User not found' });

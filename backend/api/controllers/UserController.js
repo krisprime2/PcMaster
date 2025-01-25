@@ -15,7 +15,6 @@ module.exports = {
     try {
       const params = req.allParams();
 
-      // Überprüfe, ob alle erforderlichen Felder vorhanden sind
       if (
         !params.name ||
         !params.email ||
@@ -24,7 +23,6 @@ module.exports = {
         return res.badRequest({message: 'Alle Pflichtfelder müssen ausgefüllt werden.'});
       }
 
-      // Erstelle einen neuen Benutzer
       const user = await User.create({
         name: params.name,
         email: params.email,

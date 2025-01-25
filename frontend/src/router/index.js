@@ -16,6 +16,7 @@ import OrderDashboardView from "@/views/OrderDashboardView.vue";
 import UserProfilView from "@/views/UserProfilView.vue";
 import OrderSuccess from "@/components/OrderSuccess.vue";
 import ForgotPassword from "@/components/ForgotPassword.vue";
+import Contact from "@/components/Contact.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,6 +107,11 @@ const router = createRouter({
             name: 'order-success',
             component: OrderSuccess,
             meta: { requiresAuth: true }
+        },{
+            path: '/contact',
+            name: 'contact',
+            component: Contact,
+            meta: { requiresAuth: false }
         },
     ],
 })
