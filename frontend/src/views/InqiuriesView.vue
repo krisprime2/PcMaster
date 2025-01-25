@@ -179,11 +179,11 @@
               Benötigen Sie weitere Informationen oder persönliche Unterstützung? Wir helfen Ihnen gerne dabei, die besten Entscheidungen für Ihre Technik zu treffen.
             </p>
             <v-btn
-                color="secondary"
+                color="red darken-1"
                 size="x-large"
                 rounded
                 elevation="2"
-                @click="contactUs"
+                @click="router.push('/contact')"
             >
               Kontaktieren Sie uns
             </v-btn>
@@ -197,6 +197,7 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import axios from 'axios';
+import router from "@/router/index.js";
 
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 

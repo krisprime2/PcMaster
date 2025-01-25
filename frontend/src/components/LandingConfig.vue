@@ -19,6 +19,7 @@
                     elevation="4"
                     class="text-none px-8"
                     :ripple="true"
+                    @click="router.push('/config')"
                 >
                   <v-icon start icon="mdi-cog" class="mr-2"></v-icon>
                   Jetzt konfigurieren
@@ -86,3 +87,6 @@
   pointer-events: none;
 }
 </style>
+<script setup>
+import router from "@/router/index.js";
+</script>

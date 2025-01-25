@@ -23,6 +23,7 @@
                     elevation="4"
                     class="text-none px-8"
                     :ripple="true"
+                    @click="router.push('/inquiry')"
                 >
                   <v-icon start icon="mdi-email-outline" class="mr-2"></v-icon>
                   Anfrage stellen
@@ -104,3 +105,6 @@
   }
 }
 </style>
+<script setup>
+import router from "@/router/index.js";
+</script>
