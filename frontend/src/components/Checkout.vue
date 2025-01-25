@@ -240,7 +240,7 @@ const submitOrder = async () => {
     console.log(orderData)
     await axios.post('/api/order/create', orderData);
 
-    router.push('/payment');
+    router.push('/order-success');
   } catch (error) {
     console.error('Order submission failed:', error);
   } finally {
