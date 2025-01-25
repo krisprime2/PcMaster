@@ -1,16 +1,6 @@
-/**
- * UserController
- *
- * @description :: Server-side actions for handling user-related requests.
- */
-
 const {ADMIN, USER} = require("../constants/Roles");
 
 module.exports = {
-  /**
-   * Create a new user
-   * POST /user/create
-   */
   createUser: async function (req, res) {
     try {
       const params = req.allParams();
@@ -38,10 +28,6 @@ module.exports = {
   },
 
 
-  /**
-   * Create a new admin
-   * POST /admin/create
-   */
   createAdmin: async function (req, res) {
     try {
       const params = req.allParams();
@@ -83,10 +69,6 @@ module.exports = {
   },
 
 
-  /**
-   * Find all users
-   * GET /user
-   */
   find: async function (req, res) {
     try {
       const users = await User.find();
@@ -96,10 +78,6 @@ module.exports = {
     }
   },
 
-  /**
-   * Find a specific user
-   * GET /user/:id
-   */
 
   findOne: async function (req, res) {
     try {
@@ -122,10 +100,7 @@ module.exports = {
     }
   },
 
-  /**
-   * Find a user by email
-   * GET /user/email/:email
-   */
+
   findOneByEmail: async function (req, res) {
     try {
       const email = req.params.email;
@@ -134,23 +109,20 @@ module.exports = {
         return res.status(400).json({message: 'E-Mail-Adresse ist erforderlich.'});
       }
 
-      const user = await User.findOne({email}); // Suche den Benutzer anhand der E-Mail
+      const user = await User.findOne({email});
 
       if (!user) {
         return res.status(404).json({message: 'Benutzer mit dieser E-Mail nicht gefunden.'});
       }
 
-      return res.json(user); // Gebe den gefundenen Benutzer zurück
+      return res.json(user);
     } catch (error) {
       console.error('Fehler beim Abrufen des Benutzers anhand der E-Mail:', error);
       return res.status(500).json({message: 'Fehler beim Abrufen des Benutzers.', error});
     }
   },
 
-  /**
-   * Update a user
-   * PUT /user/:id
-   */
+
   update: async function (req, res) {
     try {
       const userId = req.params.id;
@@ -187,10 +159,6 @@ module.exports = {
   },
 
 
-  /**
-   * Update user status
-   * PATCH /user/:id/status
-   */
   updateStatus: async function (req, res) {
     try {
       const userId = req.params.id;
@@ -218,10 +186,7 @@ module.exports = {
     }
   },
 
-  /**
-   * Delete a user
-   * DELETE /user/:id
-   */
+
   destroy: async function (req, res) {
     try {
       const userId = req.params.id;
