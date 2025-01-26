@@ -17,6 +17,7 @@ import OrderSuccess from "@/views/OrderSuccessView.vue";
 import ForgotPassword from "@/views/ForgotPasswordView.vue";
 import Contact from "@/views/ContactView.vue";
 import UserDashboardView from "@/views/UserDashboardView.vue";
+import InquiryDashboardView from "@/views/InquiryDashboardView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
             path: '/admin/user',
             name: 'admin-user',
             component: UserDashboardView,
+            meta: { requiresAdmin: true },
+        }, {
+            path: '/admin/inquiry',
+            name: 'admin-inquiry',
+            component: InquiryDashboardView,
             meta: { requiresAdmin: true },
         },
         {
@@ -122,25 +128,17 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
 
-    // Wait for auth to initialize if it hasn't already
     if (!authStore.isInitialized) {
         await authStore.initializeAuth();
     }
-    // Handle routes requiring admin access
+
     if (to.meta.requiresAdmin && (!authStore.isAuthenticated || authStore.user?.role !== 1)) {
-        next('/'); // Redirect to home if not admin
+        next('/');
         return;
     }
 
-    // Handle routes requiring authentication
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         next('/login');
-        return;
-    }
-
-    // Handle routes requiring guest access (optional)
-    if (to.meta.requiresGuest && authStore.isAuthenticated) {
-        next('/');
         return;
     }
 

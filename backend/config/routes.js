@@ -36,7 +36,13 @@ module.exports.routes = {
   'PATCH /user/status/:id/:status': 'UserController.updateStatus',
   'POST /user/create': 'UserController.createUser',
   'POST /admin/create': 'UserController.createAdmin',
-  'POST /inquiry/create': 'InquiryController.create',
+
+  //inquiry Routes
+  'POST /api/inquiry/create': 'InquiryController.create',
+  'GET /api/inquiries': 'InquiryController.find',
+  'GET /api/inquiries/find-one/:id': 'InquiryController.findOne',
+  'PUT /api/inquiries/update/:id': 'InquiryController.update',
+  'DELETE /api/inquiry/delete/:id': 'InquiryController.destroy',
 
   // Order Routes
   'POST /api/order/create': 'OrderController.create',

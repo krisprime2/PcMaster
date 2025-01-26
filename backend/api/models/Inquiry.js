@@ -4,7 +4,7 @@
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
-const {INPROCESSING, PROCESSED, DECLINED} = require("../constants/OrderStatus");
+const {INPROCESSING, PROCESSED, DECLINED} = require("../constants/InquiryStatus");
 
 module.exports = {
 

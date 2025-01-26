@@ -95,6 +95,15 @@ const closeNavbar = () => {
                   Bestell-Verwaltung
                 </router-link>
               </li>
+              <li>
+                <router-link
+                    class="dropdown-item"
+                    to="/admin/inquiry"
+                    @click="closeNavbar"
+                >
+                  Verkaufsanfragen-Verwaltung
+                </router-link>
+              </li>
             </ul>
           </li>
         </ul>
