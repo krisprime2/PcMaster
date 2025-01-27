@@ -60,10 +60,9 @@ module.exports = {
         return res.status(404).json({ error: 'User not found' });
       }
 
-      // Hole alle Orders für diesen User mit populated articles
       const orders = await Order.find({ user: userId })
         .populate('articles')
-        .sort('createdAt DESC');  // Neueste zuerst
+        .sort('createdAt DESC');
 
       return res.status(200).json(orders);
     } catch (error) {

@@ -18,6 +18,7 @@ import ForgotPassword from "@/views/ForgotPasswordView.vue";
 import Contact from "@/views/ContactView.vue";
 import UserDashboardView from "@/views/UserDashboardView.vue";
 import InquiryDashboardView from "@/views/InquiryDashboardView.vue";
+import ComponentDashboardView from "@/views/ComponentDashboardView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,11 @@ const router = createRouter({
             path: '/admin/articles',
             name: 'admin-article',
             component: ArticleDashboardView,
+            meta: { requiresAdmin: true }
+        },{
+            path: '/admin/configurator-components',
+            name: 'admin-configurator-components',
+            component: ComponentDashboardView,
             meta: { requiresAdmin: true }
         },
         {

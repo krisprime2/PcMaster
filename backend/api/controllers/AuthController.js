@@ -6,7 +6,6 @@ module.exports = {
     try {
       const {email, password} = req.allParams();
 
-      sails.log(email,password)
       if (!email || !password) {
         return res.badRequest({message: 'Email und Passwort sind erforderlich.'});
       }

@@ -103,6 +103,14 @@ const closeNavbar = () => {
                 >
                   Verkaufsanfragen-Verwaltung
                 </router-link>
+              </li><li>
+                <router-link
+                    class="dropdown-item"
+                    to="/admin/configurator-components"
+                    @click="closeNavbar"
+                >
+                  Konfigurator-Komponenten-Verwaltung
+                </router-link>
               </li>
             </ul>
           </li>
