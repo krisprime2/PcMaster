@@ -1,6 +1,15 @@
 <template>
   <div class="landing-page">
-    <header :style="headerStyle" class="responsive-header">
+    <header class="responsive-header">
+      <img
+          :src="isDesktop ? desktopBackground : mobileBackground"
+          class="main-background"
+          alt="Header background"
+          fetchpriority="high"
+          loading="eager"
+          width="1920"
+         height="1080"/>
+
       <div class="header-container px-4 py-8 md:py-16">
         <h1 class="text-3xl md:text-4xl font-bold mb-4 mx-auto max-w-2xl">
           Unschlagbare PC-Angebote
@@ -22,19 +31,20 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import {ref, onMounted, onUnmounted} from 'vue'
 import ArticleCarousel from "@/components/ArticleCarousel.vue"
 import AboutUS from "@/components/AboutUs.vue"
 import Config from "@/components/LandingConfig.vue"
 import Inquiry from "@/components/LandingInquiry.vue"
 import Testimonials from "@/components/Testimonials.vue"
 
-import { BASE_IMAGE_URL } from '@/main.js'
+import {BASE_IMAGE_URL} from '@/main.js'
 
-const mobileBackground = BASE_IMAGE_URL + 'assets/images/MobileMainPicture.png'
-const desktopBackground = BASE_IMAGE_URL + 'assets/images/desktopMainBg.png'
+const mobileBackground = BASE_IMAGE_URL + 'assets/images/MobileMainPicture.webp'
+const desktopBackground = BASE_IMAGE_URL + 'assets/images/desktopMainBg.webp'
 
 const isDesktop = ref(false)
+
 function checkScreenSize() {
   isDesktop.value = window.innerWidth >= 992
 }
@@ -43,19 +53,10 @@ onMounted(() => {
   checkScreenSize()
   window.addEventListener('resize', checkScreenSize)
 })
+
 onUnmounted(() => {
   window.removeEventListener('resize', checkScreenSize)
 })
-
-const headerStyle = computed(() => ({
-  background: `url('${
-      isDesktop.value ? desktopBackground : mobileBackground
-  }') no-repeat center center / cover`,
-  minHeight: '60vh',
-  width: '100%',
-  position: 'relative',
-  color: '#fff',
-}))
 </script>
 
 <style scoped>
@@ -74,6 +75,15 @@ const headerStyle = computed(() => ({
   color: #fff;
   width: 100%;
   padding: 0;
+  overflow: hidden;
+}
+
+.main-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .responsive-header::after {
@@ -81,11 +91,12 @@ const headerStyle = computed(() => ({
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 .header-container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;

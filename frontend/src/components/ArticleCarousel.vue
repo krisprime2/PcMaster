@@ -81,21 +81,21 @@ const topSelling = [
     model: 'XPS 17',
     price: '1,799',
     discount: 15,
-    image: BASE_IMAGE_URL + 'assets/images/delllaptop.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/delllaptop.webp'
   },
   {
     id: 2,
     model: 'Alienware Aurora',
     price: '2,299',
     discount: 20,
-    image: BASE_IMAGE_URL + 'assets/images/pcred1.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/pcred1.webp'
   },
   {
     id: 3,
     model: 'MacBook Pro',
     price: '2,499',
     discount: 10,
-    image: BASE_IMAGE_URL + 'assets/images/macbook1.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/macbook1.webp'
   }
 ]
 
@@ -105,21 +105,21 @@ const newArrivals = [
     name: 'Gaming Beast',
     price: '1,299',
     description: 'High-performance gaming PC',
-    image: BASE_IMAGE_URL + 'assets/images/pcblue1.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/pcblue1.webp'
   },
   {
     id: 2,
     name: 'Ultrabook Pro',
     price: '999',
     description: 'Lightweight ultrabook with 16GB RAM',
-    image: BASE_IMAGE_URL + 'assets/images/delllaptop2.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/delllaptop2.webp'
   },
   {
     id: 3,
     name: 'Workstation Pro',
     price: '2,499',
     description: 'Workstation with Intel Xeon processor',
-    image: BASE_IMAGE_URL + 'assets/images/pcred1.jpg'
+    image: BASE_IMAGE_URL + 'assets/images/pcred1.webp'
   }
 ]
 </script>
