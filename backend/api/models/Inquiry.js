@@ -14,7 +14,7 @@ module.exports = {
     description: { type: 'string'},
     status: { type: 'number', required: true, isIn: [INPROCESSING, PROCESSED, DECLINED]},
     deviceType: { type: 'string'},
-    modelNumber: { type: 'number'},
+    modelNumber: { type: 'string'},
   },
 };
 

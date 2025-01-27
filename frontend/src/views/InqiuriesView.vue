@@ -245,7 +245,7 @@ async function submitForm() {
       name: formData.name,
       email: formData.email,
       deviceType: formData.deviceType,
-      modelNumber: Number(formData.modelNumber),
+      modelNumber: formData.modelNumber,
       description: formData.description,
       status: 1
     })
@@ -263,7 +263,6 @@ async function submitForm() {
       });
     }
   } catch (error) {
-    console.error('Error details:', error.response?.data);
     serverError.value = error.response?.data?.message || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
   } finally {
     isLoading.value = false;
