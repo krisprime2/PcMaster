@@ -87,6 +87,15 @@
           </v-row>
 
           <v-divider class="my-4"></v-divider>
+          <template v-if="selectedOrder.configuration">
+            <div class="subtitle-1 mb-2">Konfiguration</div>
+            <v-card outlined class="pa-3 mb-4">
+              <div class="configuration-details">
+                <div>Persönliche Konfiguration: #{{ selectedOrder.configuration }}</div>
+              </div>
+            </v-card>
+            <v-divider class="my-4"></v-divider>
+          </template>
 
           <div class="subtitle-1 mb-2">Artikel</div>
           <v-list dark dense>

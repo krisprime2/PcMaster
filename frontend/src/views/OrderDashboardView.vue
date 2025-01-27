@@ -181,6 +181,14 @@
                     </v-card-text>
                   </v-card>
                 </v-col>
+                <v-col cols="12" v-if="selectedOrder.configuration">
+                  <v-card variant="outlined" class="mb-4">
+                    <v-card-title>Konfiguration</v-card-title>
+                    <v-card-text>
+                      <p><strong>Konfigurations-ID:</strong> #{{ selectedOrder.configuration }}</p>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
                 <v-col cols="12">
                   <v-card variant="outlined">
                     <v-card-title>Artikel</v-card-title>
