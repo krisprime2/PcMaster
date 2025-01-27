@@ -14,7 +14,6 @@
                   required
                   dark
                   color="red darken-1"
-                  :error-messages="errorMessage ? [errorMessage] : []"
                   :rules="[v => !!v || 'Name is required']"
               ></v-text-field>
 
@@ -25,6 +24,7 @@
                   type="email"
                   dark
                   color="red darken-1"
+                  :error-messages="errorMessage ? [errorMessage] : []"
                   :rules="[
                     v => !!v || 'Email is required',
                     v => /.+@.+\..+/.test(v) || 'Email must be valid'
