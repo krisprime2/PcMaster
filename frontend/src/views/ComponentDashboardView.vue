@@ -78,39 +78,53 @@
       <v-dialog v-model="editDialog" max-width="800px">
         <v-card>
           <v-card-title>
-            <span class="text-h5">Komponente bearbeiten</span>
+            <span class="text-h5">{{ selectedComponent?.id ? 'Komponente bearbeiten' : 'Neue Komponente erstellen' }}</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedComponent.name" label="Name" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedComponent.price" label="Preis" type="number" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-select
-                      v-model="selectedComponent.type"
-                      :items="typeOptions"
-                      label="Typ"
-                      required
-                      item-value="value"
-                      item-title="text"
-                  ></v-select>
-                </v-col>
-                <v-col cols="12">
-                  <v-textarea v-model="selectedComponent.description" label="Beschreibung" required></v-textarea>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field v-model="selectedComponent.imageUrl" label="Bild URL"></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
+            <v-form ref="form">
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                        v-model="selectedComponent.name"
+                        label="Name"
+                        :rules="[rules.required]"
+                        required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                        v-model="selectedComponent.price"
+                        label="Preis"
+                        type="number"
+                        :rules="[rules.price]"
+                        required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select
+                        v-model="selectedComponent.type"
+                        :items="typeOptions"
+                        label="Typ"
+                        :rules="[rules.required]"
+                        required
+                        item-value="value"
+                        item-title="text"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea
+                        v-model="selectedComponent.description"
+                        label="Beschreibung"
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue-darken-1" variant="text" @click="editDialog = false">Abbrechen</v-btn>
+            <v-btn color="blue-darken-1" variant="text" @click="closeDialog">Abbrechen</v-btn>
             <v-btn color="blue-darken-1" variant="text" @click="saveComponent">Speichern</v-btn>
           </v-card-actions>
         </v-card>
@@ -128,6 +142,16 @@ const editDialog = ref(false)
 const selectedComponent = ref(null)
 const components = ref([])
 const search = ref('')
+const form = ref(null)
+
+const rules = {
+  required: value => !!value || 'Dieses Feld ist erforderlich',
+  price: value => {
+    if (!value) return 'Preis ist erforderlich'
+    if (value <= 0) return 'Preis muss größer als 0 sein'
+    return true
+  }
+}
 
 const COMPONENT_TYPES = {
   CPU: '1',
@@ -178,8 +202,7 @@ const createNewComponent = () => {
     name: '',
     price: null,
     type: '',
-    description: '',
-    imageUrl: ''
+    description: ''
   }
   editDialog.value = true
 }
@@ -190,13 +213,23 @@ const editComponent = (item) => {
     name: item.name,
     price: Number(item.price),
     type: item.type,
-    description: item.description || '',
-    imageUrl: item.imageUrl || ''
+    description: item.description || ''
   }
   editDialog.value = true
 }
 
+const closeDialog = () => {
+  editDialog.value = false
+  if (form.value) {
+    form.value.reset()
+  }
+}
+
 const saveComponent = async () => {
+  const { valid } = await form.value.validate()
+
+  if (!valid) return
+
   try {
     const componentToSave = {
       ...selectedComponent.value,
@@ -210,10 +243,9 @@ const saveComponent = async () => {
     }
     await fetchComponents()
     editDialog.value = false
+    form.value.reset()
   } catch (error) {
     console.error('Error saving component:', error.response?.data || error)
-    console.error('Status:', error.response?.status)
-    console.error('Headers:', error.response?.headers)
   }
 }
 

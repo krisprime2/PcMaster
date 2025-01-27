@@ -77,36 +77,55 @@
       <v-dialog v-model="editDialog" max-width="800px">
         <v-card>
           <v-card-title>
-            <span class="text-h5">Artikel bearbeiten</span>
+            <span class="text-h5">{{ selectedArticle?.id ? 'Artikel bearbeiten' : 'Neuen Artikel erstellen' }}</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedArticle.name" label="Name" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedArticle.price" label="Preis" type="number" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-select
-                      v-model="selectedArticle.type"
-                      :items="categoryOptions"
-                      label="Kategorie"
-                      required
-                      item-value="value"
-                      item-title="text"
-                  ></v-select>
-                </v-col>
-                <v-col cols="12">
-                  <v-textarea v-model="selectedArticle.description" label="Beschreibung" required></v-textarea>
-                </v-col>
-              </v-row>
-            </v-container>
+            <v-form ref="form">
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                        v-model="selectedArticle.name"
+                        label="Name"
+                        :rules="[rules.required]"
+                        required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                        v-model="selectedArticle.price"
+                        label="Preis"
+                        type="number"
+                        :rules="[rules.price]"
+                        required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select
+                        v-model="selectedArticle.type"
+                        :items="categoryOptions"
+                        label="Kategorie"
+                        :rules="[rules.required]"
+                        required
+                        item-value="value"
+                        item-title="text"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea
+                        v-model="selectedArticle.description"
+                        label="Beschreibung"
+                        :rules="[rules.required]"
+                        required
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue-darken-1" variant="text" @click="editDialog = false">Abbrechen</v-btn>
+            <v-btn color="blue-darken-1" variant="text" @click="closeDialog">Abbrechen</v-btn>
             <v-btn color="blue-darken-1" variant="text" @click="saveArticle">Speichern</v-btn>
           </v-card-actions>
         </v-card>
@@ -120,11 +139,20 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { useDisplay } from 'vuetify'
 
-
 const editDialog = ref(false)
 const selectedArticle = ref(null)
 const articles = ref([])
 const search = ref('')
+const form = ref(null)
+
+const rules = {
+  required: value => !!value || 'Dieses Feld ist erforderlich',
+  price: value => {
+    if (!value) return 'Preis ist erforderlich'
+    if (value <= 0) return 'Preis muss größer als 0 sein'
+    return true
+  }
+}
 
 const categoryOptions = [
   { text: 'Laptop', value: 1 },
@@ -144,7 +172,7 @@ const { smAndDown } = useDisplay()
 
 const fetchArticles = async () => {
   try {
-    const response = await axios.get('/api/articles')  // Changed from /article
+    const response = await axios.get('/api/articles')
     articles.value = response.data
     console.log(response.data)
   } catch (error) {
@@ -152,15 +180,14 @@ const fetchArticles = async () => {
   }
 }
 
-
 const createNewArticle = () => {
   selectedArticle.value = {
     name: '',
     price: null,
     type: null,
     description: '',
-  };
-  editDialog.value = true;
+  }
+  editDialog.value = true
 }
 
 const editArticle = (item) => {
@@ -170,35 +197,45 @@ const editArticle = (item) => {
     price: Number(item.price),
     type: Number(item.type),
     description: item.description || ''
-  };
-  console.log('Editing article:', selectedArticle.value); // Debug log
-  editDialog.value = true;
+  }
+  console.log('Editing article:', selectedArticle.value)
+  editDialog.value = true
+}
+
+const closeDialog = () => {
+  editDialog.value = false
+  if (form.value) {
+    form.value.reset()
+  }
 }
 
 const saveArticle = async () => {
+  const { valid } = await form.value.validate()
+
+  if (!valid) return
+
   try {
     const articleToSave = {
       ...selectedArticle.value,
       price: Number(selectedArticle.value.price),
       type: Number(selectedArticle.value.type),
-    };
+    }
 
     if (selectedArticle.value.id) {
-      const response = await axios.patch(`/api/articles/${selectedArticle.value.id}`, articleToSave);
+      await axios.patch(`/api/articles/${selectedArticle.value.id}`, articleToSave)
     } else {
-      const response = await axios.post('/api/articles', articleToSave);
+      await axios.post('/api/articles', articleToSave)
     }
-    await fetchArticles();
-    editDialog.value = false;
+    await fetchArticles()
+    editDialog.value = false
+    form.value.reset()
   } catch (error) {
-    console.error('Error saving article:', error.response?.data || error);
-    console.error('Status:', error.response?.status);
-    console.error('Headers:', error.response?.headers);
+    console.error('Error saving article:', error.response?.data || error)
   }
-};
+}
 
 const deleteArticle = async (id) => {
-  if (!confirm('Are you sure you want to delete this article?')) return
+  if (!confirm('Sind Sie sicher, dass Sie diesen Artikel löschen möchten?')) return
 
   try {
     await axios.delete(`/api/articles/${id}`)
