@@ -28,12 +28,6 @@
                 </ul>
               </v-card-text>
             </v-card>
-            <v-img
-                :src="BASE_IMAGE_URL + 'assets/images/recycling-image.jpg'"
-                height="200"
-                cover
-                class="rounded-lg"
-            ></v-img>
           </v-col>
           <v-col cols="12" md="6">
             <v-card class="custom-card elevation-12">
@@ -161,12 +155,6 @@
                 </ol>
               </v-card-text>
             </v-card>
-            <v-img
-                src="../src/assets/images/happy-customer.jpg"
-                height="200"
-                cover
-                class="rounded-lg"
-            ></v-img>
           </v-col>
         </v-row>
       </v-container>

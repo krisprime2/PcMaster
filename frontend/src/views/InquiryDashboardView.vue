@@ -83,7 +83,7 @@
                 <v-text-field v-model="selectedInquiry.deviceType" label="Gerätetyp" required></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field v-model="selectedInquiry.modelNumber" label="Modellnummer" type="number"></v-text-field>
+                <v-text-field v-model="selectedInquiry.modelNumber" label="Modellnummer"></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-textarea v-model="selectedInquiry.description" label="Beschreibung" required></v-textarea>
