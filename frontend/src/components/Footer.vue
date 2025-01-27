@@ -11,14 +11,30 @@
           />
         </v-col>
       </v-row>
-
       <v-row class="border-top pt-4">
         <v-col cols="12" class="text-center mb-4">
           <div class="d-flex flex-column flex-sm-row align-center justify-center gap-3">
             <span>© {{ new Date().getFullYear() }} PC Shop Inc.</span>
           </div>
         </v-col>
-
+        <v-row justify="center" class="mb-4">
+          <v-col cols="12" class="text-center">
+            <div class="d-flex justify-center gap-3">
+              <v-btn
+                  v-for="(social, index) in socialLinks"
+                  :key="index"
+                  :href="social.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  icon
+                  variant="text"
+                  class="footer-social-btn"
+              >
+                <v-icon :icon="social.icon" size="24" color="white" />
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
         <v-col cols="12" class="text-center mb-4">
           <div class="d-flex flex-wrap justify-center gap-3">
             <v-btn
@@ -63,11 +79,32 @@ export default {
     return {
       email: '',
       selectedLanguage: 'Deutsch',
-      languages: ['English', 'Deutsch', 'Français'],
       legalLinks: [
         { text: 'Datenschutzerklärung', route: '/privacy' },
         { text: 'Urheberrecht', route: '/copyright' },
         { text: 'Kontakt', route: '/contact' },
+      ],
+      socialLinks: [
+        {
+          icon: 'mdi-instagram',
+          url: 'https://instagram.com'
+        },
+        {
+          icon: 'mdi-facebook',
+          url: 'https://facebook.com'
+        },
+        {
+          icon: 'mdi-alpha-x-box',
+          url: 'https://x.com'
+        },
+        {
+          icon: 'mdi-youtube',
+          url: 'https://youtube.com'
+        },
+        {
+          icon: 'mdi-linkedin',
+          url: 'https://linkedin.com'
+        }
       ],
     }
   },
@@ -189,5 +226,15 @@ export default {
 
 .gap-3 {
   gap: 12px;
+}
+
+.footer-social-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.footer-social-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-2px);
 }
 </style>
