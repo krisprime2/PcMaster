@@ -543,10 +543,8 @@ export default {
           quantity: 1
         });
         this.showSnackbar('Produkt wurde zum Warenkorb hinzugefügt', 'success');
-        console.log('Configuration saved and added to cart:', createdConfiguration);
       } catch (error) {
         this.showSnackbar('Fehler beim Hinzufügen zum Warenkorb', 'error');
-        console.error('Error saving configuration:', error.response?.data || error.message);
       }
     }
   }
@@ -686,7 +684,6 @@ export default {
   background: linear-gradient(90deg, rgba(var(--v-primary-base), 0.1), transparent) !important;
 }
 
-/* Smooth transitions */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;

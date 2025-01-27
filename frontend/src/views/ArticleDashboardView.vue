@@ -164,7 +164,6 @@ const createNewArticle = () => {
 }
 
 const editArticle = (item) => {
-  // Create a clean copy with only the fields we need
   selectedArticle.value = {
     id: item.id,
     name: item.name,
@@ -178,21 +177,16 @@ const editArticle = (item) => {
 
 const saveArticle = async () => {
   try {
-    // Add validation and data transformation
     const articleToSave = {
       ...selectedArticle.value,
-      price: Number(selectedArticle.value.price), // Ensure price is a number
-      type: Number(selectedArticle.value.type),   // Ensure type is a number
+      price: Number(selectedArticle.value.price),
+      type: Number(selectedArticle.value.type),
     };
-
-    console.log('Sending article data:', articleToSave); // Debug log
 
     if (selectedArticle.value.id) {
       const response = await axios.patch(`/api/articles/${selectedArticle.value.id}`, articleToSave);
-      console.log('Update response:', response.data); // Debug log
     } else {
       const response = await axios.post('/api/articles', articleToSave);
-      console.log('Create response:', response.data); // Debug log
     }
     await fetchArticles();
     editDialog.value = false;
@@ -207,7 +201,7 @@ const deleteArticle = async (id) => {
   if (!confirm('Are you sure you want to delete this article?')) return
 
   try {
-    await axios.delete(`/api/articles/${id}`)  // Changed from /article
+    await axios.delete(`/api/articles/${id}`)
     await fetchArticles()
   } catch (error) {
     console.error('Error deleting article:', error)

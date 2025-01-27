@@ -246,8 +246,6 @@ const submitOrder = async () => {
       });
     }
     router.push('/order-success');
-
-    router.push('/payment');
   } catch (error) {
     console.error('Order submission failed:', error);
   } finally {
@@ -264,7 +262,7 @@ const submitOrder = async () => {
 
 .main-header {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-  url('../assets/images/desktopMainBg.png') no-repeat center center / cover;
+  url('../assets/images/desktopMainBg.webp') no-repeat center center / cover;
   padding: 50px 0;
   text-align: center;
 }

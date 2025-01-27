@@ -1,4 +1,3 @@
-<!-- OrderSuccessView.vue -->
 <template>
   <v-app>
     <v-main class="success-content">
@@ -6,7 +5,6 @@
         <v-row justify="center" align="center" style="min-height: 80vh">
           <v-col cols="12" sm="8" md="6">
             <v-card class="success-card text-center">
-              <!-- Success Icon und Nachricht -->
               <v-card-text class="success-message pa-8">
                 <v-icon color="success" size="96" class="mb-6">mdi-check-circle</v-icon>
                 <h1 class="text-h4 white--text mb-4">Vielen Dank für Ihre Bestellung!</h1>
@@ -14,7 +12,6 @@
                   Ihre Bestellung wurde erfolgreich aufgegeben. Sie erhalten in Kürze eine Bestätigungs-E-Mail.
                 </p>
 
-                <!-- Zurück zur Startseite Button -->
                 <v-btn
                     color="primary"
                     x-large

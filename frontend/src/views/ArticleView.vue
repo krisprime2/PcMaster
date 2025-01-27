@@ -1,13 +1,11 @@
 <template>
   <v-app>
-    <!-- Hide drawer on mobile using display properties -->
     <v-navigation-drawer
         v-model="drawer"
         app
         class="sidebar hidden-sm-and-down"
         width="200"
     >
-      <!-- Existing drawer content -->
       <v-list-item class="px-6 py-4">
         <v-list-item-content>
           <v-list-item-title class="text-h5 white--text">Kategorien</v-list-item-title>
@@ -37,7 +35,6 @@
 
     <v-main class="main-content">
       <v-container fluid :class="{'pa-0': $vuetify && $vuetify.display.smAndDown}">
-        <!-- Banner section -->
         <v-row class="mb-6">
           <v-col cols="12" :class="{'ma-0': $vuetify && $vuetify.display.smAndDown}">
             <v-card :class="{'banner-card': !$vuetify || !$vuetify.display.smAndDown, 'banner-card-mobile': $vuetify && $vuetify.display.smAndDown}">
@@ -62,9 +59,7 @@
           </v-col>
         </v-row>
 
-        <!-- Content section -->
         <v-container :class="{'pa-2': $vuetify && $vuetify.display.smAndDown, 'pa-6': !$vuetify || !$vuetify.display.smAndDown}">
-          <!-- Search section -->
           <v-row>
             <v-col cols="12">
               <v-card class="search-card mb-6">
@@ -85,7 +80,6 @@
             </v-col>
           </v-row>
 
-          <!-- Products grid -->
           <v-row>
             <v-col
                 v-for="product in displayedProducts"
@@ -220,7 +214,6 @@ export default {
     }
   },
 
-  // Rest of your existing methods remain the same
   methods: {
     showSnackbar(message, color) {
       this.snackbar.message = message;

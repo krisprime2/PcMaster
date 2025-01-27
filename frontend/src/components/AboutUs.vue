@@ -4,7 +4,8 @@
       <v-row no-gutters>
         <v-col cols="12" md="6">
           <v-img
-              :src="BASE_IMAGE_URL + '/assets/images/img-about-us.jpg'"
+              :src="BASE_IMAGE_URL + '/assets/images/img-about-us.webp'"
+              alt="Techniker repariert einen Computer mit Werkzeug in einer Werkstatt. "
               height="700"
               cover
               class="about-image"

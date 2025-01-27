@@ -37,7 +37,8 @@
                     class="pa-4 bg-transparent"
                 >
                   <v-img
-                      :src="BASE_IMAGE_URL + 'assets/images/pckonfig.png'"
+                      :src="BASE_IMAGE_URL + 'assets/images/pckonfig.webp'"
+                      alt="High-End Gaming-PC mit RGB-Beleuchtung und PC-Komponenten wie Grafikkarte, Lüfter und RAM."
                       height="400"
                       cover
                       class="rounded-lg"

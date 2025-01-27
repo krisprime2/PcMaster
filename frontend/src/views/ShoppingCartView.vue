@@ -61,14 +61,13 @@
 
       <div class="d-flex justify-space-between">
         <h2 class="text-h6">Gesamt: {{ cartTotal.toFixed(2) }} €</h2>
-        <router-link to="/checkout">
-          <v-btn
-              color="green darken-1"
-              :disabled="cart.length === 0"
-          >
-            Zur Kasse
-          </v-btn>
-        </router-link>
+        <v-btn
+            color="green darken-1"
+            :disabled="isCartEmpty"
+            @click="goToCheckout"
+        >
+          Zur Kasse
+        </v-btn>
       </div>
     </v-card>
   </v-container>
@@ -77,6 +76,7 @@
 <script setup>
 import {ref, onMounted, computed} from 'vue';
 import axios from "axios";
+import router from "@/router/index.js";
 
 const cart = ref([]);
 const headers = [
@@ -87,10 +87,16 @@ const headers = [
   { text: "Gesamt", value: "total", align: "end" },
   { text: "Aktionen", value: "actions", align: "center" },
 ];
+const isCartEmpty = computed(() => cart.value.length === 0);
 
 const cartTotal = computed(() =>
     cart.value.reduce((sum, item) => sum + item.item.price * item.quantity, 0)
 );
+function goToCheckout() {
+  if (!isCartEmpty.value) {
+    router.push('/checkout');
+  }
+}
 
 async function fetchCart() {
   try {

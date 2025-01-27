@@ -81,7 +81,7 @@ async function handleResetPassword() {
     isLoading.value = true;
     errorMessage.value = '';
 
-    // Simuliere API-Aufruf-Verzögerung
+    // Simuliere API-Aufruf-Verzögerung (Weil kein Mailserver
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Mock-Erfolgsmeldung

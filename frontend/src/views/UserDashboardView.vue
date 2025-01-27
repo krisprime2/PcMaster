@@ -260,12 +260,12 @@ body.v-application--is-lt-dark {
   color: #ffffff;
 }
  .edit-btn {
-   background-color: #e0e0e0; /* Grauer Hintergrund */
-   color: #000000; /* Schwarzer Text (optional) */
+   background-color: #e0e0e0;
+   color: #000000;
  }
 
 .edit-btn:hover {
-  background-color: #c0c0c0; /* Etwas dunkler bei Hover */
+  background-color: #c0c0c0;
 }
 </style>
 

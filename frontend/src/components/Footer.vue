@@ -81,7 +81,7 @@ export default {
       selectedLanguage: 'Deutsch',
       legalLinks: [
         { text: 'Datenschutzerklärung', route: '/privacy' },
-        { text: 'Urheberrecht', route: '/copyright' },
+        { text: 'Impressum', route: '/impressum' },
         { text: 'Kontakt', route: '/contact' },
       ],
       socialLinks: [

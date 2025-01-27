@@ -2,7 +2,7 @@
   <v-app>
     <v-main class="bg-surface">
       <v-parallax
-          :src="BASE_IMAGE_URL + 'assets/images/desktopMainBg.png'"
+          :src="BASE_IMAGE_URL + 'assets/images/desktopMainBg.webp'"
           :height="400"
       >
         <div class="d-flex flex-column fill-height justify-center align-center text-white text-center">
@@ -241,19 +241,18 @@ async function submitForm() {
   serverError.value = null;
 
   try {
-    const response = await axios.post('/inquiry/create', {
+    const response = await axios.post('api/inquiry/create', {
       name: formData.name,
       email: formData.email,
       deviceType: formData.deviceType,
       modelNumber: Number(formData.modelNumber),
       description: formData.description,
-      status: 1 // INPROCESSING status
+      status: 1
     })
 
     if (response.status === 200 || response.status === 201) {
       isSubmitted.value = true;
 
-      // Reset form data
       Object.assign(formData, {
         name: '',
         email: '',

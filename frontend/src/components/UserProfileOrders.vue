@@ -1,4 +1,3 @@
-<!-- UserOrdersComponent.vue -->
 <template>
   <div class="orders-component">
     <v-card-text>
@@ -60,7 +59,6 @@
       </div>
     </v-card-text>
 
-    <!-- Order Details Dialog -->
     <v-dialog v-model="orderDialog" max-width="700px">
       <v-card dark>
         <v-card-title class="headline">
@@ -260,7 +258,6 @@ export default {
   color: rgba(255, 255, 255, 0.87);
 }
 
-/* Custom styling for v-data-table */
 ::v-deep .v-data-table {
   background-color: transparent !important;
 }

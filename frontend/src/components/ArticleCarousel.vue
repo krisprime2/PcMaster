@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class=" pa-8">
+  <v-container fluid class="pa-8">
     <v-row justify="center">
       <v-col cols="12" lg="10" xl="8">
         <h1 class="text-h4 text-white text-center mb-8">Meistverkaufte Produkte</h1>
@@ -9,6 +9,7 @@
               <div class="position-relative">
                 <v-img
                     :src="product.image"
+                    :alt="product.altText"
                     height="150"
                     cover
                     class="bg-grey-darken-3"
@@ -41,6 +42,7 @@
             <v-card class="bg-grey-darken-4" elevation="10" height="100%">
               <v-img
                   :src="product.image"
+                  :alt="product.altText"
                   height="150"
                   cover
                   class="bg-grey-darken-3"
@@ -74,28 +76,30 @@
 import router from "@/router/index.js";
 import { BASE_IMAGE_URL } from '@/main.js';
 
-
 const topSelling = [
   {
     id: 1,
     model: 'XPS 17',
     price: '1,799',
     discount: 15,
-    image: BASE_IMAGE_URL + 'assets/images/delllaptop.webp'
+    image: BASE_IMAGE_URL + 'assets/images/delllaptop.webp',
+    altText: 'Dell XPS 17 Laptop - Hochleistungs-Notebook für professionelle Anwendungen'
   },
   {
     id: 2,
     model: 'Alienware Aurora',
     price: '2,299',
     discount: 20,
-    image: BASE_IMAGE_URL + 'assets/images/pcred1.webp'
+    image: BASE_IMAGE_URL + 'assets/images/pcred1.webp',
+    altText: 'Alienware Aurora Gaming-PC - Leistungsstarker Gaming-Desktop in Rot'
   },
   {
     id: 3,
     model: 'MacBook Pro',
     price: '2,499',
     discount: 10,
-    image: BASE_IMAGE_URL + 'assets/images/macbook1.webp'
+    image: BASE_IMAGE_URL + 'assets/images/macbook1.webp',
+    altText: 'MacBook Pro - Professionelles Apple Laptop für kreative Anwendungen'
   }
 ]
 
@@ -105,21 +109,24 @@ const newArrivals = [
     name: 'Gaming Beast',
     price: '1,299',
     description: 'High-performance gaming PC',
-    image: BASE_IMAGE_URL + 'assets/images/pcblue1.webp'
+    image: BASE_IMAGE_URL + 'assets/images/pcblue1.webp',
+    altText: 'Gaming Beast - High-Performance Gaming-PC in Blau'
   },
   {
     id: 2,
     name: 'Ultrabook Pro',
     price: '999',
     description: 'Lightweight ultrabook with 16GB RAM',
-    image: BASE_IMAGE_URL + 'assets/images/delllaptop2.webp'
+    image: BASE_IMAGE_URL + 'assets/images/delllaptop2.webp',
+    altText: 'Ultrabook Pro - Schlankes Laptop mit 16GB RAM für mobile Produktivität'
   },
   {
     id: 3,
     name: 'Workstation Pro',
     price: '2,499',
     description: 'Workstation with Intel Xeon processor',
-    image: BASE_IMAGE_URL + 'assets/images/pcred1.webp'
+    image: BASE_IMAGE_URL + 'assets/images/pcred1.webp',
+    altText: 'Workstation Pro - Leistungsstarke Workstation mit Intel Xeon Prozessor'
   }
 ]
 </script>

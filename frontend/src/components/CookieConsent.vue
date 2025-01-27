@@ -1,4 +1,3 @@
-<!-- CookieConsent.vue -->
 <template>
   <transition name="slide">
     <div v-if="isVisible" class="cookie-consent">

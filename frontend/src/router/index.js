@@ -9,7 +9,7 @@ import ArticleView from "@/views/ArticleView.vue"
 import { useAuthStore } from '@/store/auth'
 import Configurator from "@/views/ConfiguratorView.vue";
 import PrivacyPolicy from "@/views/PrivacyPolicyView.vue";
-import Copyright from "@/views/CopyrightView.vue";
+import Impressum from "@/views/ImpressumView.vue";
 import Checkout from "@/views/CheckoutView.vue";
 import OrderDashboardView from "@/views/OrderDashboardView.vue";
 import UserProfilView from "@/views/UserProfilView.vue";
@@ -88,9 +88,9 @@ const router = createRouter({
             meta: { requiresAuth: false }
         },
         {
-            path: '/copyright',
-            name: 'copyright',
-            component: Copyright,
+            path: '/impressum',
+            name: 'impressum',
+            component: Impressum,
             meta: { requiresAuth: false }
         },
         {

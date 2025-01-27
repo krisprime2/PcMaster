@@ -18,7 +18,7 @@
           height="1080"
       />
 
-      <div class="header-container px-4 py-8 md:py-16">
+      <div class="header-container px-4 py-8 md:py-16 text-center">
         <h1 class="text-3xl md:text-4xl font-bold mb-4 mx-auto max-w-2xl">
           Unschlagbare PC-Angebote
         </h1>

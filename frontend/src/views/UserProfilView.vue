@@ -1,4 +1,3 @@
-<!-- UserProfileView.vue -->
 <template>
   <v-app>
     <v-main class="main-content">
@@ -39,7 +38,6 @@
               <v-divider></v-divider>
 
               <v-tabs-items v-model="activeTab">
-                <!-- Persönliche Daten Tab -->
                 <v-tab-item>
                   <UserAddressComponent
                       v-if="activeTab === 0"
@@ -49,7 +47,6 @@
                   />
                 </v-tab-item>
 
-                <!-- Bestellungen Tab -->
                 <v-tab-item>
                   <UserOrdersComponent
                       v-if="activeTab === 1"
@@ -64,7 +61,6 @@
         </v-row>
       </v-container>
 
-      <!-- Global Snackbar -->
       <v-snackbar
           v-model="snackbar.show"
           :color="snackbar.color"
@@ -132,7 +128,6 @@ export default {
       this.orderCount = count;
     },
 
-    // Load data only for active tab
     refreshData() {
       if (this.activeTab === 0 && this.$refs.addressComponent) {
         this.$refs.addressComponent.loadProfile();
@@ -142,7 +137,6 @@ export default {
     }
   },
 
-  // Watch for route and tab changes to refresh data
   watch: {
     '$route'() {
       this.refreshData();
@@ -152,7 +146,6 @@ export default {
     }
   },
 
-  // Handle navigation guard to prevent leaving with unsaved changes
   beforeRouteLeave(to, from, next) {
     const addressComponent = this.$refs.addressComponent;
     if (addressComponent && addressComponent.isEditing) {
