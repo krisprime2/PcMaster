@@ -4,7 +4,7 @@
       <v-row justify="center">
         <v-col cols="12" sm="3" class="text-center mb-4">
           <v-img
-              src="@/assets/logo.png"
+              src="@/assets/logo.webp"
               max-width="120"
               class="mx-auto"
               alt="Logo"

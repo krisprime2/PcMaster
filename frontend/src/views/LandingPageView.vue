@@ -2,13 +2,21 @@
   <div class="landing-page">
     <header class="responsive-header">
       <img
-          :src="isDesktop ? desktopBackground : mobileBackground"
-          class="main-background"
+          :src="mobileBackground"
+          class="main-background mobile-bg"
           alt="Header background"
           fetchpriority="high"
-          loading="eager"
+          width="390"
+          height="421"
+      />
+      <img
+          :src="desktopBackground"
+          class="main-background desktop-bg"
+          alt="Header background"
+          fetchpriority="high"
           width="1920"
-         height="1080"/>
+          height="1080"
+      />
 
       <div class="header-container px-4 py-8 md:py-16">
         <h1 class="text-3xl md:text-4xl font-bold mb-4 mx-auto max-w-2xl">
@@ -60,6 +68,23 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+
+.mobile-bg {
+  display: block;
+}
+.desktop-bg {
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .mobile-bg {
+    display: none;
+  }
+  .desktop-bg {
+    display: block;
+  }
+}
+
 .landing-page {
   overflow-x: hidden;
   width: 100%;
