@@ -54,20 +54,6 @@
                   ]"
               ></v-text-field>
 
-              <v-text-field
-                  v-model="formData.firstName"
-                  label="First Name (Optional)"
-                  dark
-                  color="red darken-1"
-              ></v-text-field>
-
-              <v-text-field
-                  v-model="formData.lastName"
-                  label="Last Name (Optional)"
-                  dark
-                  color="red darken-1"
-              ></v-text-field>
-
               <v-btn
                   color="red darken-1"
                   dark
@@ -111,9 +97,7 @@ const confirmPassword = ref('');
 const formData = reactive({
   name: '',
   email: '',
-  password: '',
-  firstName: '',
-  lastName: ''
+  password: ''
 });
 
 async function handleRegister() {
