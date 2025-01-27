@@ -18,7 +18,7 @@
           <v-select
               v-model="statusFilter"
               :items="[{ text: 'Alle', value: null }, ...statusOptions]"
-              label="Filter by Status"
+              label="Nach Status filtern"
               variant="outlined"
               clearable
               dense
@@ -30,7 +30,7 @@
           <v-select
               v-model="roleFilter"
               :items="[{ text: 'Alle', value: null }, ...roleOptions]"
-              label="Filter by Role"
+              label="Nach Rolle filtern"
               variant="outlined"
               clearable
               dense
@@ -81,16 +81,26 @@
       <v-dialog v-model="editDialog" max-width="800px">
         <v-card>
           <v-card-title>
-            <span class="text-h5">Edit User</span>
+            <span class="text-h5">Benutzer bearbeiten</span>
           </v-card-title>
           <v-card-text>
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.name" label="Username" required></v-text-field>
+                  <v-text-field
+                      v-model="selectedUser.name"
+                      label="Benutzername"
+                      required
+                      :error-messages="validationErrors.name"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.email" label="Email" required></v-text-field>
+                  <v-text-field
+                      v-model="selectedUser.email"
+                      label="Email"
+                      required
+                      :error-messages="validationErrors.email"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
                   <v-select
@@ -106,40 +116,40 @@
                   <v-select
                       v-model="selectedUser.role"
                       :items="roleOptions"
-                      label="Role"
+                      label="Rolle"
                       required
                       item-value="value"
                       item-title="text"
                   ></v-select>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.firstName" label="First Name" required></v-text-field>
+                  <v-text-field v-model="selectedUser.firstName" label="Vorname" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.lastName" label="Last Name" required></v-text-field>
+                  <v-text-field v-model="selectedUser.lastName" label="Nachname" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.street" label="Street" required></v-text-field>
+                  <v-text-field v-model="selectedUser.street" label="Strasse" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.streetNumber" label="Street Number" type="number" required></v-text-field>
+                  <v-text-field v-model="selectedUser.streetNumber" label="Nummer" type="number" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.city" label="City" required></v-text-field>
+                  <v-text-field v-model="selectedUser.city" label="Stadt" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.postalNumber" label="Postal Number" type="number" required></v-text-field>
+                  <v-text-field v-model="selectedUser.postalNumber" label="Postleitzahl" type="number" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="selectedUser.country" label="Country" required></v-text-field>
+                  <v-text-field v-model="selectedUser.country" label="Land" required></v-text-field>
                 </v-col>
               </v-row>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue-darken-1" variant="text" @click="editDialog = false">Cancel</v-btn>
-            <v-btn color="blue-darken-1" variant="text" @click="saveUser">Save</v-btn>
+            <v-btn color="blue-darken-1" variant="text" @click="closeDialog">Abbrechen</v-btn>
+            <v-btn color="blue-darken-1" variant="text" @click="saveUser">Speichern</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -156,6 +166,10 @@ const editDialog = ref(false)
 const selectedUser = ref(null)
 const users = ref([])
 const search = ref('')
+const validationErrors = ref({
+  email: '',
+  name: ''
+})
 
 const ACTIVE = 1
 const LOCKED = 2
@@ -173,53 +187,86 @@ const roleOptions = [
 ]
 
 const headers = [
-  { title: 'ID', key: 'id', sortable: true },
-  { title: 'Username', key: 'name' },
-  { title: 'Email', key: 'email' },
-  { title: 'Status', key: 'status' },
-  { title: 'Role', key: 'role' },
-  { title: 'Actions', key: 'actions', sortable: false }
+  {title: 'ID', key: 'id', sortable: true},
+  {title: 'Name', key: 'name'},
+  {title: 'Email', key: 'email'},
+  {title: 'Status', key: 'status'},
+  {title: 'Rolle', key: 'role'},
+  {title: 'Aktionen', key: 'actions', sortable: false}
 ]
 
-const { smAndDown } = useDisplay()
+const {smAndDown} = useDisplay()
+
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
 
 const fetchUsers = async () => {
   try {
     const response = await axios.get('/user')
     users.value = response.data
   } catch (error) {
-    console.error('Error loading users:', error)
+    console.error('Fehler beim Laden der Benutzer:', error)
   }
 }
 
 const editUser = (item) => {
   selectedUser.value = {...item}
+  validationErrors.value = {email: '', name: ''}
   editDialog.value = true
 }
 
+const closeDialog = () => {
+  editDialog.value = false
+  validationErrors.value = {email: '', name: ''}
+}
+
 const saveUser = async () => {
+  // Reset validation errors
+  validationErrors.value = {
+    email: '',
+    name: ''
+  }
+
+  // Validate
+  let hasErrors = false
+
+  if (!selectedUser.value.name?.trim()) {
+    validationErrors.value.name = 'Benutzername darf nicht leer sein'
+    hasErrors = true
+  }
+
+  if (!selectedUser.value.email?.trim()) {
+    validationErrors.value.email = 'Email darf nicht leer sein'
+    hasErrors = true
+  } else if (!validateEmail(selectedUser.value.email)) {
+    validationErrors.value.email = 'Bitte geben Sie eine gültige Email-Adresse ein'
+    hasErrors = true
+  }
+
+  if (hasErrors) return
+
   try {
     const response = await axios.put(
         `/user/${selectedUser.value.id}`,
         selectedUser.value
     )
-
     await fetchUsers()
-
     editDialog.value = false
   } catch (error) {
-    console.error('Error saving user:', error)
+    console.error('Fehler beim Speichern des Benutzers:', error)
   }
 }
 
 const deleteUser = async (id) => {
-  if (!confirm('Are you sure you want to delete this user?')) return
+  if (!confirm('Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?')) return
 
   try {
     await axios.delete(`/user/${id}`)
     await fetchUsers()
   } catch (error) {
-    console.error('Error deleting user:', error)
+    console.error('Fehler beim Löschen des Benutzers:', error)
   }
 }
 
@@ -254,18 +301,19 @@ onMounted(() => {
   fetchUsers()
 })
 </script>
+
 <style>
 body.v-application--is-lt-dark {
   background-color: #121212;
   color: #ffffff;
 }
- .edit-btn {
-   background-color: #e0e0e0;
-   color: #000000;
- }
+
+.edit-btn {
+  background-color: #e0e0e0;
+  color: #000000;
+}
 
 .edit-btn:hover {
   background-color: #c0c0c0;
 }
 </style>
-

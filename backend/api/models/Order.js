@@ -3,7 +3,7 @@ const {INPROCESSING, SENT, CANCELLED} = require("../constants/OrderStatus");
 module.exports = {
   attributes: {
     status: { type: 'number', required: true, isIn: [INPROCESSING, SENT, CANCELLED]},
-    price: { type: 'number' },
+    price: { type: 'number' ,required: true},
     firstName: {type: 'string', required: false},
     lastName: {type: 'string', required: false},
     street: {type: 'string', required: false},
